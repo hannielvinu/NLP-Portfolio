@@ -8,8 +8,9 @@
 <meta name="theme-color" content="#0c0a12">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171221'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23e3b867' font-family='serif'%3E%CE%B1%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=Noto+Serif+Hebrew:wght@400;600&display=swap">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Cormorant+Garamond:ital,wght@1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=Manrope:wght@400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
 :root{
   --bg:#0c0a12; --bg2:#141020; --ink:#efe7d6; --ink2:#b9ae98; --muted:#857b6a;
@@ -26,7 +27,7 @@
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,system-ui,sans-serif;overflow-x:hidden;transition:background .5s,color .5s}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Manrope,system-ui,sans-serif;overflow-x:hidden;transition:background .5s,color .5s}
 a{color:var(--gold2);text-decoration:none}
 a:hover{text-decoration:underline}
 ::selection{background:var(--gold);color:#1a1208}
@@ -39,26 +40,66 @@ a:hover{text-decoration:underline}
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
 main,header,footer{position:relative;z-index:2}
 
-/* ---------- nav ---------- */
-.nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
-  background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line2)}
-.nav-in{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
-.brand{font-family:Cinzel,serif;font-weight:700;letter-spacing:.08em;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:10px}
-.brand b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;font-family:'Cormorant Garamond',serif;font-size:20px}
-.links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
-.links::-webkit-scrollbar{display:none}
-.links a{color:var(--ink2);font-size:13.5px;font-weight:500;padding:7px 11px;border-radius:999px;white-space:nowrap;transition:.2s}
-.links a:hover,.links a.on{color:var(--ink);background:var(--line2);text-decoration:none}
-.tbtn{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--gold);cursor:pointer;font-size:16px;display:grid;place-items:center}
-.tbtn:hover{background:var(--line2)}
+/* ---------- nav: floating dock ---------- */
+.dock{position:fixed;z-index:20;top:14px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 24px));
+  display:flex;align-items:center;gap:10px;padding:7px 8px 7px 7px;border-radius:999px;
+  background:linear-gradient(var(--card-solid),var(--card-solid)) padding-box,
+             linear-gradient(120deg,color-mix(in srgb,var(--gold) 70%,transparent),var(--line2) 35%,var(--line2) 65%,color-mix(in srgb,var(--ember) 60%,transparent)) border-box;
+  border:1px solid transparent;box-shadow:0 18px 50px -18px rgba(0,0,0,.55),0 0 0 6px color-mix(in srgb,var(--bg) 35%,transparent);
+  transition:top .35s cubic-bezier(.2,.8,.2,1)}
+.dock.small{top:8px}
+@supports (backdrop-filter:blur(1px)){.dock{
+  background:linear-gradient(color-mix(in srgb,var(--card-solid) 80%,transparent),color-mix(in srgb,var(--card-solid) 80%,transparent)) padding-box,
+             linear-gradient(120deg,color-mix(in srgb,var(--gold) 70%,transparent),var(--line2) 35%,var(--line2) 65%,color-mix(in srgb,var(--ember) 60%,transparent)) border-box;
+  backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}}
+.mark{display:flex;align-items:center;gap:10px;color:var(--ink);padding-right:8px;flex:none}
+.mark:hover{text-decoration:none}
+.ring{position:relative;width:42px;height:42px;flex:none}
+.ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:2.5}
+.ring .bgc{stroke:var(--line2)}
+.ring .pc{stroke:url(#rg);stroke-linecap:round;stroke-dasharray:113.1;stroke-dashoffset:113.1;transition:stroke-dashoffset .15s linear}
+.ring span{position:absolute;inset:6px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;font:italic 600 15px/1 Fraunces,serif;letter-spacing:-.04em;padding-bottom:2px}
+.mark .nm{display:flex;flex-direction:column;line-height:1.15}
+.mark .nm b{font:650 15.5px Fraunces,serif;letter-spacing:-.01em}
+.mark .nm small{font:500 10px 'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
+.dock-links{position:relative;display:flex;gap:1px;margin-left:auto;padding:4px;border-radius:999px;background:color-mix(in srgb,var(--bg) 45%,transparent);border:1px solid var(--line2)}
+.dock-links a{position:relative;z-index:1;display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;color:var(--ink2);font-size:13px;font-weight:650;white-space:nowrap;transition:color .25s}
+.dock-links a i{font:italic 500 14px Fraunces,serif;color:var(--gold);opacity:.5;transition:opacity .25s,transform .25s}
+.dock-links a:hover,.dock-links a.on{color:var(--ink);text-decoration:none}
+.dock-links a:hover i,.dock-links a.on i{opacity:1;transform:translateY(-1px)}
+.lamp{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:0;border-radius:999px;opacity:0;
+  background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 26%,transparent),color-mix(in srgb,var(--gold) 9%,transparent));
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 45%,transparent),0 6px 22px -6px color-mix(in srgb,var(--gold) 70%,transparent);
+  transition:left .45s cubic-bezier(.3,1.35,.4,1),width .45s cubic-bezier(.3,1.35,.4,1),opacity .3s}
+.lamp::after{content:"";position:absolute;left:50%;bottom:-7px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px 2px var(--gold)}
+.tbtn,.menu{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 45%,transparent);color:var(--gold);cursor:pointer;display:grid;place-items:center;transition:.25s}
+.tbtn:hover{border-color:var(--gold);transform:rotate(-25deg)}
+.menu:hover{border-color:var(--gold)}
+.menu{display:none}
+.menu span,.menu span::before,.menu span::after{display:block;width:16px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:.3s}
+.menu span::before,.menu span::after{content:"";position:absolute;left:0}
+.menu span::before{top:-5px}.menu span::after{top:5px}
+.menu[aria-expanded="true"] span{background:transparent}
+.menu[aria-expanded="true"] span::before{top:0;transform:rotate(45deg)}
+.menu[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg)}
+.sheet{position:fixed;z-index:19;top:78px;left:12px;right:12px;padding:12px;border-radius:24px;display:grid;grid-template-columns:1fr 1fr;gap:8px;
+  background:var(--card-solid);border:1px solid var(--line);box-shadow:var(--glow);opacity:0;transform:translateY(-10px) scale(.98);pointer-events:none;transition:.3s cubic-bezier(.2,.8,.2,1)}
+.sheet.open{opacity:1;transform:none;pointer-events:auto}
+.sheet a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;border:1px solid var(--line2);color:var(--ink);font-weight:650;font-size:14.5px}
+.sheet a:hover{text-decoration:none;border-color:var(--gold)}
+.sheet a i{font:italic 500 24px/1 Fraunces,serif;color:var(--gold);width:22px;text-align:center}
+@media (max-width:1000px){.dock-links{display:none}.menu{display:grid}.mark{margin-right:auto}}
+@media (min-width:1001px){.sheet{display:none}}
 
 /* ---------- layout ---------- */
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-section{padding:90px 0 30px;scroll-margin-top:60px}
+section{padding:90px 0 30px;scroll-margin-top:84px}
 .sh{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
-.num{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.1em;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
-h2{font-family:Cinzel,serif;font-weight:700;font-size:clamp(26px,4vw,40px);line-height:1.15;margin:0;letter-spacing:.02em}
-h3{font-size:18px;margin:0 0 8px;font-weight:600}
+.num{font-family:'IBM Plex Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.1em;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+h2{font-family:Fraunces,serif;font-weight:650;font-variation-settings:'opsz' 96,'SOFT' 50;font-size:clamp(28px,4.4vw,46px);line-height:1.08;margin:0;letter-spacing:-.025em}
+h2 em{font-style:italic;font-weight:500;color:var(--gold2)}
+h3{font-size:18px;margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
 .lede{color:var(--ink2);max-width:720px;margin:6px 0 30px;text-shadow:0 0 14px var(--bg),0 0 4px var(--bg)}
 h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
 @media (max-width:640px){.hero-in>p,.hero-in>.eyebrow{background:color-mix(in srgb,var(--bg) 62%,transparent);border-radius:12px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}}
@@ -76,24 +117,24 @@ h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)
 .btn.pri{background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;border-color:transparent}
 .btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
 .muted{color:var(--muted)}
-.mono{font-family:'JetBrains Mono',monospace}
+.mono{font-family:'IBM Plex Mono',monospace}
 
 /* ---------- hero ---------- */
-.hero{min-height:calc(100vh - 61px);display:flex;align-items:center;padding:60px 0 40px}
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 40px}
 .hero-in{max-width:var(--maxw);margin:0 auto;padding:0 20px;width:100%}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
 .eyebrow::before{content:"";width:34px;height:1px;background:var(--gold)}
-.hero h1{font-family:Cinzel,serif;font-weight:700;font-size:clamp(44px,8.5vw,104px);line-height:.98;margin:18px 0 10px;letter-spacing:.01em;
+.hero h1{font-family:Fraunces,serif;font-weight:640;font-variation-settings:'opsz' 144,'SOFT' 100;font-size:clamp(46px,9vw,118px);line-height:.94;margin:18px 0 14px;letter-spacing:-.045em;
   text-shadow:0 2px 30px color-mix(in srgb,var(--bg) 80%,transparent)}
-.hero h1 .gl{background:linear-gradient(100deg,var(--gold2) 10%,var(--ember) 50%,var(--gold) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sheen 8s ease-in-out infinite}
+.hero h1 .gl{font-style:italic;font-weight:500;padding-right:.08em;background:linear-gradient(100deg,var(--gold2) 10%,var(--ember) 50%,var(--gold) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sheen 8s ease-in-out infinite}
 @keyframes sheen{50%{background-position:100% 0}}
 .who{font-size:clamp(18px,2.4vw,22px);font-weight:600;margin:0}
 .who span{color:var(--ink2);font-weight:400}
-.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.6vw,26px);color:var(--ink2);max-width:640px;margin:18px 0 28px}
+.tagline{font-family:Fraunces,serif;font-style:italic;font-weight:400;font-size:clamp(19px,2.3vw,24px);line-height:1.5;color:var(--ink2);max-width:640px;margin:18px 0 28px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:54px}
 .stat{padding:18px 18px 16px}
-.stat .v{font-family:Cinzel,serif;font-size:clamp(26px,3.4vw,36px);font-weight:700;color:var(--gold2);line-height:1}
+.stat .v{font-family:Fraunces,serif;font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.03em;color:var(--gold2);line-height:1}
 .stat .k{font-size:13px;color:var(--ink2);margin-top:8px;line-height:1.4}
 @media (max-width:760px){.stats{grid-template-columns:1fr 1fr}}
 .hint{margin-top:26px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
@@ -116,7 +157,7 @@ h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)
 .ledger td:last-child{text-align:right;color:var(--gold);letter-spacing:2px;white-space:nowrap}
 .ledger tr.tot td{border:0;font-weight:700;padding-top:14px}
 .empty{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--ink2);background:color-mix(in srgb,var(--gold) 4%,transparent)}
-.empty .gly{font-size:34px;color:var(--gold);display:block;margin-bottom:6px;font-family:'Cormorant Garamond',serif}
+.empty .gly{font-size:34px;color:var(--gold);display:block;margin-bottom:6px;font-family:Fraunces,serif}
 .qa{display:flex;flex-direction:column;gap:6px}
 .qa .stars{color:var(--gold);letter-spacing:2px;font-size:14px}
 
@@ -124,58 +165,93 @@ h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)
 .proj{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:start;padding:30px}
 .proj+.proj{margin-top:20px}
 @media (max-width:860px){.proj{grid-template-columns:1fr;padding:22px}}
-.proj .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
-.proj h3{font-family:Cinzel,serif;font-size:30px;margin:6px 0 4px;letter-spacing:.03em}
+.proj .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
+.proj h3{font-family:Fraunces,serif;font-weight:650;font-size:36px;margin:6px 0 4px;letter-spacing:-.03em}
+.proj h3 small{font-weight:400;font-style:italic;font-size:22px;color:var(--ink2);margin-left:8px;letter-spacing:0}
 .proj .one{color:var(--ink2);margin:0 0 14px}
 .proj ul{margin:0;padding-left:18px;color:var(--ink2)}
 .proj ul li{margin:5px 0}
 .proj ul li b{color:var(--ink)}
 .flow{display:flex;flex-direction:column;gap:8px}
 .step{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid var(--line2)}
-.step .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold2)}
+.step .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold2)}
 .step b{display:block;font-size:14.5px}
 .step span{font-size:13.5px;color:var(--ink2)}
 .metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
 .metric{border:1px solid var(--line2);border-radius:12px;padding:12px;text-align:center}
-.metric .v{font-family:Cinzel,serif;font-weight:700;font-size:22px;color:var(--gold2)}
+.metric .v{font-family:Fraunces,serif;font-weight:700;font-size:22px;color:var(--gold2)}
 .metric .k{font-size:12px;color:var(--ink2);line-height:1.3}
 .links-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--ink);border-left:2px solid var(--gold);padding:2px 0 2px 14px;margin:14px 0}
+.quote{font-family:Fraunces,serif;font-style:italic;font-size:19px;color:var(--ink);border-left:2px solid var(--gold);padding:2px 0 2px 14px;margin:14px 0}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.chip{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line2)}
+.chip{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line2)}
 .chip em{font-style:normal;color:var(--jade)}
 
+/* ---------- flagship + in progress ---------- */
+.flagship{position:relative;border-color:var(--line)}
+.flagship::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
+  background:linear-gradient(130deg,var(--gold),transparent 35%,transparent 65%,var(--ember));
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.shot{margin:14px 0 0;border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:var(--card-solid)}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{font-size:12.5px;color:var(--ink2);padding:9px 12px}
+.step u{text-decoration-color:var(--ember);text-decoration-thickness:2px;text-underline-offset:3px}
+.wip{padding:30px}
+@media (max-width:640px){.wip{padding:22px}}
+.wip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
+.wip-title{font-family:Fraunces,serif;font-weight:650;font-size:34px;letter-spacing:-.03em;margin:6px 0 0}
+.wip-title small{display:block;font-weight:400;font-style:italic;font-size:19px;color:var(--ink2);letter-spacing:0;margin-top:4px}
+.wip .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
+.wip .one{color:var(--ink2);margin:0 0 12px}
+.wip .one b{color:var(--ink)}
+.status{display:inline-flex;align-items:center;gap:8px;font:600 12.5px 'IBM Plex Mono',monospace;padding:7px 13px;border-radius:999px;border:1px solid var(--line);color:var(--gold2);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.status i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse 1.4s infinite}
+.loadbar{height:4px;border-radius:99px;background:var(--line2);overflow:hidden;margin:20px 0 24px;position:relative}
+.loadbar span{position:absolute;top:0;bottom:0;width:35%;border-radius:99px;background:linear-gradient(90deg,transparent,var(--gold),var(--ember),transparent);animation:load 2.2s cubic-bezier(.6,0,.4,1) infinite}
+@keyframes load{from{left:-35%}to{left:100%}}
+.loading-num{position:relative}
+.wip-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
+@media (max-width:860px){.wip-grid{grid-template-columns:1fr}}
+.step.active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 9%,transparent)}
+.step.active .n{background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208}
+.step.active b::after{content:"in progress";margin-left:8px;font:600 10.5px 'IBM Plex Mono',monospace;color:var(--gold2);letter-spacing:.06em;text-transform:uppercase;vertical-align:2px}
+.interlinear{border:1px solid var(--line2);border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--bg) 55%,transparent);display:flex;flex-direction:column;gap:8px}
+.il-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.il-src{font-family:'Noto Serif','Noto Serif Hebrew','Times New Roman',serif;font-size:24px;color:var(--gold2);min-width:96px}
+.il-tr{font-size:13.5px;color:var(--ink2)}
+.il-flag{font-size:13px;color:var(--ink);border-top:1px dashed var(--line2);padding-top:8px}
+
 /* ---------- playground ---------- */
-.pg textarea{width:100%;min-height:110px;resize:vertical;font:15px/1.6 Inter,'Noto Sans',sans-serif;color:var(--ink);background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);border-radius:12px;padding:14px;outline:none}
+.pg textarea{width:100%;min-height:110px;resize:vertical;font:15px/1.6 Manrope,'Noto Sans',sans-serif;color:var(--ink);background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);border-radius:12px;padding:14px;outline:none}
 .pg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
 .presets{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px}
-.presets button{font:12.5px Inter,sans-serif;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer}
+.presets button{font:12.5px Manrope,sans-serif;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer}
 .presets button:hover{border-color:var(--gold);color:var(--ink)}
 .bars{display:flex;flex-direction:column;gap:8px}
 .bar{display:grid;grid-template-columns:110px 1fr 46px;gap:10px;align-items:center;font-size:13px}
 .bar .t{height:10px;border-radius:99px;background:var(--line2);overflow:hidden}
 .bar .t i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--ember));transition:width .5s cubic-bezier(.2,.8,.2,1)}
 .toks{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;max-height:150px;overflow:auto}
-.tok{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--lapis) 14%,transparent);border:1px solid color-mix(in srgb,var(--lapis) 30%,transparent)}
+.tok{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--lapis) 14%,transparent);border:1px solid color-mix(in srgb,var(--lapis) 30%,transparent)}
 .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
 .kv div{text-align:center;border:1px solid var(--line2);border-radius:10px;padding:10px 4px}
-.kv b{display:block;font-family:Cinzel,serif;font-size:20px;color:var(--gold2)}
+.kv b{display:block;font-family:Fraunces,serif;font-size:20px;color:var(--gold2)}
 .kv span{font-size:11.5px;color:var(--ink2)}
 .verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding:14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--gold) 6%,transparent)}
-.verdict .lab{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208}
+.verdict .lab{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208}
 .why{font-size:13px;color:var(--ink2);margin-top:8px}
 .why mark{background:color-mix(in srgb,var(--gold) 30%,transparent);color:var(--ink);border-radius:4px;padding:0 3px}
 .sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px;font-weight:600}
 
 /* ---------- pipeline ---------- */
 .pipe{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:thin}
-.pipe button{flex:1 0 auto;min-width:120px;padding:14px 12px;border-radius:14px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;font:600 13.5px Inter,sans-serif;text-align:left;position:relative;transition:.25s}
-.pipe button small{display:block;font:11px 'JetBrains Mono',monospace;color:var(--muted);margin-bottom:4px}
+.pipe button{flex:1 0 auto;min-width:120px;padding:14px 12px;border-radius:14px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;font:600 13.5px Manrope,sans-serif;text-align:left;position:relative;transition:.25s}
+.pipe button small{display:block;font:11px 'IBM Plex Mono',monospace;color:var(--muted);margin-bottom:4px}
 .pipe button:hover{border-color:var(--line);color:var(--ink)}
 .pipe button.on{border-color:var(--gold);color:var(--ink);background:color-mix(in srgb,var(--gold) 12%,var(--card-solid));box-shadow:var(--glow)}
 .pipe-body{display:grid;grid-template-columns:1.2fr 1fr;gap:22px}
 @media (max-width:760px){.pipe-body{grid-template-columns:1fr}}
-.pipe-body pre{margin:0;font:12.5px/1.6 'JetBrains Mono',monospace;background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line2);border-radius:12px;padding:14px;white-space:pre-wrap;color:var(--ink2)}
+.pipe-body pre{margin:0;font:12.5px/1.6 'IBM Plex Mono',monospace;background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line2);border-radius:12px;padding:14px;white-space:pre-wrap;color:var(--ink2)}
 .pipe-body .used{margin-top:12px;font-size:14px;color:var(--ink2)}
 .pipe-body .used b{color:var(--jade)}
 
@@ -210,21 +286,35 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 <div class="veil"></div>
 <div class="grain"></div>
 
-<header class="nav">
-  <div class="nav-in">
-    <a class="brand" href="#top"><b>α</b><span>HVA · NLP</span></a>
-    <nav class="links" aria-label="Sections">
-      <a href="#about">About</a>
-      <a href="#class">Class</a>
-      <a href="#projects">Projects</a>
-      <a href="#playground">Playground</a>
-      <a href="#pipeline">Pipeline</a>
-      <a href="#scripts">Scripts</a>
-      <a href="#contact">Contact</a>
-    </nav>
-    <button class="tbtn" id="theme" aria-label="Toggle light or dark theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
-  </div>
+<header class="dock" id="dock">
+  <a class="mark" href="#top" aria-label="Hanniel Vinu A, back to top">
+    <span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d595"/><stop offset="1" stop-color="#d9774a"/></linearGradient></defs><circle class="bgc" cx="20" cy="20" r="18"/><circle class="pc" id="ringP" cx="20" cy="20" r="18"/></svg><span>hv</span></span>
+    <span class="nm"><b>Hanniel Vinu A</b><small>NLP · portfolio</small></span>
+  </a>
+  <nav class="dock-links" id="dockLinks" aria-label="Sections">
+    <span class="lamp" id="lamp" aria-hidden="true"></span>
+    <a href="#about"><i>α</i>About</a>
+    <a href="#class"><i>β</i>Class</a>
+    <a href="#projects"><i>γ</i>Projects</a>
+    <a href="#progress"><i>δ</i>In progress</a>
+    <a href="#playground"><i>ε</i>Playground</a>
+    <a href="#pipeline"><i>ζ</i>Pipeline</a>
+    <a href="#scripts"><i>η</i>Scripts</a>
+    <a href="#contact"><i>θ</i>Contact</a>
+  </nav>
+  <button class="tbtn" id="theme" aria-label="Toggle light or dark theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
+  <button class="menu" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sheet"><span></span></button>
 </header>
+<nav class="sheet" id="sheet" aria-label="Sections (mobile)">
+  <a href="#about"><i>α</i>About</a>
+  <a href="#class"><i>β</i>Class</a>
+  <a href="#projects"><i>γ</i>Projects</a>
+  <a href="#progress"><i>δ</i>In progress</a>
+  <a href="#playground"><i>ε</i>Playground</a>
+  <a href="#pipeline"><i>ζ</i>Pipeline</a>
+  <a href="#scripts"><i>η</i>Scripts</a>
+  <a href="#contact"><i>θ</i>Contact</a>
+</nav>
 
 <main id="top">
   <!-- ================= HERO ================= -->
@@ -233,17 +323,17 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
       <div class="eyebrow">Natural Language Processing · Portfolio</div>
       <h1>Teaching machines<br>to <span class="gl">read us</span>.</h1>
       <p class="who">Hanniel Vinu A <span>· builder of multilingual language systems</span></p>
-      <p class="tagline">From Hinglish payment replies to patients explaining, in their own language, why they missed treatment: the language people actually use, turned into decisions people can trust.</p>
+      <p class="tagline">From a Tamil question that must keep its meaning all the way to a database, to Hinglish payment replies and patients explaining why they missed treatment: the language people actually use, turned into decisions people can trust.</p>
       <div class="cta">
         <a class="btn pri" href="#projects">Explore my NLP work →</a>
         <a class="btn" href="#playground">Try the playground</a>
         <a class="btn" href="https://github.com/hannielvinu" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
       <div class="stats">
-        <div class="card stat"><div class="v" data-count="3">3</div><div class="k">language-heavy systems built and deployed</div></div>
-        <div class="card stat"><div class="v" data-count="5">5</div><div class="k">languages handled: English, Hindi, Hinglish, Tamil, Kannada</div></div>
-        <div class="card stat"><div class="v" data-count="180">180</div><div class="k">hand-labelled Hinglish replies (intent + promised date)</div></div>
-        <div class="card stat"><div class="v">0.932</div><div class="k">macro-F1 of my reply parser on a held-out split</div></div>
+        <div class="card stat"><div class="v">4</div><div class="k">NLP systems built, plus one in progress</div></div>
+        <div class="card stat"><div class="v">98.0%</div><div class="k">of blind Tamil requests understood exactly by Semmai</div></div>
+        <div class="card stat"><div class="v">223/223</div><div class="k">meaning-changing translation mistakes caught before execution</div></div>
+        <div class="card stat"><div class="v">0.932</div><div class="k">macro-F1 of my Hinglish reply parser, held-out</div></div>
       </div>
       <div class="hint"><i></i>The letters hanging around you are real scripts from across history. Move your cursor to sway them; click one to read its story.</div>
     </div>
@@ -251,19 +341,19 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 
   <!-- ================= ABOUT ================= -->
   <section id="about" class="wrap">
-    <div class="sh"><span class="num">01</span><h2>About me</h2></div>
+    <div class="sh"><span class="num">01</span><h2>About <em>me</em></h2></div>
     <p class="lede">A builder who likes the whole stack: interfaces, models, hardware and the messy text in between.</p>
     <div class="about">
       <div class="card reveal">
         <p>I'm <strong>Hanniel Vinu A</strong>, a developer from India who loves knowing what makes a computer tick, and then building on top of it. I work across <strong>full-stack development</strong>, <strong>UI/UX</strong>, <strong>data science and AI/ML</strong>, and <strong>embedded systems</strong>, where I've built multiple award-winning projects.</p>
-        <p>Natural language processing is where those threads meet. Most of the people my projects serve don't write in tidy English: they write <em>"salary aane pe kar dunga bhai"</em>, they speak Tamil or Kannada into a phone, they mix scripts in one sentence. My NLP work is about understanding that language <strong>honestly</strong>: transparent baselines first, held-out evaluation, and a person in the loop whenever the stakes are high.</p>
+        <p>Natural language processing is where those threads meet. My flagship project, <strong>Semmai</strong>, checks that an AI's action still means what a Tamil speaker asked. Most of the people my projects serve don't write in tidy English: they write <em>"salary aane pe kar dunga bhai"</em>, they speak Tamil or Kannada into a phone, they mix scripts in one sentence. My NLP work is about understanding that language <strong>honestly</strong>: transparent baselines first, held-out evaluation, and a person in the loop whenever the stakes are high.</p>
         <p>Outside code I play CTFs for fun, take on leadership roles, and if I'm not coding I'm probably watching cricket.</p>
       </div>
       <div class="card reveal">
         <ul class="facts">
-          <li><b>Focus</b><span>Multilingual &amp; code-mixed NLP, information extraction, intent classification</span></li>
+          <li><b>Focus</b><span>Semantic verification, multilingual &amp; code-mixed NLP, information extraction, intent classification</span></li>
           <li><b>Languages</b><span>English · Hindi · Hinglish · Tamil · Kannada</span></li>
-          <li><b>NLP stack</b><span>Python, regex lexicons, Gemini, Sarvam AI (speech-to-text), Cognee knowledge graphs, NLTK</span></li>
+          <li><b>NLP stack</b><span>Python, IndicTrans2, Qwen2.5-Coder, Sentence-BERT, scikit-learn, NLTK, Gemini, Sarvam AI (speech-to-text), Cognee knowledge graphs</span></li>
           <li><b>Build stack</b><span>React, TypeScript, Next.js, FastAPI, Go, Node, PostgreSQL, MongoDB, Docker, AWS</span></li>
           <li><b>Based in</b><span>India</span></li>
           <li><b>Find me</b><span><a href="https://github.com/hannielvinu" target="_blank" rel="noopener">github.com/hannielvinu</a></span></li>
@@ -274,7 +364,7 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 
   <!-- ================= CLASS ================= -->
   <section id="class" class="wrap">
-    <div class="sh"><span class="num">02</span><h2>Class ledger</h2></div>
+    <div class="sh"><span class="num">02</span><h2>Class <em>ledger</em></h2></div>
     <p class="lede">Every question I answered, every task I submitted and every star I earned in the NLP class, collected in one place.</p>
     <div class="grid g2">
       <div class="card reveal">
@@ -302,8 +392,48 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 
   <!-- ================= PROJECTS ================= -->
   <section id="projects" class="wrap">
-    <div class="sh"><span class="num">03</span><h2>NLP projects</h2></div>
-    <p class="lede">Three systems where understanding language is the hard part. Each one is live, and each one says plainly where it falls short.</p>
+    <div class="sh"><span class="num">03</span><h2>NLP <em>projects</em></h2></div>
+    <p class="lede">Four systems where understanding language is the hard part. Semmai comes first because it was built for NLP from the ground up. Each project is public and says plainly where it falls short.</p>
+
+    <article class="card proj reveal flagship">
+      <div>
+        <div class="kicker">★ Flagship · Semantic verification for Tamil LLM agents</div>
+        <h3>Semmai <small>செம்மை</small></h3>
+        <p class="one">You ask a database a question <b>in Tamil</b>. An AI translates it and writes SQL. Before that SQL runs, Semmai checks that it <b>still means what you asked</b>. If one small word was lost along the way, the query is blocked and the AI is asked to try again.</p>
+        <div class="quote">"Correct syntax does not always mean correct intent."</div>
+        <div class="metrics">
+          <div class="metric"><div class="v">98.0%</div><div class="k">blind Tamil requests, exact meaning (first run)</div></div>
+          <div class="metric"><div class="v">97.0%</div><div class="k">SQL verification accuracy, blind English set</div></div>
+          <div class="metric"><div class="v">0.0%</div><div class="k">wrong SQL let through (false acceptance)</div></div>
+        </div>
+        <ul>
+          <li><b>Tamil semantic parser:</b> a suffix-aware lexicon that reads case endings and postpositions (<span class="mono">2022க்கு பிறகு</span> → after 2022), numbers like <em>10 lakh</em>, and negation (<span class="mono">தவிர</span> → except).</li>
+          <li><b>Universal Semantic Intent Graph (USIG):</b> the request and the generated SQL are both compiled into the same language-independent "skeleton of meaning".</li>
+          <li><b>Proof engine:</b> canonicalises equivalent forms (<span class="mono">age &gt;= 61 ≡ age &gt; 60</span>), then checks 8 proof obligations with 18 finding types, each explained in plain language.</li>
+          <li><b>Multilingual tool calls:</b> a character n-gram TF-IDF + logistic regression intent model across 6 languages including Tamil and Hindi, with 93.9% accuracy.</li>
+          <li><b>Pluggable models:</b> IndicTrans2 (Tamil→English), Qwen2.5-Coder via Ollama, or any OpenAI-compatible API. Semmai's own understanding stays independent, which is why it can catch their mistakes.</li>
+        </ul>
+        <div class="links-row">
+          <a class="btn pri" href="https://github.com/hannielvinu/Semmai" target="_blank" rel="noopener">Code &amp; demo ↗</a>
+          <a class="btn" href="https://github.com/hannielvinu/Semmai/blob/main/docs/REPORT.md" target="_blank" rel="noopener">Project report ↗</a>
+        </div>
+      </div>
+      <div>
+        <div class="sub" style="margin-top:0">What a syntax check misses</div>
+        <div class="flow">
+          <div class="step"><span class="n">⛔</span><div><b>2022க்கு <u>பிறகு</u> சேர்ந்த ஊழியர்களை காட்டு</b><span>AI wrote <span class="mono">join_date &gt;= '2022-01-01'</span>: "after 2022" became "from 2022" (234 rows instead of 170)</span></div></div>
+          <div class="step"><span class="n">⛔</span><div><b>பயிற்சியாளர்களைத் <u>தவிர</u> மற்ற ஊழியர்களைக் காட்டு</b><span>AI wrote <span class="mono">SELECT name FROM employees</span>: "except interns" was dropped</span></div></div>
+          <div class="step"><span class="n">⛔</span><div><b>மேலாளர்களைத் தவிர மற்ற ஊழியர்களை <u>நீக்கு</u></b><span>AI wrote <span class="mono">DELETE FROM employees</span>: it would have deleted the managers too</span></div></div>
+        </div>
+        <figure class="shot"><img src="assets/semmai-chat.png" alt="Semmai Tamil chatbot: a wrong SQL query is blocked and the corrected one is verified and executed" loading="lazy"><figcaption>The Tamil chatbot: the first SQL changed the meaning and was blocked; the regenerated query passed verification.</figcaption></figure>
+        <div class="sub">End-to-end, when the AI is wrong 20% of the time</div>
+        <div class="bars">
+          <div class="bar"><span>Without Semmai</span><div class="t"><i style="width:18.3%;background:linear-gradient(90deg,#c0503a,#e07a5f)"></i></div><span class="mono">18.3%</span></div>
+          <div class="bar"><span>With Semmai</span><div class="t"><i style="width:0.6%"></i></div><span class="mono">0%</span></div>
+        </div>
+        <p class="muted" style="font-size:12.5px;margin:6px 0 0">Wrong answers shown to the user in the Tamil chatbot (at a 40% error rate: 37.0% → 0%).</p>
+      </div>
+    </article>
 
     <article class="card proj reveal">
       <div>
@@ -404,9 +534,58 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
     </article>
   </section>
 
+  <!-- ================= IN PROGRESS ================= -->
+  <section id="progress" class="wrap">
+    <div class="sh"><span class="num loading-num">04</span><h2>Now <em>loading</em>…</h2></div>
+    <p class="lede">What I'm building right now. It isn't finished, so there are no results here yet: just the problem, the plan and the first examples.</p>
+    <article class="card wip reveal">
+      <div class="wip-head">
+        <div>
+          <div class="kicker">In progress · Cross-lingual meaning comparison</div>
+          <h3 class="wip-title">Lost in translation? <small>Bible translation fidelity</small></h3>
+        </div>
+        <span class="status"><i></i>Work in progress</span>
+      </div>
+      <div class="loadbar" aria-hidden="true"><span></span></div>
+      <div class="wip-grid">
+        <div>
+          <p class="one">The Bible was first written in <b>Biblical Hebrew</b> (with some <b>Aramaic</b>) and <b>Koine Greek</b>. Most people read it in translation, sometimes a translation of a translation. Along the way, meaning shifts: two different words collapse into one, a word with a wide meaning is narrowed, tense and aspect are lost, and phrases are added or dropped.</p>
+          <p class="one">This project compares each translation <b>verse by verse</b> against the original-language text and flags <b>where</b> the meaning differs, <b>what kind</b> of difference it is, and <b>how big</b> it is, across languages such as English, Tamil and Hindi.</p>
+          <div class="sub">Planned pipeline</div>
+          <div class="flow">
+            <div class="step active"><span class="n">01</span><div><b>Parallel corpus</b><span>Hebrew / Aramaic / Greek source texts and translations, aligned by book · chapter · verse</span></div></div>
+            <div class="step"><span class="n">02</span><div><b>Word alignment</b><span>Link each source word to its translated words using lexicon numbering (Strong's) and statistical aligners</span></div></div>
+            <div class="step"><span class="n">03</span><div><b>Meaning comparison</b><span>Cross-lingual sentence embeddings for verse-level drift; a source-word sense inventory for word-level shifts</span></div></div>
+            <div class="step"><span class="n">04</span><div><b>Divergence ledger</b><span>Each flagged verse labelled: omission, addition, lexical collapse, sense narrowing, tense/aspect loss or interpretive rendering</span></div></div>
+          </div>
+          <p class="muted" style="font-size:13.5px;margin-top:12px">Same principle as Semmai: <b style="color:var(--ink)">compare meaning, not words</b>. Semmai checks a request against an action; this checks a translation against its source.</p>
+        </div>
+        <div>
+          <div class="sub" style="margin-top:0">Example · lexical collapse (John 21:15–17)</div>
+          <div class="interlinear">
+            <div class="il-row"><span class="il-src">ἀγαπᾷς με;</span><span class="il-tr">agapaō · "do you love me?"</span></div>
+            <div class="il-row"><span class="il-src">φιλῶ σε.</span><span class="il-tr">phileō · "I love you."</span></div>
+            <div class="il-flag">⚑ Two different Greek verbs → one English verb, "love". The contrast in the original dialogue disappears.</div>
+          </div>
+          <div class="sub">Example · one word, many renderings</div>
+          <div class="interlinear">
+            <div class="il-row"><span class="il-src" dir="rtl">חֶסֶד</span><span class="il-tr">ḥesed</span></div>
+            <div class="chips"><span class="chip">mercy</span><span class="chip">kindness</span><span class="chip">lovingkindness</span><span class="chip">steadfast love</span><span class="chip">loyalty</span></div>
+            <div class="il-flag">⚑ Each English choice keeps part of the meaning; none keeps all of it.</div>
+          </div>
+          <div class="sub">Example · an interpretive choice (Genesis 1:2)</div>
+          <div class="interlinear">
+            <div class="il-row"><span class="il-src" dir="rtl">רוּחַ</span><span class="il-tr">rûaḥ · "Spirit", "wind" or "breath"</span></div>
+            <div class="il-flag">⚑ The Hebrew word covers all three; a translator has to pick one.</div>
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+
   <!-- ================= PLAYGROUND ================= -->
   <section id="playground" class="wrap">
-    <div class="sh"><span class="num">04</span><h2>NLP playground</h2></div>
+    <div class="sh"><span class="num">05</span><h2>NLP <em>playground</em></h2></div>
     <p class="lede">Everything here runs in your browser: no server, no model download. Type in any language or script.</p>
     <div class="grid g2 pg">
       <div class="card reveal">
@@ -449,7 +628,7 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 
   <!-- ================= PIPELINE ================= -->
   <section id="pipeline" class="wrap">
-    <div class="sh"><span class="num">05</span><h2>The NLP pipeline</h2></div>
+    <div class="sh"><span class="num">06</span><h2>The NLP <em>pipeline</em></h2></div>
     <p class="lede">The concepts from the course, each tied to where I used it in a real system. Pick a stage.</p>
     <div class="pipe" id="pipe" role="tablist"></div>
     <div class="card reveal pipe-body" id="pipeBody"></div>
@@ -457,7 +636,7 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 
   <!-- ================= SCRIPTS ================= -->
   <section id="scripts" class="wrap">
-    <div class="sh"><span class="num">06</span><h2>The hanging scripts</h2></div>
+    <div class="sh"><span class="num">07</span><h2>The hanging <em>scripts</em></h2></div>
     <p class="lede">Every tile on a rope in the background is a real letter. Language technology is the latest chapter of a five-thousand-year story about writing things down.</p>
     <div class="glyphs" id="glyphGrid"></div>
   </section>
@@ -673,12 +852,13 @@ const PIPE = [
   {k:'Segmentation', s:'Split text into sentences and words.', ex:'"Dr. Rao paid ₹500. Kal aur dunga."\n→ ["Dr. Rao paid ₹500.", "Kal aur dunga."]\n\nThe "." after "Dr" is not a boundary.', used:'<b>Playground</b>: the tokenizer above splits CJK per character and keeps Indic vowel signs attached to their letters.'},
   {k:'Normalisation', s:'Lower-casing, spelling variants, transliteration, min-max scaling of features.', ex:'nahi | nhi | nahin | नहीं  →  NEG\nkr | kar | karo        →  kar\n\nx\' = (x − min) / (max − min)', used:'<b>Dobaara</b>: Hinglish spelling variants are folded before matching, so "nhi chahiye" and "nahi chahiye" both mean cancel.'},
   {k:'Regex', s:'Patterns over strings: the fastest, most explainable NLP there is.', ex:'/(\\d{1,2})\\s*(?:tarik|th|ko)/\n"5 tarik ko"  →  day-of-month 5\n\n/dar$/  matches "dar" (fear)\n       not "dard" (pain)', used:'<b>Setu</b> and <b>Dobaara</b> both start with regex lexicons as the baseline any model must beat.'},
-  {k:'Morphology', s:'How words are built: root + inflection or derivation.', ex:'பள்ளிகளில் (in the schools)\n= பள்ளி (school) + கள் (plural) + இல் (in)\n\nkar-unga / kar-ungi\n= root + future + gender', used:'<b>Dobaara</b>: patterns cover dunga / dungi / denge, so gender and number inflections don\'t break intent detection.'},
+  {k:'Morphology', s:'How words are built: root + inflection or derivation.', ex:'பள்ளிகளில் (in the schools)\n= பள்ளி (school) + கள் (plural) + இல் (in)\n\nkar-unga / kar-ungi\n= root + future + gender', used:'<b>Semmai</b>: a suffix-aware Tamil parser reads 2022க்கு (2022 + dative க்கு) and the postposition பிறகு as "after 2022". <b>Dobaara</b> covers dunga / dungi / denge.'},
   {k:'N-grams', s:'Probability of a word given the previous one(s).', ex:'P(wᵢ | wᵢ₋₁) = C(wᵢ₋₁ wᵢ) / C(wᵢ₋₁)\n\nunigram  P(w)\nbigram   P(wᵢ | wᵢ₋₁)\ntrigram  P(wᵢ | wᵢ₋₂ wᵢ₋₁)', used:'<b>Playground</b>: the bigram counter shows the C(wᵢ₋₁ wᵢ) counts these estimates are built from.'},
   {k:'HMM · Viterbi', s:'Find the most likely hidden tag sequence for a sentence.', ex:'v_t(j) = max_i v_{t-1}(i) · a_ij · b_j(o_t)\n\nUse log-probabilities:\nlog v_t(j) = max_i [log v_{t-1}(i) + log a_ij] + log b_j(o_t)\n(products underflow, sums do not)', used:'The same idea, best path through a lattice, sits under speech-to-text decoding like the Sarvam STT in <b>MoneyTrace</b>.'},
-  {k:'Embeddings', s:'Words as vectors: similar meanings sit close together.', ex:'cos(king − man + woman, queen) ≈ high\n\nWord2Vec (CBOW / Skip-gram)\nGloVe · FastText · BERT\nIndic: IndicBERT, FastText-157', used:'<b>MoneyTrace</b> leans on contextual representations (Gemini) to pull entities out of messy, translated victim narratives.'},
+  {k:'Embeddings', s:'Words as vectors: similar meanings sit close together.', ex:'cos(king − man + woman, queen) ≈ high\n\nWord2Vec (CBOW / Skip-gram)\nGloVe · FastText · BERT\nIndic: IndicBERT, FastText-157', used:'<b>Semmai</b> measured it: multilingual Sentence-BERT similarity alone reaches only 55–64% F1 on Tamil SQL checks, which is why it compares meaning graphs instead.'},
   {k:'Extraction · NER', s:'Find the people, places, amounts and IDs in text.', ex:'"₹24,999 gaya refund.help@okxyz ko, 10:42 PM"\n AMOUNT ₹24,999\n UPI_ID refund.help@okxyz\n TIME   10:42 PM', used:'<b>MoneyTrace</b>: extracted entities become knowledge-graph triples that expose mule rings across victims.'},
-  {k:'Classification', s:'Assign a label from a fixed set, and know when to abstain.', ex:'reply → {promise_to_pay, already_paid,\n         cancel, dispute, hardship,\n         wrong_person, other}\n\nmacro-F1 = mean of per-class F1', used:'<b>Dobaara</b> (7 intents, 0.932 macro-F1 held-out) and <b>Setu</b> (8 barriers + emergency check).'}
+  {k:'Classification', s:'Assign a label from a fixed set, and know when to abstain.', ex:'reply → {promise_to_pay, already_paid,\n         cancel, dispute, hardship,\n         wrong_person, other}\n\nmacro-F1 = mean of per-class F1', used:'<b>Semmai</b> (char n-gram TF-IDF + logistic regression, 6 languages, 93.9%), <b>Dobaara</b> (7 intents, 0.932 macro-F1) and <b>Setu</b> (8 barriers + emergency check).'},
+  {k:'Semantics', s:'Represent what a sentence means, independent of the words and the language.', ex:'"2022க்கு பிறகு சேர்ந்த ஊழியர்கள்"\n→ entity: employees\n  constraint: join_date > 2022-12-31\n\nSELECT … WHERE join_date >= \'2022-01-01\'\n→ constraint: join_date ≥ 2022-01-01   ✗ mismatch', used:'<b>Semmai</b>: both sides become a Universal Semantic Intent Graph and are proved equivalent before anything runs. The Bible project applies the same idea to translations.'}
 ];
 (function(){
   const bar = $('#pipe'), body = $('#pipeBody');
@@ -686,7 +866,7 @@ const PIPE = [
   function show(i){
     [...bar.children].forEach((b,j) => { b.classList.toggle('on', j===i); b.setAttribute('aria-selected', j===i); });
     const p = PIPE[i];
-    body.innerHTML = `<div><h3 style="font-family:Cinzel,serif;font-size:24px">${p.k}</h3><p class="muted" style="margin:0">${p.s}</p><div class="used">${p.used}</div></div><pre>${esc(p.ex)}</pre>`;
+    body.innerHTML = `<div><h3 style="font-family:Fraunces,serif;font-size:24px">${p.k}</h3><p class="muted" style="margin:0">${p.s}</p><div class="used">${p.used}</div></div><pre>${esc(p.ex)}</pre>`;
   }
   bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i); });
   show(0);
@@ -718,9 +898,31 @@ function showToast(g){
 (function(){
   const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  const links = [...document.querySelectorAll('.links a')];
-  const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#'+e.target.id)); }), {rootMargin:'-45% 0px -50% 0px'});
+  const bar = $('#dockLinks'), lamp = $('#lamp'), links = [...bar.querySelectorAll('a')];
+  let active = null;
+  const moveLamp = a => { if (!a) { lamp.style.opacity = 0; return; } lamp.style.opacity = 1; lamp.style.left = a.offsetLeft + 'px'; lamp.style.width = a.offsetWidth + 'px'; };
+  links.forEach(a => a.addEventListener('mouseenter', () => moveLamp(a)));
+  bar.addEventListener('mouseleave', () => moveLamp(active));
+  const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) {
+    active = links.find(a => a.getAttribute('href') === '#'+e.target.id) || null;
+    links.forEach(a => a.classList.toggle('on', a === active)); moveLamp(active);
+  } }), {rootMargin:'-45% 0px -50% 0px'});
   document.querySelectorAll('main section[id]').forEach(s => so.observe(s));
+  new IntersectionObserver(es => { if (es[0].isIntersecting) { active = null; links.forEach(a => a.classList.remove('on')); moveLamp(null); } }, {threshold:.6}).observe($('.hero'));
+  // scroll-progress ring around the monogram + compact dock
+  const ring = $('#ringP'), dock = $('#dock');
+  const onScroll = () => {
+    const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    ring.style.strokeDashoffset = (113.1 * (1 - scrollY / max)).toFixed(1);
+    dock.classList.toggle('small', scrollY > 40);
+  };
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+  // mobile sheet
+  const mb = $('#menuBtn'), sheet = $('#sheet');
+  const setMenu = o => { mb.setAttribute('aria-expanded', o); sheet.classList.toggle('open', o); };
+  mb.addEventListener('click', () => setMenu(mb.getAttribute('aria-expanded') !== 'true'));
+  sheet.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
+  addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 })();
 </script>
 
@@ -814,14 +1016,14 @@ function showToast(g){
       const y = 225 + (asc - desc)/2;
       x.fillStyle = pal.hi; x.fillText(g.c, 194, y+4);           // carved lower lip highlight
       x.fillStyle = pal.ink; x.fillText(g.c, 192, y);
-      x.font = '600 26px Cinzel, serif'; x.fillStyle = pal.gold ? 'rgba(227,184,103,.85)' : 'rgba(30,18,6,.6)';
+      x.font = '600 26px Fraunces, serif'; x.fillStyle = pal.gold ? 'rgba(227,184,103,.85)' : 'rgba(30,18,6,.6)';
       x.fillText(g.n.toUpperCase().slice(0,22), 192, 432);
     } else {
       x.fillStyle = pal.gold ? 'rgba(227,184,103,.9)' : 'rgba(30,18,6,.75)';
       x.font = `120px "${g.f}", serif`; x.fillText(g.c, 192, 170);
-      x.font = '700 30px Cinzel, serif'; wrap(x, g.n.toUpperCase(), 192, 240, 300, 34);
-      x.font = '500 22px Inter, sans-serif'; x.fillText(g.e, 192, 320);
-      x.font = 'italic 500 24px "Cormorant Garamond", serif'; wrap(x, g.m, 192, 360, 300, 26);
+      x.font = '700 30px Fraunces, serif'; wrap(x, g.n.toUpperCase(), 192, 240, 300, 34);
+      x.font = '500 22px Manrope, sans-serif'; x.fillText(g.e, 192, 320);
+      x.font = 'italic 500 24px Fraunces, serif'; wrap(x, g.m, 192, 360, 300, 26);
     }
     const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; return t;
   }
@@ -892,7 +1094,7 @@ function showToast(g){
 
   const ray = new THREE.Raycaster(), v2 = new THREE.Vector2();
   window.addEventListener('click', e => {
-    if (e.target.closest('a,button,textarea,input,.card,nav,header')) return;
+    if (e.target.closest('a,button,textarea,input,.card,nav,header,.sheet')) return;
     v2.set((e.clientX/window.innerWidth)*2-1, -(e.clientY/window.innerHeight)*2+1);
     ray.setFromCamera(v2, camera);
     const hit = ray.intersectObjects(pickables, false)[0];
@@ -950,7 +1152,7 @@ function showToast(g){
   async function start(){
     // wait for script fonts so the canvas textures draw real glyphs, not boxes
     await Promise.race([Promise.all(FONT_LINKS), new Promise(r => setTimeout(r, 3000))]);
-    const fams = [...new Set(GL.map(g => g.f)), 'Cinzel', 'Cormorant Garamond'];
+    const fams = [...new Set(GL.map(g => g.f)), 'Fraunces', 'Manrope'];
     const loads = fams.map(f => document.fonts.load(`120px "${f}"`, GL.filter(g => g.f===f).map(g=>g.c).join('') || 'A').catch(()=>{}));
     await Promise.race([Promise.all(loads), new Promise(r => setTimeout(r, 3500))]);
     resize(); build();
