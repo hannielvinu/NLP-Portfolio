@@ -1,0 +1,966 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hanniel Vinu A · NLP Portfolio</title>
+<meta name="description" content="Natural Language Processing portfolio of Hanniel Vinu A: multilingual NLP systems, class work, case studies and an in-browser NLP playground.">
+<meta name="theme-color" content="#0c0a12">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171221'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23e3b867' font-family='serif'%3E%CE%B1%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Cormorant+Garamond:ital,wght@1,500&display=swap">
+<style>
+:root{
+  --bg:#0c0a12; --bg2:#141020; --ink:#efe7d6; --ink2:#b9ae98; --muted:#857b6a;
+  --gold:#e3b867; --gold2:#f5d595; --ember:#d9774a; --jade:#6fb39a; --lapis:#7c9be0;
+  --card:rgba(20,16,30,.72); --card-solid:#17121f; --line:rgba(227,184,103,.18); --line2:rgba(239,231,214,.08);
+  --shadow:0 20px 60px -20px rgba(0,0,0,.7); --glow:0 0 0 1px var(--line), 0 30px 80px -30px rgba(227,184,103,.25);
+  --radius:18px; --maxw:1120px;
+}
+:root[data-theme="light"]{
+  --bg:#f2ead9; --bg2:#e9dec6; --ink:#2a2116; --ink2:#5b4d39; --muted:#8a7a60;
+  --gold:#a8701f; --gold2:#8a5a12; --ember:#b4532a; --jade:#2f7a62; --lapis:#3a5aa8;
+  --card:rgba(250,245,234,.78); --card-solid:#faf5ea; --line:rgba(140,96,30,.22); --line2:rgba(42,33,22,.08);
+  --shadow:0 20px 50px -24px rgba(80,55,20,.35); --glow:0 0 0 1px var(--line), 0 30px 70px -30px rgba(168,112,31,.3);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 Inter,system-ui,sans-serif;overflow-x:hidden;transition:background .5s,color .5s}
+a{color:var(--gold2);text-decoration:none}
+a:hover{text-decoration:underline}
+::selection{background:var(--gold);color:#1a1208}
+
+/* ---------- 3D stage ---------- */
+#stage{position:fixed;inset:0;z-index:0;display:block;width:100vw;height:100vh}
+.veil{position:fixed;inset:0;z-index:1;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 50% 45%, transparent 0%, color-mix(in srgb,var(--bg) 55%,transparent) 70%, var(--bg) 100%)}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+main,header,footer{position:relative;z-index:2}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:20;backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
+  background:color-mix(in srgb,var(--bg) 70%,transparent);border-bottom:1px solid var(--line2)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:18px}
+.brand{font-family:Cinzel,serif;font-weight:700;letter-spacing:.08em;color:var(--ink);white-space:nowrap;display:flex;align-items:center;gap:10px}
+.brand b{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;font-family:'Cormorant Garamond',serif;font-size:20px}
+.links{display:flex;gap:4px;margin-left:auto;overflow-x:auto;scrollbar-width:none}
+.links::-webkit-scrollbar{display:none}
+.links a{color:var(--ink2);font-size:13.5px;font-weight:500;padding:7px 11px;border-radius:999px;white-space:nowrap;transition:.2s}
+.links a:hover,.links a.on{color:var(--ink);background:var(--line2);text-decoration:none}
+.tbtn{flex:none;width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:transparent;color:var(--gold);cursor:pointer;font-size:16px;display:grid;place-items:center}
+.tbtn:hover{background:var(--line2)}
+
+/* ---------- layout ---------- */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+section{padding:90px 0 30px;scroll-margin-top:60px}
+.sh{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
+.num{font-family:'JetBrains Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.1em;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+h2{font-family:Cinzel,serif;font-weight:700;font-size:clamp(26px,4vw,40px);line-height:1.15;margin:0;letter-spacing:.02em}
+h3{font-size:18px;margin:0 0 8px;font-weight:600}
+.lede{color:var(--ink2);max-width:720px;margin:6px 0 30px;text-shadow:0 0 14px var(--bg),0 0 4px var(--bg)}
+h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
+@media (max-width:640px){.hero-in>p,.hero-in>.eyebrow{background:color-mix(in srgb,var(--bg) 62%,transparent);border-radius:12px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}}
+.card{background:var(--card);border:1px solid var(--line2);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}
+.card.lift:hover{transform:translateY(-4px);box-shadow:var(--glow);border-color:var(--line)}
+.grid{display:grid;gap:18px}
+.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:900px){.g3{grid-template-columns:1fr 1fr}}
+@media (max-width:640px){.g2,.g3{grid-template-columns:1fr} section{padding-top:70px}}
+.tag{display:inline-block;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--gold2);margin:3px 4px 0 0;background:color-mix(in srgb,var(--gold) 7%,transparent)}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;border:1px solid var(--line);color:var(--ink);background:var(--card);cursor:pointer;transition:.2s}
+.btn:hover{border-color:var(--gold);text-decoration:none;transform:translateY(-1px)}
+.btn.pri{background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;border-color:transparent}
+.btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.muted{color:var(--muted)}
+.mono{font-family:'JetBrains Mono',monospace}
+
+/* ---------- hero ---------- */
+.hero{min-height:calc(100vh - 61px);display:flex;align-items:center;padding:60px 0 40px}
+.hero-in{max-width:var(--maxw);margin:0 auto;padding:0 20px;width:100%}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:12.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold)}
+.hero h1{font-family:Cinzel,serif;font-weight:700;font-size:clamp(44px,8.5vw,104px);line-height:.98;margin:18px 0 10px;letter-spacing:.01em;
+  text-shadow:0 2px 30px color-mix(in srgb,var(--bg) 80%,transparent)}
+.hero h1 .gl{background:linear-gradient(100deg,var(--gold2) 10%,var(--ember) 50%,var(--gold) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sheen 8s ease-in-out infinite}
+@keyframes sheen{50%{background-position:100% 0}}
+.who{font-size:clamp(18px,2.4vw,22px);font-weight:600;margin:0}
+.who span{color:var(--ink2);font-weight:400}
+.tagline{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:clamp(20px,2.6vw,26px);color:var(--ink2);max-width:640px;margin:18px 0 28px}
+.cta{display:flex;flex-wrap:wrap;gap:12px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:54px}
+.stat{padding:18px 18px 16px}
+.stat .v{font-family:Cinzel,serif;font-size:clamp(26px,3.4vw,36px);font-weight:700;color:var(--gold2);line-height:1}
+.stat .k{font-size:13px;color:var(--ink2);margin-top:8px;line-height:1.4}
+@media (max-width:760px){.stats{grid-template-columns:1fr 1fr}}
+.hint{margin-top:26px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hint i{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
+@keyframes pulse{50%{opacity:.3}}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}
+@media (max-width:820px){.about{grid-template-columns:1fr}}
+.about p{margin:0 0 12px;color:var(--ink2)}
+.about p strong{color:var(--ink)}
+.facts{list-style:none;margin:0;padding:0}
+.facts li{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line2);font-size:14.5px}
+.facts li:last-child{border:0}
+.facts b{color:var(--gold);min-width:110px;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+
+/* ---------- class log ---------- */
+.ledger{width:100%;border-collapse:collapse;font-size:14.5px}
+.ledger td{padding:11px 6px;border-bottom:1px dashed var(--line2)}
+.ledger td:last-child{text-align:right;color:var(--gold);letter-spacing:2px;white-space:nowrap}
+.ledger tr.tot td{border:0;font-weight:700;padding-top:14px}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--ink2);background:color-mix(in srgb,var(--gold) 4%,transparent)}
+.empty .gly{font-size:34px;color:var(--gold);display:block;margin-bottom:6px;font-family:'Cormorant Garamond',serif}
+.qa{display:flex;flex-direction:column;gap:6px}
+.qa .stars{color:var(--gold);letter-spacing:2px;font-size:14px}
+
+/* ---------- projects ---------- */
+.proj{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:start;padding:30px}
+.proj+.proj{margin-top:20px}
+@media (max-width:860px){.proj{grid-template-columns:1fr;padding:22px}}
+.proj .kicker{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
+.proj h3{font-family:Cinzel,serif;font-size:30px;margin:6px 0 4px;letter-spacing:.03em}
+.proj .one{color:var(--ink2);margin:0 0 14px}
+.proj ul{margin:0;padding-left:18px;color:var(--ink2)}
+.proj ul li{margin:5px 0}
+.proj ul li b{color:var(--ink)}
+.flow{display:flex;flex-direction:column;gap:8px}
+.step{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid var(--line2)}
+.step .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:'JetBrains Mono',monospace;font-size:12px;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold2)}
+.step b{display:block;font-size:14.5px}
+.step span{font-size:13.5px;color:var(--ink2)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.metric{border:1px solid var(--line2);border-radius:12px;padding:12px;text-align:center}
+.metric .v{font-family:Cinzel,serif;font-weight:700;font-size:22px;color:var(--gold2)}
+.metric .k{font-size:12px;color:var(--ink2);line-height:1.3}
+.links-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.quote{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:19px;color:var(--ink);border-left:2px solid var(--gold);padding:2px 0 2px 14px;margin:14px 0}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line2)}
+.chip em{font-style:normal;color:var(--jade)}
+
+/* ---------- playground ---------- */
+.pg textarea{width:100%;min-height:110px;resize:vertical;font:15px/1.6 Inter,'Noto Sans',sans-serif;color:var(--ink);background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);border-radius:12px;padding:14px;outline:none}
+.pg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+.presets{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px}
+.presets button{font:12.5px Inter,sans-serif;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer}
+.presets button:hover{border-color:var(--gold);color:var(--ink)}
+.bars{display:flex;flex-direction:column;gap:8px}
+.bar{display:grid;grid-template-columns:110px 1fr 46px;gap:10px;align-items:center;font-size:13px}
+.bar .t{height:10px;border-radius:99px;background:var(--line2);overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--ember));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.toks{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;max-height:150px;overflow:auto}
+.tok{font-family:'JetBrains Mono',monospace;font-size:12.5px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--lapis) 14%,transparent);border:1px solid color-mix(in srgb,var(--lapis) 30%,transparent)}
+.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
+.kv div{text-align:center;border:1px solid var(--line2);border-radius:10px;padding:10px 4px}
+.kv b{display:block;font-family:Cinzel,serif;font-size:20px;color:var(--gold2)}
+.kv span{font-size:11.5px;color:var(--ink2)}
+.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding:14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--gold) 6%,transparent)}
+.verdict .lab{font-family:'JetBrains Mono',monospace;font-weight:600;font-size:14px;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208}
+.why{font-size:13px;color:var(--ink2);margin-top:8px}
+.why mark{background:color-mix(in srgb,var(--gold) 30%,transparent);color:var(--ink);border-radius:4px;padding:0 3px}
+.sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px;font-weight:600}
+
+/* ---------- pipeline ---------- */
+.pipe{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:thin}
+.pipe button{flex:1 0 auto;min-width:120px;padding:14px 12px;border-radius:14px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;font:600 13.5px Inter,sans-serif;text-align:left;position:relative;transition:.25s}
+.pipe button small{display:block;font:11px 'JetBrains Mono',monospace;color:var(--muted);margin-bottom:4px}
+.pipe button:hover{border-color:var(--line);color:var(--ink)}
+.pipe button.on{border-color:var(--gold);color:var(--ink);background:color-mix(in srgb,var(--gold) 12%,var(--card-solid));box-shadow:var(--glow)}
+.pipe-body{display:grid;grid-template-columns:1.2fr 1fr;gap:22px}
+@media (max-width:760px){.pipe-body{grid-template-columns:1fr}}
+.pipe-body pre{margin:0;font:12.5px/1.6 'JetBrains Mono',monospace;background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line2);border-radius:12px;padding:14px;white-space:pre-wrap;color:var(--ink2)}
+.pipe-body .used{margin-top:12px;font-size:14px;color:var(--ink2)}
+.pipe-body .used b{color:var(--jade)}
+
+/* ---------- scripts legend ---------- */
+.glyphs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.gcard{padding:16px;text-align:center;cursor:pointer}
+.gcard .g{font-size:46px;line-height:1.2;color:var(--gold2);height:62px;display:grid;place-items:center}
+.gcard b{display:block;font-size:13.5px;margin-top:6px}
+.gcard span{font-size:12px;color:var(--muted)}
+
+/* ---------- contact / footer ---------- */
+.contact{text-align:center;padding:46px 24px}
+.contact h2{margin-bottom:10px}
+.contact .cta{justify-content:center;margin-top:22px}
+footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13px}
+
+/* ---------- toast ---------- */
+.toast{position:fixed;z-index:30;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.35s;
+  background:var(--card-solid);border:1px solid var(--line);box-shadow:var(--glow);border-radius:14px;padding:12px 18px;display:flex;gap:14px;align-items:center;max-width:calc(100vw - 32px)}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+.toast .g{font-size:34px;color:var(--gold2)}
+.toast b{display:block}
+.toast span{font-size:13px;color:var(--ink2)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.hero h1 .gl{animation:none}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+<canvas id="stage" aria-hidden="true"></canvas>
+<div class="veil"></div>
+<div class="grain"></div>
+
+<header class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><b>α</b><span>HVA · NLP</span></a>
+    <nav class="links" aria-label="Sections">
+      <a href="#about">About</a>
+      <a href="#class">Class</a>
+      <a href="#projects">Projects</a>
+      <a href="#playground">Playground</a>
+      <a href="#pipeline">Pipeline</a>
+      <a href="#scripts">Scripts</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <button class="tbtn" id="theme" aria-label="Toggle light or dark theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+  <!-- ================= HERO ================= -->
+  <div class="hero">
+    <div class="hero-in">
+      <div class="eyebrow">Natural Language Processing · Portfolio</div>
+      <h1>Teaching machines<br>to <span class="gl">read us</span>.</h1>
+      <p class="who">Hanniel Vinu A <span>· builder of multilingual language systems</span></p>
+      <p class="tagline">From Hinglish payment replies to patients explaining, in their own language, why they missed treatment: the language people actually use, turned into decisions people can trust.</p>
+      <div class="cta">
+        <a class="btn pri" href="#projects">Explore my NLP work →</a>
+        <a class="btn" href="#playground">Try the playground</a>
+        <a class="btn" href="https://github.com/hannielvinu" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+      <div class="stats">
+        <div class="card stat"><div class="v" data-count="3">3</div><div class="k">language-heavy systems built and deployed</div></div>
+        <div class="card stat"><div class="v" data-count="5">5</div><div class="k">languages handled: English, Hindi, Hinglish, Tamil, Kannada</div></div>
+        <div class="card stat"><div class="v" data-count="180">180</div><div class="k">hand-labelled Hinglish replies (intent + promised date)</div></div>
+        <div class="card stat"><div class="v">0.932</div><div class="k">macro-F1 of my reply parser on a held-out split</div></div>
+      </div>
+      <div class="hint"><i></i>The letters hanging around you are real scripts from across history. Move your cursor to sway them; click one to read its story.</div>
+    </div>
+  </div>
+
+  <!-- ================= ABOUT ================= -->
+  <section id="about" class="wrap">
+    <div class="sh"><span class="num">01</span><h2>About me</h2></div>
+    <p class="lede">A builder who likes the whole stack: interfaces, models, hardware and the messy text in between.</p>
+    <div class="about">
+      <div class="card reveal">
+        <p>I'm <strong>Hanniel Vinu A</strong>, a developer from India who loves knowing what makes a computer tick, and then building on top of it. I work across <strong>full-stack development</strong>, <strong>UI/UX</strong>, <strong>data science and AI/ML</strong>, and <strong>embedded systems</strong>, where I've built multiple award-winning projects.</p>
+        <p>Natural language processing is where those threads meet. Most of the people my projects serve don't write in tidy English: they write <em>"salary aane pe kar dunga bhai"</em>, they speak Tamil or Kannada into a phone, they mix scripts in one sentence. My NLP work is about understanding that language <strong>honestly</strong>: transparent baselines first, held-out evaluation, and a person in the loop whenever the stakes are high.</p>
+        <p>Outside code I play CTFs for fun, take on leadership roles, and if I'm not coding I'm probably watching cricket.</p>
+      </div>
+      <div class="card reveal">
+        <ul class="facts">
+          <li><b>Focus</b><span>Multilingual &amp; code-mixed NLP, information extraction, intent classification</span></li>
+          <li><b>Languages</b><span>English · Hindi · Hinglish · Tamil · Kannada</span></li>
+          <li><b>NLP stack</b><span>Python, regex lexicons, Gemini, Sarvam AI (speech-to-text), Cognee knowledge graphs, NLTK</span></li>
+          <li><b>Build stack</b><span>React, TypeScript, Next.js, FastAPI, Go, Node, PostgreSQL, MongoDB, Docker, AWS</span></li>
+          <li><b>Based in</b><span>India</span></li>
+          <li><b>Find me</b><span><a href="https://github.com/hannielvinu" target="_blank" rel="noopener">github.com/hannielvinu</a></span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CLASS ================= -->
+  <section id="class" class="wrap">
+    <div class="sh"><span class="num">02</span><h2>Class ledger</h2></div>
+    <p class="lede">Every question I answered, every task I submitted and every star I earned in the NLP class, collected in one place.</p>
+    <div class="grid g2">
+      <div class="card reveal">
+        <h3>★ Star ledger</h3>
+        <p class="muted" style="margin-top:-4px;font-size:14px">Signed and dated stars from my class notebook.</p>
+        <div id="ledger"></div>
+      </div>
+      <div class="card reveal">
+        <h3>Class interactions</h3>
+        <p class="muted" style="margin-top:-4px;font-size:14px">The question asked, and what I answered. One answer, one star.</p>
+        <div id="interactions" class="grid" style="gap:10px"></div>
+      </div>
+    </div>
+    <div class="grid g3" style="margin-top:18px">
+      <div class="card reveal"><h3>Case studies</h3><div id="cases"></div></div>
+      <div class="card reveal"><h3>Tasks &amp; homework</h3><div id="homework"></div></div>
+      <div class="card reveal"><h3>Hands-on sessions</h3><div id="handson"></div></div>
+    </div>
+    <div class="card reveal" style="margin-top:18px">
+      <h3>Course project</h3>
+      <p class="muted" style="margin:-4px 0 14px;font-size:14px" id="cp-desc">Presentation, repository, demo and write-up for the course project.</p>
+      <div class="links-row" id="cp-links"></div>
+    </div>
+  </section>
+
+  <!-- ================= PROJECTS ================= -->
+  <section id="projects" class="wrap">
+    <div class="sh"><span class="num">03</span><h2>NLP projects</h2></div>
+    <p class="lede">Three systems where understanding language is the hard part. Each one is live, and each one says plainly where it falls short.</p>
+
+    <article class="card proj reveal">
+      <div>
+        <div class="kicker">Code-mixed intent &amp; date extraction · Razorpay AI Buildathon 2026</div>
+        <h3>Dobaara</h3>
+        <p class="one">Recovers failed UPI AutoPay and eNACH debits. Its NLP core reads what customers reply, in English, Hindi or Hinglish, and turns it into an intent and a promised payment date.</p>
+        <div class="metrics">
+          <div class="metric"><div class="v">0.932</div><div class="k">macro-F1, held-out</div></div>
+          <div class="metric"><div class="v">93.3%</div><div class="k">promise-date exact match</div></div>
+          <div class="metric"><div class="v">7</div><div class="k">intent classes</div></div>
+        </div>
+        <ul>
+          <li><b>Keyword / regex lexicon</b> written before any data existed, so it couldn't overfit to the test set; LLM parser must beat it to ship.</li>
+          <li><b>Date normalisation</b> of phrases like <em>"5 tarik ko"</em>, <em>"kal tak"</em>, <em>"mahine ke end mein"</em> into calendar dates.</li>
+          <li><b>Gold labels as rules</b> (<span class="mono">dom:5</span>, <span class="mono">+1</span>, <span class="mono">eom</span>) so human judgement is separate from calendar arithmetic.</li>
+          <li><b>Parser error in the loop:</b> the simulator injects the measured confusion matrix, so mistakes cost money in the results.</li>
+        </ul>
+        <div class="quote">"Treat the reply scores as a smoke test." The 180 replies were written by me, so I report that limit up front.</div>
+        <div class="links-row">
+          <a class="btn pri" href="https://hannielvinu.github.io/Dobaara/" target="_blank" rel="noopener">Live demo ↗</a>
+          <a class="btn" href="https://github.com/hannielvinu/Dobaara" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+      <div>
+        <div class="sub" style="margin-top:0">Reply understanding pipeline</div>
+        <div class="flow">
+          <div class="step"><span class="n">01</span><div><b>Normalise</b><span>Lower-case, transliteration variants (nahi / nhi), Devanagari and Latin side by side</span></div></div>
+          <div class="step"><span class="n">02</span><div><b>Match the lexicon</b><span>Ordered intent patterns: wrong person › dispute › already paid › cancel › hardship › promise</span></div></div>
+          <div class="step"><span class="n">03</span><div><b>Resolve the date</b><span>Relative ("kal", "parso"), day-of-month ("5 tarik"), weekday, end of month</span></div></div>
+          <div class="step"><span class="n">04</span><div><b>Ground &amp; route</b><span>Every label points to the words that produced it; consent and hardship go to a person</span></div></div>
+        </div>
+        <div class="sub">Intent distribution · 180 labelled replies</div>
+        <div class="bars" id="intentBars"></div>
+      </div>
+    </article>
+
+    <article class="card proj reveal">
+      <div>
+        <div class="kicker">Multilingual speech + entity extraction · Paytm Build for India AI Hackathon 2026</div>
+        <h3>MoneyTrace</h3>
+        <p class="one">An autonomous emergency teammate for UPI fraud victims. It listens to a victim's report in their own language, extracts the financial entities that matter, and links them into a graph that exposes mule-account rings.</p>
+        <ul>
+          <li><b>Speech-to-text</b> with Sarvam AI for <b>Hindi, Tamil, Kannada and English</b> voice reports.</li>
+          <li><b>Information extraction</b> with Gemini: transaction IDs, UPI handles, amounts, red flags and a severity call, packaged as sealed evidence.</li>
+          <li><b>Entity triples → knowledge graph</b> with Cognee (add → cognify → search) to connect scammer infrastructure across victims.</li>
+          <li><b>Calm, step-by-step guidance</b> generated for the victim in real time over server-sent events.</li>
+        </ul>
+        <div class="chips" style="margin-top:14px">
+          <span class="chip">voice <em>→</em> transcript</span><span class="chip">text <em>→</em> entities</span><span class="chip">entities <em>→</em> triples</span><span class="chip">triples <em>→</em> mule ring</span>
+        </div>
+        <div class="links-row">
+          <a class="btn pri" href="https://moneytrace-gv84.onrender.com" target="_blank" rel="noopener">Live app ↗</a>
+          <a class="btn" href="https://github.com/hannielvinu/MoneyTrace" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+      <div>
+        <div class="sub" style="margin-top:0">From a frightened voice note to evidence</div>
+        <div class="flow">
+          <div class="step"><span class="n">01</span><div><b>Ingest</b><span>Voice recording, payment screenshot or typed narrative</span></div></div>
+          <div class="step"><span class="n">02</span><div><b>Transcribe</b><span>Sarvam STT returns a multilingual transcript (en / hi / ta / kn)</span></div></div>
+          <div class="step"><span class="n">03</span><div><b>Extract</b><span>Named entities: amount, txn ID, payee handle, time; plus red flags</span></div></div>
+          <div class="step"><span class="n">04</span><div><b>Link</b><span>Entity triples go into a knowledge graph; shared handles reveal a ring</span></div></div>
+          <div class="step"><span class="n">05</span><div><b>Respond</b><span>Evidence package, escalation workflow and plain-language advice</span></div></div>
+        </div>
+        <div class="sub">Example extraction</div>
+        <div class="chips">
+          <span class="chip">AMOUNT <em>₹24,999</em></span><span class="chip">UPI_ID <em>refund.help@okxyz</em></span><span class="chip">TXN_ID <em>4157…</em></span><span class="chip">TIME <em>10:42 PM</em></span><span class="chip">FLAG <em>fake refund call</em></span>
+        </div>
+      </div>
+    </article>
+
+    <article class="card proj reveal">
+      <div>
+        <div class="kicker">Barrier classification in the patient's language · Health-a-thon 2026</div>
+        <h3>Setu</h3>
+        <p class="one">An assistive follow-up agent that helps cancer care teams find patients who dropped out of treatment, and understand <em>why</em> from what the patient or caregiver says.</p>
+        <ul>
+          <li><b>Closed-label text classification</b> into 8 non-clinical barriers: money, paperwork, travel, lodging, family, felt better, fear, unaware.</li>
+          <li><b>English, Hindi and Hinglish</b> keyword rules with word-boundary control (<span class="mono">dar$</span> ≠ <span class="mono">dard</span>) and Devanagari substring matching.</li>
+          <li><b>Safety first:</b> an emergency-card check always runs, with reviewed exclusions ("blood test" is not bleeding). Ambiguous matches fail safe.</li>
+          <li><b>Never clinical:</b> symptom words are logged and routed to a nurse, never answered by the model.</li>
+        </ul>
+        <div class="links-row">
+          <a class="btn pri" href="https://hannielvinu.github.io/Setu/" target="_blank" rel="noopener">Live demo ↗</a>
+          <a class="btn" href="https://github.com/hannielvinu/Setu" target="_blank" rel="noopener">Code ↗</a>
+        </div>
+      </div>
+      <div>
+        <div class="sub" style="margin-top:0">What the classifier hears</div>
+        <div class="flow">
+          <div class="step"><span class="n">“</span><div><b>"Bus ka kiraya nahi hai, gaon bahut door hai"</b><span>→ Travel / distance</span></div></div>
+          <div class="step"><span class="n">“</span><div><b>"आयुष्मान कार्ड renew नहीं हुआ"</b><span>→ Scheme paperwork</span></div></div>
+          <div class="step"><span class="n">“</span><div><b>"Fasal ka time hai, ghar pe koi nahi"</b><span>→ Family / caregiver</span></div></div>
+          <div class="step"><span class="n">!</span><div><b>"Kal raat se tez bukhar hai"</b><span>→ Emergency card: the hospital's own instruction, sent to people</span></div></div>
+        </div>
+        <div class="quote">Reminders don't bring patients back. Removing their barrier does.</div>
+      </div>
+    </article>
+  </section>
+
+  <!-- ================= PLAYGROUND ================= -->
+  <section id="playground" class="wrap">
+    <div class="sh"><span class="num">04</span><h2>NLP playground</h2></div>
+    <p class="lede">Everything here runs in your browser: no server, no model download. Type in any language or script.</p>
+    <div class="grid g2 pg">
+      <div class="card reveal">
+        <h3>Script detector &amp; tokenizer</h3>
+        <textarea id="txt" spellcheck="false" aria-label="Text to analyse">நான் NLP படிக்கிறேன், और मुझे भाषाएँ पसंद हैं. Language is beautiful!</textarea>
+        <div class="presets" id="pre1">
+          <button data-t="நான் NLP படிக்கிறேன், और मुझे भाषाएँ पसंद हैं. Language is beautiful!">Mixed scripts</button>
+          <button data-t="salary aane pe 5 tarik ko pakka kar dunga bhai">Hinglish</button>
+          <button data-t="ನಾನು ಕನ್ನಡ ಮಾತನಾಡುತ್ತೇನೆ. Ἐν ἀρχῇ ἦν ὁ λόγος. 言葉は力だ。">Kannada · Greek · Japanese</button>
+          <button data-t="the cat sat on the mat and the cat slept on the mat">Repetitive English</button>
+        </div>
+        <div class="kv"><div><b id="kChars">0</b><span>characters</span></div><div><b id="kToks">0</b><span>tokens</span></div><div><b id="kTypes">0</b><span>types</span></div><div><b id="kTtr">0</b><span>type/token</span></div></div>
+        <div class="sub">Scripts found</div>
+        <div class="bars" id="scriptBars"></div>
+        <div class="sub">Tokens</div>
+        <div class="toks" id="toks"></div>
+        <div class="sub">Top bigrams</div>
+        <div class="toks" id="bigrams"></div>
+      </div>
+      <div class="card reveal">
+        <h3>Hinglish reply intent</h3>
+        <p class="muted" style="font-size:14px;margin:-4px 0 10px">A tiny, transparent version of the Dobaara lexicon: intent + promised date, with the words that triggered it.</p>
+        <textarea id="reply" spellcheck="false" aria-label="Customer reply">salary aane pe 5 tarik ko pakka kar dunga bhai</textarea>
+        <div class="presets" id="pre2">
+          <button data-t="kal tak bhej dunga">kal tak bhej dunga</button>
+          <button data-t="maine ye subscription liya hi nahi, fraud hai">fraud hai</button>
+          <button data-t="payment kar diya already, check karo">already paid</button>
+          <button data-t="job chali gayi hai, abhi paise nahi hain">hardship</button>
+          <button data-t="band karo ye plan, nahi chahiye">cancel</button>
+          <button data-t="wrong number hai ye">wrong number</button>
+          <button data-t="mahine ke end mein kar dunga">end of month</button>
+        </div>
+        <div class="verdict"><span class="lab" id="iLab">promise_to_pay</span><span id="iDate" class="mono"></span></div>
+        <div class="why" id="iWhy"></div>
+        <div class="sub">Decision</div>
+        <p id="iAct" style="margin:0;font-size:14.5px;color:var(--ink2)"></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PIPELINE ================= -->
+  <section id="pipeline" class="wrap">
+    <div class="sh"><span class="num">05</span><h2>The NLP pipeline</h2></div>
+    <p class="lede">The concepts from the course, each tied to where I used it in a real system. Pick a stage.</p>
+    <div class="pipe" id="pipe" role="tablist"></div>
+    <div class="card reveal pipe-body" id="pipeBody"></div>
+  </section>
+
+  <!-- ================= SCRIPTS ================= -->
+  <section id="scripts" class="wrap">
+    <div class="sh"><span class="num">06</span><h2>The hanging scripts</h2></div>
+    <p class="lede">Every tile on a rope in the background is a real letter. Language technology is the latest chapter of a five-thousand-year story about writing things down.</p>
+    <div class="glyphs" id="glyphGrid"></div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section id="contact" class="wrap">
+    <div class="card contact reveal">
+      <div class="eyebrow" style="justify-content:center">Let's talk</div>
+      <h2>Have text that needs understanding?</h2>
+      <p class="muted" style="max-width:560px;margin:0 auto">I'd love to collaborate on multilingual NLP, assistive AI, or anything that mixes software with hardware.</p>
+      <div class="cta">
+        <a class="btn pri" href="mailto:hannielvinu@gmail.com">Email me</a>
+        <a class="btn" href="https://www.linkedin.com/in/hannielvinu/" target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn" href="https://github.com/hannielvinu" target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>© <span id="yr">2026</span> Hanniel Vinu A · Natural Language Processing Portfolio · Hand-built with HTML, CSS and Three.js</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"><div class="g" id="tG"></div><div><b id="tN"></b><span id="tM"></span></div></div>
+
+<script>
+/* =====================================================================
+   EDIT YOUR CLASS WORK HERE. Add entries and the page updates itself.
+   ===================================================================== */
+const CLASS_LOG = {
+  // { date: "3 Aug 2026", what: "Answered ...", stars: 2 }
+  stars: [],
+  // { q: "Question asked in class", a: "What I answered", stars: 1, tags: ["Regex"], date: "4 Sep" }
+  interactions: [],
+  // { title: "Case study title", text: "Short summary", tags: ["NER"], link: "" }
+  caseStudies: [],
+  // { title: "Homework title", text: "What I submitted", tags: ["FSA"] }
+  homework: [],
+  // { title: "Hands-on task", text: "What I built in class", tags: ["NLTK"], link: "" }
+  handsOn: [],
+  project: { title: "", desc: "", ppt: "", github: "", demo: "", writeup: "" }
+};
+
+/* ---------- the scripts that hang in the background ---------- */
+const GLYPHS = [
+  {c:"𓂀", f:"Noto Sans Egyptian Hieroglyphs", n:"Egyptian hieroglyph", e:"c. 3200 BCE", m:"The Eye of Horus, a sign of protection and wholeness."},
+  {c:"𒀭", f:"Noto Sans Cuneiform", n:"Sumerian cuneiform", e:"c. 3400 BCE", m:"DINGIR: 'sky' or 'god'. Pressed into clay with a reed."},
+  {c:"𐤀", f:"Noto Sans Phoenician", n:"Phoenician", e:"c. 1050 BCE", m:"Aleph, an ox head. Ancestor of A, Alpha and Aleph."},
+  {c:"𑀅", f:"Noto Sans Brahmi", n:"Brahmi", e:"c. 3rd century BCE", m:"'a'. Parent of Devanagari, Tamil, Kannada, Thai and more."},
+  {c:"அ", f:"Noto Serif Tamil", n:"Tamil", e:"c. 3rd century BCE", m:"'a', the first letter of one of the oldest living classical languages."},
+  {c:"ॐ", f:"Noto Serif Devanagari", n:"Devanagari", e:"c. 7th century CE", m:"Om. Devanagari writes Hindi, Marathi, Sanskrit and Nepali."},
+  {c:"ᚠ", f:"Noto Sans Runic", n:"Elder Futhark rune", e:"c. 150 CE", m:"Fehu, 'cattle, wealth'. Carved into wood and stone."},
+  {c:"Ω", f:"Noto Serif", n:"Greek", e:"c. 800 BCE", m:"Omega, the last letter. Greek gave the world vowels in writing."},
+  {c:"א", f:"Noto Serif Hebrew", n:"Hebrew", e:"c. 2nd century BCE (square script)", m:"Aleph, a silent letter, written right to left."},
+  {c:"ع", f:"Noto Naskh Arabic", n:"Arabic", e:"c. 4th century CE", m:"ʿAyn, 'eye'. A cursive script whose letters change shape by position."},
+  {c:"文", f:"Noto Serif SC", n:"Chinese", e:"oracle bones c. 1200 BCE", m:"Wén: 'writing, culture'. A logogram for a word, not a sound."},
+  {c:"𐀀", f:"Noto Sans Linear B", n:"Linear B", e:"c. 1450 BCE", m:"Syllable 'a'. The oldest written Greek, deciphered in 1952."},
+  {c:"Ⰰ", f:"Noto Sans Glagolitic", n:"Glagolitic", e:"c. 862 CE", m:"Az, 'I'. The oldest Slavic alphabet."},
+  {c:"𐌰", f:"Noto Sans Gothic", n:"Gothic", e:"c. 350 CE", m:"Ahsa. Made by Bishop Wulfila to translate the Bible."},
+  {c:"ሀ", f:"Noto Sans Ethiopic", n:"Ge'ez", e:"c. 4th century CE", m:"Hä. An abugida still used for Amharic and Tigrinya."},
+  {c:"𐎠", f:"Noto Sans Old Persian", n:"Old Persian cuneiform", e:"c. 525 BCE", m:"'a'. Carved on the Behistun inscription."},
+  {c:"𐰀", f:"Noto Sans Old Turkic", n:"Old Turkic", e:"c. 8th century CE", m:"'a'. The Orkhon inscriptions of Mongolia."},
+  {c:"ᚁ", f:"Noto Sans Ogham", n:"Ogham", e:"c. 4th century CE", m:"Beith, 'birch'. Notches along the edge of a standing stone."},
+  {c:"𐡀", f:"Noto Sans Imperial Aramaic", n:"Aramaic", e:"c. 800 BCE", m:"Aleph. The lingua franca of the Persian Empire."},
+  {c:"అ", f:"Noto Serif Telugu", n:"Telugu", e:"c. 11th century CE", m:"'a'. Rounded letters, shaped for writing on palm leaves."},
+  {c:"ಕ", f:"Noto Serif Kannada", n:"Kannada", e:"c. 5th century CE", m:"'ka'. A Brahmi descendant, close cousin of Telugu."},
+  {c:"ക", f:"Noto Serif Malayalam", n:"Malayalam", e:"c. 9th century CE", m:"'ka'. Grown out of the Grantha script."},
+  {c:"한", f:"Noto Serif KR", n:"Hangul", e:"1443 CE", m:"'Han'. Designed on purpose by King Sejong to be easy to learn."},
+  {c:"ꦄ", f:"Noto Sans Javanese", n:"Javanese", e:"c. 15th century CE", m:"'a'. An ornate Brahmic script from Indonesia."}
+];
+
+/* ---------- theme ---------- */
+const root = document.documentElement;
+function sysDark(){ return !window.matchMedia || window.matchMedia('(prefers-color-scheme: dark)').matches; }
+let theme = 'dark';
+try { theme = localStorage.getItem('hva-theme') || (sysDark() ? 'dark' : 'light'); } catch(e) { theme = sysDark() ? 'dark' : 'light'; }
+root.dataset.theme = theme;
+document.getElementById('theme').addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  root.dataset.theme = theme;
+  try { localStorage.setItem('hva-theme', theme); } catch(e) {}
+  window.dispatchEvent(new Event('themechange'));
+});
+document.getElementById('yr').textContent = new Date().getFullYear();
+
+/* ---------- helpers ---------- */
+const $ = (s, el=document) => el.querySelector(s);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const tagsHtml = t => (t||[]).map(x => `<span class="tag">${esc(x)}</span>`).join('');
+const emptyBox = (g, msg) => `<div class="empty"><span class="gly">${g}</span>${msg}</div>`;
+
+/* ---------- class log rendering ---------- */
+(function renderClass(){
+  const L = CLASS_LOG;
+  const total = L.stars.reduce((a,s) => a + (s.stars||0), 0);
+  $('#ledger').innerHTML = L.stars.length
+    ? `<table class="ledger">${L.stars.map(s => `<tr><td>${esc(s.date||'')}</td><td>${esc(s.what||'')}</td><td>${'★'.repeat(s.stars||0)}</td></tr>`).join('')}
+       <tr class="tot"><td>Total</td><td></td><td>${total} ★</td></tr></table>`
+    : emptyBox('★', 'The ledger opens with the first signed entry from my notebook.');
+  $('#interactions').innerHTML = L.interactions.length
+    ? L.interactions.map(i => `<div class="qa"><div class="stars">${'★'.repeat(i.stars||1)}</div><b>${esc(i.q)}</b><span class="muted" style="font-size:14px">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0">')
+    : emptyBox('?', 'Questions answered in class will be logged here.');
+  const list = (arr, g, msg) => arr.length
+    ? arr.map(x => `<div style="margin-bottom:14px"><b>${esc(x.title)}</b><p class="muted" style="margin:4px 0;font-size:14px">${esc(x.text||'')}</p>${tagsHtml(x.tags)}${x.link?` <a class="tag" href="${esc(x.link)}" target="_blank" rel="noopener">Open ↗</a>`:''}</div>`).join('')
+    : emptyBox(g, msg);
+  $('#cases').innerHTML = list(L.caseStudies, '§', 'Case studies will appear here.');
+  $('#homework').innerHTML = list(L.homework, 'ᚠ', 'Submitted homework will appear here.');
+  $('#handson').innerHTML = list(L.handsOn, '文', 'Hands-on notebooks will appear here.');
+  const p = L.project;
+  if (p.title) $('#cp-desc').textContent = p.title + (p.desc ? ': ' + p.desc : '');
+  $('#cp-links').innerHTML = [['ppt','Presentation'],['github','GitHub'],['demo','Demo'],['writeup','Write-up']]
+    .map(([k,lab]) => p[k] ? `<a class="btn" href="${esc(p[k])}" target="_blank" rel="noopener">${lab} ↗</a>` : `<span class="btn" aria-disabled="true">${lab} · soon</span>`).join('');
+})();
+
+/* ---------- Dobaara intent distribution ---------- */
+(function(){
+  const d = [['promise_to_pay',83],['cancel',21],['other',19],['already_paid',15],['dispute',15],['hardship',15],['wrong_person',12]];
+  $('#intentBars').innerHTML = d.map(([k,v]) => `<div class="bar"><span class="mono" style="font-size:12px">${k}</span><div class="t"><i style="width:${(v/83*100).toFixed(1)}%"></i></div><span class="mono">${v}</span></div>`).join('');
+})();
+
+/* ---------- playground: script detector + tokenizer ---------- */
+const SCRIPTS = [
+  ['Latin', /\p{Script=Latin}/u], ['Devanagari', /\p{Script=Devanagari}/u], ['Tamil', /\p{Script=Tamil}/u],
+  ['Kannada', /\p{Script=Kannada}/u], ['Telugu', /\p{Script=Telugu}/u], ['Malayalam', /\p{Script=Malayalam}/u],
+  ['Bengali', /\p{Script=Bengali}/u], ['Gujarati', /\p{Script=Gujarati}/u], ['Gurmukhi', /\p{Script=Gurmukhi}/u],
+  ['Arabic', /\p{Script=Arabic}/u], ['Hebrew', /\p{Script=Hebrew}/u], ['Greek', /\p{Script=Greek}/u],
+  ['Cyrillic', /\p{Script=Cyrillic}/u], ['Han', /\p{Script=Han}/u], ['Hiragana', /\p{Script=Hiragana}/u],
+  ['Katakana', /\p{Script=Katakana}/u], ['Hangul', /\p{Script=Hangul}/u], ['Thai', /\p{Script=Thai}/u]
+];
+function analyse(){
+  const t = $('#txt').value;
+  const counts = {}; let letters = 0;
+  for (const ch of t) {
+    if (!/\p{L}|\p{M}/u.test(ch)) continue;
+    letters++;
+    const s = (SCRIPTS.find(([,re]) => re.test(ch)) || ['Other'])[0];
+    counts[s] = (counts[s]||0) + 1;
+  }
+  const rows = Object.entries(counts).sort((a,b) => b[1]-a[1]);
+  $('#scriptBars').innerHTML = rows.length ? rows.map(([k,v]) => {
+    const p = v/letters*100;
+    return `<div class="bar"><span>${k}</span><div class="t"><i style="width:${p.toFixed(1)}%"></i></div><span class="mono">${p.toFixed(0)}%</span></div>`;
+  }).join('') : '<span class="muted">Type something…</span>';
+  // Unicode-aware tokens: runs of letters/marks/digits; CJK split per character; punctuation kept
+  const toks = [];
+  const re = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]|[\p{L}\p{M}\p{N}]+(?:['’][\p{L}]+)?|[^\s\p{L}\p{M}\p{N}]/gu;
+  let m; while ((m = re.exec(t))) toks.push(m[0]);
+  const words = toks.filter(x => /[\p{L}\p{N}]/u.test(x)).map(x => x.toLowerCase());
+  const types = new Set(words);
+  $('#kChars').textContent = [...t].length;
+  $('#kToks').textContent = toks.length;
+  $('#kTypes').textContent = types.size;
+  $('#kTtr').textContent = words.length ? (types.size/words.length).toFixed(2) : '0';
+  $('#toks').innerHTML = toks.slice(0,120).map(x => `<span class="tok">${esc(x)}</span>`).join('');
+  const bg = {};
+  for (let i=0;i<words.length-1;i++){ const k = words[i]+' '+words[i+1]; bg[k]=(bg[k]||0)+1; }
+  const top = Object.entries(bg).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  $('#bigrams').innerHTML = top.length ? top.map(([k,v]) => `<span class="tok">${esc(k)} <b style="color:var(--gold2)">×${v}</b></span>`).join('') : '<span class="muted">Need two or more words.</span>';
+}
+$('#txt').addEventListener('input', analyse);
+$('#pre1').addEventListener('click', e => { if (e.target.dataset.t) { $('#txt').value = e.target.dataset.t; analyse(); } });
+analyse();
+
+/* ---------- playground: Hinglish intent (mini lexicon) ---------- */
+const LEX = [
+  ['wrong_person', [/wrong (?:number|person)/, /galat (?:number|no)/, /not my (?:number|account)/, /mera (?:number|account) nahi/, /गलत नंबर/]],
+  ['dispute', [/fraud/, /scam/, /unauthori[sz]ed/, /never (?:subscribed|signed)/, /(?:liya|kiya) (?:hi )?nahi/, /galat (?:charge|kata)/, /double kata/, /refund do/, /धोखा/]],
+  ['already_paid', [/already (?:paid|done)/, /paid already/, /(?:kar|kr|de|bhej) (?:diya|di|chuka)/, /payment (?:ho gaya|done)/, /i (?:have )?paid/, /भेज दिया/, /कर दिया/]],
+  ['cancel', [/cancel/, /unsubscribe/, /band (?:kar|karo|kardo|kr)/, /nahi chahiye/, /nhi chahiye/, /(?:don'?t|do not) want/, /\bstop\b/, /बंद कर/, /नहीं चाहिए/]],
+  ['hardship', [/job (?:chali|gayi|lost)/, /lost (?:my )?job/, /paise nahi/, /paisa nahi/, /no money/, /hospital/, /bimar/, /naukri/, /पैसे नहीं/]],
+  ['promise_to_pay', [/kar dunga/, /kar dungi/, /bhej dunga/, /de dunga/, /bhar dunga/, /will pay/, /pay (?:by|on|tomorrow)/, /salary/, /tarik/, /kal tak/, /kar denge/, /कर दूंगा/]]
+];
+const WD = {monday:0,somvar:0,tuesday:1,mangalvar:1,wednesday:2,budhvar:2,thursday:3,guruvar:3,friday:4,shukravar:4,saturday:5,shanivar:5,sunday:6,ravivar:6};
+function resolveDate(s){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const add = n => { const d = new Date(today); d.setDate(d.getDate()+n); return d; };
+  let m;
+  if ((m = s.match(/(\d{1,2})\s*(?:tarik|tareekh|tarikh|th|st|nd|rd|ko)/))) {
+    const dom = +m[1]; if (dom>=1 && dom<=31) { const d = new Date(today.getFullYear(), today.getMonth(), dom); if (d < today) d.setMonth(d.getMonth()+1); return [d, `day-of-month "${m[0]}"`]; }
+  }
+  if (/parso|day after tomorrow/.test(s)) return [add(2), '"parso" = +2 days'];
+  if (/\bkal\b|tomorrow/.test(s)) return [add(1), '"kal" = +1 day'];
+  if (/\baaj\b|today/.test(s)) return [add(0), '"aaj" = today'];
+  if (/(?:mahine|month) ke? (?:end|aakhir)|end of (?:the )?month/.test(s)) return [new Date(today.getFullYear(), today.getMonth()+1, 0), 'end of month'];
+  for (const k in WD) if (s.includes(k)) { const cur = (today.getDay()+6)%7; let diff = (WD[k]-cur+7)%7 || 7; return [add(diff), `weekday "${k}"`]; }
+  if (/salary/.test(s)) return [null, 'salary day: payday model decides'];
+  return [null, null];
+}
+const ACT = {
+  promise_to_pay:'Schedule a single retry on the promised day and a reminder the day before. No retries before it.',
+  already_paid:'Pause retries and check the ledger; ask for the reference if no payment is found.',
+  cancel:'Stop all outreach immediately and honour the cancellation. Consent beats revenue.',
+  dispute:'Freeze retries and hand to a person: disputes are never automated.',
+  hardship:'Route to a person with hardship options. No retry until they agree a plan.',
+  wrong_person:'Stop messaging this number and flag the contact record.',
+  other:'Not confident: keep the current schedule and send to review.'
+};
+function intent(){
+  const raw = $('#reply').value; const s = raw.toLowerCase();
+  let label = 'other', hit = null;
+  outer: for (const [k, pats] of LEX) for (const p of pats) { const m = s.match(p); if (m) { label = k; hit = m[0]; break outer; } }
+  const [d, why] = label === 'promise_to_pay' ? resolveDate(s) : [null, null];
+  $('#iLab').textContent = label;
+  $('#iDate').textContent = d ? '→ ' + d.toLocaleDateString(undefined,{weekday:'short',day:'numeric',month:'short'}) : (why ? '→ ' + why : '');
+  let shown = esc(raw);
+  if (hit) { const i = s.indexOf(hit); shown = esc(raw.slice(0,i)) + '<mark>' + esc(raw.slice(i,i+hit.length)) + '</mark>' + esc(raw.slice(i+hit.length)); }
+  $('#iWhy').innerHTML = hit ? `Grounded in: “${shown}”${why && d ? ` · date from ${esc(why)}` : ''}` : 'No lexicon pattern matched, so the parser abstains.';
+  $('#iAct').textContent = ACT[label];
+}
+$('#reply').addEventListener('input', intent);
+$('#pre2').addEventListener('click', e => { if (e.target.dataset.t) { $('#reply').value = e.target.dataset.t; intent(); } });
+intent();
+
+/* ---------- pipeline explorer ---------- */
+const PIPE = [
+  {k:'Segmentation', s:'Split text into sentences and words.', ex:'"Dr. Rao paid ₹500. Kal aur dunga."\n→ ["Dr. Rao paid ₹500.", "Kal aur dunga."]\n\nThe "." after "Dr" is not a boundary.', used:'<b>Playground</b>: the tokenizer above splits CJK per character and keeps Indic vowel signs attached to their letters.'},
+  {k:'Normalisation', s:'Lower-casing, spelling variants, transliteration, min-max scaling of features.', ex:'nahi | nhi | nahin | नहीं  →  NEG\nkr | kar | karo        →  kar\n\nx\' = (x − min) / (max − min)', used:'<b>Dobaara</b>: Hinglish spelling variants are folded before matching, so "nhi chahiye" and "nahi chahiye" both mean cancel.'},
+  {k:'Regex', s:'Patterns over strings: the fastest, most explainable NLP there is.', ex:'/(\\d{1,2})\\s*(?:tarik|th|ko)/\n"5 tarik ko"  →  day-of-month 5\n\n/dar$/  matches "dar" (fear)\n       not "dard" (pain)', used:'<b>Setu</b> and <b>Dobaara</b> both start with regex lexicons as the baseline any model must beat.'},
+  {k:'Morphology', s:'How words are built: root + inflection or derivation.', ex:'பள்ளிகளில் (in the schools)\n= பள்ளி (school) + கள் (plural) + இல் (in)\n\nkar-unga / kar-ungi\n= root + future + gender', used:'<b>Dobaara</b>: patterns cover dunga / dungi / denge, so gender and number inflections don\'t break intent detection.'},
+  {k:'N-grams', s:'Probability of a word given the previous one(s).', ex:'P(wᵢ | wᵢ₋₁) = C(wᵢ₋₁ wᵢ) / C(wᵢ₋₁)\n\nunigram  P(w)\nbigram   P(wᵢ | wᵢ₋₁)\ntrigram  P(wᵢ | wᵢ₋₂ wᵢ₋₁)', used:'<b>Playground</b>: the bigram counter shows the C(wᵢ₋₁ wᵢ) counts these estimates are built from.'},
+  {k:'HMM · Viterbi', s:'Find the most likely hidden tag sequence for a sentence.', ex:'v_t(j) = max_i v_{t-1}(i) · a_ij · b_j(o_t)\n\nUse log-probabilities:\nlog v_t(j) = max_i [log v_{t-1}(i) + log a_ij] + log b_j(o_t)\n(products underflow, sums do not)', used:'The same idea, best path through a lattice, sits under speech-to-text decoding like the Sarvam STT in <b>MoneyTrace</b>.'},
+  {k:'Embeddings', s:'Words as vectors: similar meanings sit close together.', ex:'cos(king − man + woman, queen) ≈ high\n\nWord2Vec (CBOW / Skip-gram)\nGloVe · FastText · BERT\nIndic: IndicBERT, FastText-157', used:'<b>MoneyTrace</b> leans on contextual representations (Gemini) to pull entities out of messy, translated victim narratives.'},
+  {k:'Extraction · NER', s:'Find the people, places, amounts and IDs in text.', ex:'"₹24,999 gaya refund.help@okxyz ko, 10:42 PM"\n AMOUNT ₹24,999\n UPI_ID refund.help@okxyz\n TIME   10:42 PM', used:'<b>MoneyTrace</b>: extracted entities become knowledge-graph triples that expose mule rings across victims.'},
+  {k:'Classification', s:'Assign a label from a fixed set, and know when to abstain.', ex:'reply → {promise_to_pay, already_paid,\n         cancel, dispute, hardship,\n         wrong_person, other}\n\nmacro-F1 = mean of per-class F1', used:'<b>Dobaara</b> (7 intents, 0.932 macro-F1 held-out) and <b>Setu</b> (8 barriers + emergency check).'}
+];
+(function(){
+  const bar = $('#pipe'), body = $('#pipeBody');
+  bar.innerHTML = PIPE.map((p,i) => `<button role="tab" data-i="${i}"><small>${String(i+1).padStart(2,'0')}</small>${p.k}</button>`).join('');
+  function show(i){
+    [...bar.children].forEach((b,j) => { b.classList.toggle('on', j===i); b.setAttribute('aria-selected', j===i); });
+    const p = PIPE[i];
+    body.innerHTML = `<div><h3 style="font-family:Cinzel,serif;font-size:24px">${p.k}</h3><p class="muted" style="margin:0">${p.s}</p><div class="used">${p.used}</div></div><pre>${esc(p.ex)}</pre>`;
+  }
+  bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i); });
+  show(0);
+})();
+
+/* ---------- scripts legend ---------- */
+const FONT_LINKS = [];
+(function(){
+  const fams = [...new Set(GLYPHS.map(g => g.f))];
+  // load each script font, subset to only the glyphs we need (tiny downloads)
+  fams.forEach(f => {
+    const chars = GLYPHS.filter(g => g.f === f).map(g => g.c).join('');
+    const l = document.createElement('link'); l.rel = 'stylesheet';
+    l.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(f).replace(/%20/g,'+')}&text=${encodeURIComponent(chars)}&display=block`;
+    FONT_LINKS.push(new Promise(r => { l.onload = l.onerror = r; }));
+    document.head.appendChild(l);
+  });
+  $('#glyphGrid').innerHTML = GLYPHS.map((g,i) => `<div class="card gcard lift" data-i="${i}" title="${esc(g.m)}"><div class="g" style="font-family:'${g.f}',serif">${g.c}</div><b>${esc(g.n)}</b><span>${esc(g.e)}</span></div>`).join('');
+  $('#glyphGrid').addEventListener('click', e => { const c = e.target.closest('.gcard'); if (c) showToast(GLYPHS[+c.dataset.i]); });
+})();
+let toastT;
+function showToast(g){
+  $('#tG').textContent = g.c; $('#tG').style.fontFamily = `'${g.f}',serif`;
+  $('#tN').textContent = `${g.n} · ${g.e}`; $('#tM').textContent = g.m;
+  $('#toast').classList.add('show'); clearTimeout(toastT); toastT = setTimeout(() => $('#toast').classList.remove('show'), 4200);
+}
+
+/* ---------- reveal on scroll + active nav ---------- */
+(function(){
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  const links = [...document.querySelectorAll('.links a')];
+  const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) links.forEach(a => a.classList.toggle('on', a.getAttribute('href') === '#'+e.target.id)); }), {rootMargin:'-45% 0px -50% 0px'});
+  document.querySelectorAll('main section[id]').forEach(s => so.observe(s));
+})();
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+/* =====================================================================
+   3D STAGE: ancient letters hanging on ropes
+   ===================================================================== */
+(function(){
+  if (!window.THREE) return;
+  const canvas = document.getElementById('stage');
+  let renderer;
+  try { renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true}); } catch(e) { return; }
+  const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.outputEncoding = THREE.sRGBEncoding;
+  renderer.shadowMap.enabled = false;
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 80);
+  camera.position.set(0, 0, 10);
+  const FOV_T = Math.tan(THREE.MathUtils.degToRad(25));
+
+  /* lights */
+  const hemi = new THREE.HemisphereLight(0xfff1d6, 0x1a1028, 0.55); scene.add(hemi);
+  const key = new THREE.DirectionalLight(0xffd9a0, 1.0); key.position.set(-4, 8, 6); scene.add(key);
+  const rim = new THREE.DirectionalLight(0x7c9be0, 0.55); rim.position.set(6, -2, -6); scene.add(rim);
+  const lantern = new THREE.PointLight(0xffb560, 2.2, 14, 1.6); lantern.position.set(0, 0, 4); scene.add(lantern);
+
+  function applyTheme(){
+    const light = document.documentElement.dataset.theme === 'light';
+    scene.fog = new THREE.Fog(light ? 0xf2ead9 : 0x0c0a12, light ? 12 : 9, light ? 40 : 26);
+    hemi.intensity = light ? 0.95 : 0.55;
+    hemi.groundColor.set(light ? 0xb9a27a : 0x1a1028);
+    key.intensity = light ? 1.1 : 1.0;
+    lantern.intensity = light ? 1.2 : 2.2;
+  }
+  applyTheme();
+  window.addEventListener('themechange', applyTheme);
+
+  /* shared textures */
+  function noiseTex(){
+    const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
+    const img = x.createImageData(256,256);
+    for (let i=0;i<img.data.length;i+=4){ const v = 110 + Math.random()*90; img.data[i]=img.data[i+1]=img.data[i+2]=v; img.data[i+3]=255; }
+    x.putImageData(img,0,0);
+    for (let i=0;i<40;i++){ x.strokeStyle = `rgba(0,0,0,${Math.random()*.25})`; x.lineWidth = Math.random()*2; x.beginPath(); x.moveTo(Math.random()*256, Math.random()*256); x.lineTo(Math.random()*256, Math.random()*256); x.stroke(); }
+    const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+  }
+  function ropeTex(){
+    const c = document.createElement('canvas'); c.width = 32; c.height = 64; const x = c.getContext('2d');
+    x.fillStyle = '#8a6a43'; x.fillRect(0,0,32,64);
+    for (let i=-2;i<6;i++){ x.strokeStyle = i%2 ? '#5e452a' : '#b38d5c'; x.lineWidth = 7; x.beginPath(); x.moveTo(-10, i*16); x.lineTo(42, i*16+28); x.stroke(); }
+    const t = new THREE.CanvasTexture(c); t.wrapS = t.wrapT = THREE.RepeatWrapping; return t;
+  }
+  const NOISE = noiseTex(), ROPE = ropeTex();
+
+  const PALETTES = [
+    {body:0xcdb68a, metal:0.05, rough:0.9, ink:'#3b2a14', hi:'rgba(255,240,210,.55)'},   // limestone
+    {body:0xb0623a, metal:0.05, rough:0.85, ink:'#3a1608', hi:'rgba(255,200,160,.45)'},  // terracotta
+    {body:0x9c7438, metal:0.65, rough:0.4, ink:'#2a1a06', hi:'rgba(255,230,170,.6)'},    // bronze
+    {body:0x4f8a74, metal:0.15, rough:0.55, ink:'#0d2a20', hi:'rgba(210,255,235,.45)'},  // jade
+    {body:0x34508a, metal:0.2, rough:0.5, ink:'#e9c46a', hi:'rgba(0,0,0,.4)', gold:true},// lapis w/ gold inlay
+    {body:0x2a2230, metal:0.3, rough:0.6, ink:'#e3b867', hi:'rgba(0,0,0,.5)', gold:true} // obsidian w/ gold inlay
+  ];
+
+  const W = 1.1, H = 1.4, D = 0.16;
+  const tileGeo = (function(){
+    const r = 0.16, s = new THREE.Shape(), w = W/2, h = H/2;
+    s.moveTo(-w+r,-h); s.lineTo(w-r,-h); s.quadraticCurveTo(w,-h,w,-h+r); s.lineTo(w,h-r); s.quadraticCurveTo(w,h,w-r,h);
+    s.lineTo(-w+r,h); s.quadraticCurveTo(-w,h,-w,h-r); s.lineTo(-w,-h+r); s.quadraticCurveTo(-w,-h,-w+r,-h);
+    const g = new THREE.ExtrudeGeometry(s, {depth:D, bevelEnabled:true, bevelThickness:0.035, bevelSize:0.035, bevelSegments:3, curveSegments:6});
+    g.translate(0,0,-D/2); return g;
+  })();
+  const faceGeo = new THREE.PlaneGeometry(W*0.94, H*0.94);
+  const ropeGeo = new THREE.CylinderGeometry(0.022, 0.022, 1, 6, 1, true);
+  const ringGeo = new THREE.TorusGeometry(0.075, 0.02, 8, 18);
+  const ringMat = new THREE.MeshStandardMaterial({color:0xc9a25a, metalness:0.9, roughness:0.3});
+
+  function faceTex(g, pal, back){
+    const c = document.createElement('canvas'); c.width = 384; c.height = 490; const x = c.getContext('2d');
+    x.clearRect(0,0,c.width,c.height);
+    // engraved frame
+    x.strokeStyle = pal.gold ? 'rgba(227,184,103,.55)' : 'rgba(0,0,0,.28)'; x.lineWidth = 4;
+    const R = 26; x.beginPath(); x.roundRect ? x.roundRect(22,22,340,446,R) : x.rect(22,22,340,446); x.stroke();
+    x.textAlign = 'center'; x.textBaseline = 'alphabetic';
+    if (!back){
+      x.font = `250px "${g.f}", serif`;
+      const m = x.measureText(g.c);
+      const asc = m.actualBoundingBoxAscent || 180, desc = m.actualBoundingBoxDescent || 20;
+      const y = 225 + (asc - desc)/2;
+      x.fillStyle = pal.hi; x.fillText(g.c, 194, y+4);           // carved lower lip highlight
+      x.fillStyle = pal.ink; x.fillText(g.c, 192, y);
+      x.font = '600 26px Cinzel, serif'; x.fillStyle = pal.gold ? 'rgba(227,184,103,.85)' : 'rgba(30,18,6,.6)';
+      x.fillText(g.n.toUpperCase().slice(0,22), 192, 432);
+    } else {
+      x.fillStyle = pal.gold ? 'rgba(227,184,103,.9)' : 'rgba(30,18,6,.75)';
+      x.font = `120px "${g.f}", serif`; x.fillText(g.c, 192, 170);
+      x.font = '700 30px Cinzel, serif'; wrap(x, g.n.toUpperCase(), 192, 240, 300, 34);
+      x.font = '500 22px Inter, sans-serif'; x.fillText(g.e, 192, 320);
+      x.font = 'italic 500 24px "Cormorant Garamond", serif'; wrap(x, g.m, 192, 360, 300, 26);
+    }
+    const t = new THREE.CanvasTexture(c); t.encoding = THREE.sRGBEncoding; t.anisotropy = 4; return t;
+  }
+  function wrap(x, text, cx, y, maxW, lh){
+    const words = text.split(' '); let line = '';
+    for (const w of words){ const tst = line ? line+' '+w : w; if (x.measureText(tst).width > maxW && line){ x.fillText(line, cx, y); line = w; y += lh; } else line = tst; }
+    if (line) x.fillText(line, cx, y);
+  }
+
+  const pendants = []; const pickables = [];
+  const GL = GLYPHS;
+
+  function build(){
+    pendants.forEach(p => { scene.remove(p.pivot); p.frontMat.map.dispose(); p.backMat.map.dispose(); });
+    pendants.length = 0; pickables.length = 0;
+    const w = window.innerWidth, h = window.innerHeight, aspect = w/h;
+    const count = w < 640 ? 13 : w < 1100 ? 20 : 26;
+    const order = GL.map((g,i)=>i).sort(() => Math.random()-.5);
+    for (let i=0;i<count;i++){
+      const g = GL[order[i % GL.length]];
+      const pal = PALETTES[(i*7 + 3) % PALETTES.length];
+      const z = -1 - Math.random()*13 + (i%5===0 && w >= 640 ? 3.2 : 0);
+      const top = FOV_T * (10 - z);
+      const halfW = top * aspect;
+      // stratified x so they spread across the width
+      const fx = (i + 0.2 + Math.random()*0.6) / count;
+      const x = (-1 + 2*fx) * halfW * 0.96;
+      const anchorY = top + 0.6;
+      const targetY = top*(0.75) - Math.random() * top * 1.65;
+      const L = Math.max(1.2, anchorY - targetY);
+      const scale = (w < 640 ? 0.6 : 0.8) + Math.random()*0.45;
+
+      const pivot = new THREE.Object3D(); pivot.position.set(x, anchorY, z);
+      const rope = new THREE.Mesh(ropeGeo, new THREE.MeshStandardMaterial({map:ROPE.clone(), roughness:1, metalness:0}));
+      rope.material.map.needsUpdate = true; rope.material.map.repeat.set(1, L*6);
+      rope.scale.y = L; rope.position.y = -L/2; pivot.add(rope);
+      const tile = new THREE.Group(); tile.position.y = -L; pivot.add(tile);
+      const ring = new THREE.Mesh(ringGeo, ringMat); ring.position.y = -0.05; tile.add(ring);
+      const bodyMat = new THREE.MeshStandardMaterial({color:pal.body, metalness:pal.metal, roughness:pal.rough, bumpMap:NOISE, bumpScale:0.025});
+      const body = new THREE.Mesh(tileGeo, bodyMat); body.position.y = -0.12 - H/2*scale; body.scale.setScalar(scale); tile.add(body);
+      const frontMat = new THREE.MeshStandardMaterial({map:faceTex(g,pal,false), transparent:true, roughness:pal.rough, metalness:pal.gold?0.5:0.05});
+      const backMat = new THREE.MeshStandardMaterial({map:faceTex(g,pal,true), transparent:true, roughness:pal.rough, metalness:pal.gold?0.5:0.05});
+      const front = new THREE.Mesh(faceGeo, frontMat); front.position.z = D/2 + 0.037; body.add(front);
+      const back = new THREE.Mesh(faceGeo, backMat); back.position.z = -D/2 - 0.037; back.rotation.y = Math.PI; body.add(back);
+      body.userData.g = g; pickables.push(body);
+      scene.add(pivot);
+      const rest = (Math.random()-.5)*0.9;
+      pendants.push({pivot, tile, body, frontMat, backMat, g, L:L+0.8*scale,
+        th:(Math.random()-.5)*0.25, thv:0, ph:(Math.random()-.5)*0.1, phv:0, ps:rest, psv:(Math.random()-.5)*0.6, rest,
+        seed:Math.random()*100, wp:new THREE.Vector3()});
+    }
+  }
+
+  function resize(){
+    const w = window.innerWidth, h = window.innerHeight;
+    renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
+  }
+
+  /* pointer + scroll input */
+  const ptr = {x:-9999, y:-9999, vx:0, vy:0, nx:0, ny:0};
+  window.addEventListener('pointermove', e => {
+    if (ptr.x > -9000){ ptr.vx = e.clientX - ptr.x; ptr.vy = e.clientY - ptr.y; }
+    ptr.x = e.clientX; ptr.y = e.clientY;
+    ptr.nx = (e.clientX / window.innerWidth) * 2 - 1; ptr.ny = -(e.clientY / window.innerHeight) * 2 + 1;
+  }, {passive:true});
+  let lastScroll = window.scrollY, scrollV = 0;
+  window.addEventListener('scroll', () => { scrollV += window.scrollY - lastScroll; lastScroll = window.scrollY; }, {passive:true});
+
+  const ray = new THREE.Raycaster(), v2 = new THREE.Vector2();
+  window.addEventListener('click', e => {
+    if (e.target.closest('a,button,textarea,input,.card,nav,header')) return;
+    v2.set((e.clientX/window.innerWidth)*2-1, -(e.clientY/window.innerHeight)*2+1);
+    ray.setFromCamera(v2, camera);
+    const hit = ray.intersectObjects(pickables, false)[0];
+    if (hit){
+      const p = pendants.find(p => p.body === hit.object);
+      if (p){ p.psv += 7 * (Math.random()<.5?-1:1); p.thv += (Math.random()-.5)*1.2; showToast(p.g); }
+    }
+  });
+
+  const tmp = new THREE.Vector3();
+  let t = 0, last = performance.now();
+  function step(now){
+    const dt = Math.min(0.033, (now - last)/1000); last = now; t += dt;
+    const w = window.innerWidth, h = window.innerHeight;
+    const sv = scrollV; scrollV *= 0.0; // consume
+    for (const p of pendants){
+      // world position of tile → screen, for pointer interaction
+      p.body.getWorldPosition(p.wp); tmp.copy(p.wp).project(camera);
+      const sx = (tmp.x+1)/2*w, sy = (1-tmp.y)/2*h;
+      const dx = sx - ptr.x, dy = sy - ptr.y, d = Math.hypot(dx, dy);
+      const R = 140 * (10 / (10 - p.pivot.position.z));
+      if (d < R && (ptr.vx || ptr.vy)){
+        const f = (1 - d/R);
+        p.thv += ptr.vx * 0.012 * f;
+        p.psv += ptr.vx * 0.02 * f;
+        p.phv += ptr.vy * 0.006 * f;
+      }
+      const g = 9.8 / p.L;
+      const wind = 0.06*Math.sin(t*0.6 + p.seed) + 0.035*Math.sin(t*1.7 + p.seed*2.3);
+      p.thv += (-g*Math.sin(p.th) - 0.35*p.thv + wind) * dt;
+      p.phv += (-g*Math.sin(p.ph) - 0.5*p.phv + 0.02*Math.sin(t*0.8+p.seed) + sv*0.0009) * dt;
+      p.psv += (-0.9*(p.ps - p.rest) - 0.22*p.psv + 0.08*Math.sin(t*0.35 + p.seed)) * dt;
+      p.thv = Math.max(-4, Math.min(4, p.thv)); p.phv = Math.max(-3, Math.min(3, p.phv));
+      p.th += p.thv*dt; p.ph += p.phv*dt; p.ps += p.psv*dt;
+      p.th = Math.max(-1.1, Math.min(1.1, p.th)); p.ph = Math.max(-0.9, Math.min(0.9, p.ph));
+      p.pivot.rotation.set(p.ph, 0, p.th);
+      p.tile.rotation.y = p.ps;
+    }
+    ptr.vx *= 0.6; ptr.vy *= 0.6; if (Math.abs(ptr.vx) < .1) ptr.vx = 0; if (Math.abs(ptr.vy) < .1) ptr.vy = 0;
+    // lantern follows pointer; camera drifts with scroll for parallax
+    const maxS = Math.max(1, document.documentElement.scrollHeight - h);
+    const sf = window.scrollY / maxS;
+    camera.position.y += ((-sf*2.2) - camera.position.y) * 0.08;
+    camera.position.x += ((ptr.nx*0.35) - camera.position.x) * 0.04;
+    camera.lookAt(camera.position.x*0.5, camera.position.y, 0);
+    lantern.position.set(ptr.nx * 6, camera.position.y + ptr.ny * 3.6, 3.5);
+  }
+
+  function frame(now){
+    step(now);
+    renderer.render(scene, camera);
+    if (!reduce) requestAnimationFrame(frame);
+  }
+
+  async function start(){
+    // wait for script fonts so the canvas textures draw real glyphs, not boxes
+    await Promise.race([Promise.all(FONT_LINKS), new Promise(r => setTimeout(r, 3000))]);
+    const fams = [...new Set(GL.map(g => g.f)), 'Cinzel', 'Cormorant Garamond'];
+    const loads = fams.map(f => document.fonts.load(`120px "${f}"`, GL.filter(g => g.f===f).map(g=>g.c).join('') || 'A').catch(()=>{}));
+    await Promise.race([Promise.all(loads), new Promise(r => setTimeout(r, 3500))]);
+    resize(); build();
+    let rt; window.addEventListener('resize', () => { resize(); clearTimeout(rt); rt = setTimeout(() => { build(); if (reduce) frame(performance.now()); }, 300); });
+    last = performance.now();
+    if (reduce){ for (let i=0;i<60;i++) step(last + i*16); renderer.render(scene, camera); }
+    else requestAnimationFrame(frame);
+  }
+  start();
+})();
+</script>
+</body>
+</html>

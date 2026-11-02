@@ -1,0 +1,14 @@
+# Private tooling: never published
+.claude/
+.agents/
+skills/
+*.skill
+SKILL.md
+CLAUDE.md
+AGENTS.md
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
