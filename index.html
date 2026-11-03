@@ -2,80 +2,103 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hanniel Vinu A · NLP Portfolio</title>
 <meta name="description" content="Natural Language Processing portfolio of Hanniel Vinu A: multilingual NLP systems, class work, case studies and an in-browser NLP playground.">
-<meta name="theme-color" content="#0c0a12">
+<meta name="theme-color" content="#0b0911">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23171221'/%3E%3Ctext x='32' y='44' font-size='34' text-anchor='middle' fill='%23e3b867' font-family='serif'%3E%CE%B1%3C/text%3E%3C/svg%3E">
+<script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=Noto+Serif+Hebrew:wght@400;600&display=swap">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600&family=Noto+Serif+Hebrew:wght@400;600&display=swap">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..800;1,9..144,400..700&family=Manrope:wght@400..800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
 <style>
+/* =========================================================
+   DESIGN TOKENS
+   ========================================================= */
 :root{
-  --bg:#0c0a12; --bg2:#141020; --ink:#efe7d6; --ink2:#b9ae98; --muted:#857b6a;
-  --gold:#e3b867; --gold2:#f5d595; --ember:#d9774a; --jade:#6fb39a; --lapis:#7c9be0;
-  --card:rgba(20,16,30,.72); --card-solid:#17121f; --line:rgba(227,184,103,.18); --line2:rgba(239,231,214,.08);
-  --shadow:0 20px 60px -20px rgba(0,0,0,.7); --glow:0 0 0 1px var(--line), 0 30px 80px -30px rgba(227,184,103,.25);
-  --radius:18px; --maxw:1120px;
+  --bg:#0b0911; --bg2:#13101c; --ink:#f3ecdc; --ink2:#c9bfab; --muted:#9a907c;
+  --gold:#e6bd6e; --gold2:#f6d89b; --ember:#e0804f; --jade:#7cc4aa; --lapis:#8fabe8;
+  --on-gold:#1a1208; --danger:#e07a5f;
+  --card:rgba(21,17,31,.9); --card-solid:#17121f; --inset:rgba(255,255,255,.035);
+  --line:rgba(230,189,110,.26); --line2:rgba(243,236,220,.11);
+  --shadow:0 24px 60px -28px rgba(0,0,0,.8);
+  --glow:0 0 0 1px var(--line),0 28px 70px -30px rgba(230,189,110,.28);
+  --r:20px; --r-sm:12px; --maxw:1140px; --gut:clamp(16px,4vw,32px);
+  --stage-op:.5;
 }
 :root[data-theme="light"]{
-  --bg:#f2ead9; --bg2:#e9dec6; --ink:#2a2116; --ink2:#5b4d39; --muted:#8a7a60;
-  --gold:#a8701f; --gold2:#8a5a12; --ember:#b4532a; --jade:#2f7a62; --lapis:#3a5aa8;
-  --card:rgba(250,245,234,.78); --card-solid:#faf5ea; --line:rgba(140,96,30,.22); --line2:rgba(42,33,22,.08);
-  --shadow:0 20px 50px -24px rgba(80,55,20,.35); --glow:0 0 0 1px var(--line), 0 30px 70px -30px rgba(168,112,31,.3);
+  --bg:#f5eddc; --bg2:#ece1c9; --ink:#231b10; --ink2:#4b3e2a; --muted:#6c5e45;
+  --gold:#97610f; --gold2:#7a4c0a; --ember:#b24d22; --jade:#1f6f58; --lapis:#34549f;
+  --on-gold:#fff8ea; --danger:#b4432a;
+  --card:rgba(252,248,238,.92); --card-solid:#fbf6ea; --inset:rgba(35,27,16,.04);
+  --line:rgba(120,80,20,.28); --line2:rgba(35,27,16,.12);
+  --shadow:0 20px 44px -26px rgba(80,55,20,.4);
+  --glow:0 0 0 1px var(--line),0 26px 60px -30px rgba(151,97,15,.38);
+  --stage-op:.4;
 }
-*{box-sizing:border-box}
+
+/* =========================================================
+   BASE
+   ========================================================= */
+*,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Manrope,system-ui,sans-serif;overflow-x:hidden;transition:background .5s,color .5s}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.7 Manrope,system-ui,-apple-system,'Segoe UI',sans-serif;overflow-x:hidden;transition:background .4s,color .4s;-webkit-font-smoothing:antialiased}
+img{max-width:100%}
 a{color:var(--gold2);text-decoration:none}
-a:hover{text-decoration:underline}
-::selection{background:var(--gold);color:#1a1208}
+a:hover{text-decoration:underline;text-underline-offset:3px}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
+::selection{background:var(--gold);color:var(--on-gold)}
+.skip{position:fixed;left:12px;top:-60px;z-index:50;background:var(--gold);color:var(--on-gold);padding:10px 16px;border-radius:10px;font-weight:700;transition:top .2s}
+.skip:focus{top:12px;text-decoration:none}
+.muted{color:var(--muted)}
+.mono{font-family:'IBM Plex Mono',monospace}
 
 /* ---------- 3D stage ---------- */
-#stage{position:fixed;inset:0;z-index:0;display:block;width:100vw;height:100vh}
+#stage{position:fixed;inset:0;z-index:0;display:block;width:100vw;height:100vh;height:100lvh;opacity:var(--stage-op);pointer-events:none}
 .veil{position:fixed;inset:0;z-index:1;pointer-events:none;
-  background:radial-gradient(ellipse 70% 60% at 50% 45%, transparent 0%, color-mix(in srgb,var(--bg) 55%,transparent) 70%, var(--bg) 100%)}
-.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.06;mix-blend-mode:overlay;
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 40%,transparent 0%,color-mix(in srgb,var(--bg) 50%,transparent) 65%,var(--bg) 100%),
+    linear-gradient(color-mix(in srgb,var(--bg) 30%,transparent),color-mix(in srgb,var(--bg) 30%,transparent))}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.05;mix-blend-mode:overlay;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-main,header,footer{position:relative;z-index:2}
+main,footer{position:relative;z-index:2}
 
-/* ---------- nav: floating dock ---------- */
-.dock{position:fixed;z-index:20;top:14px;left:50%;transform:translateX(-50%);width:min(1100px,calc(100% - 24px));
-  display:flex;align-items:center;gap:10px;padding:7px 8px 7px 7px;border-radius:999px;
-  background:linear-gradient(var(--card-solid),var(--card-solid)) padding-box,
-             linear-gradient(120deg,color-mix(in srgb,var(--gold) 70%,transparent),var(--line2) 35%,var(--line2) 65%,color-mix(in srgb,var(--ember) 60%,transparent)) border-box;
-  border:1px solid transparent;box-shadow:0 18px 50px -18px rgba(0,0,0,.55),0 0 0 6px color-mix(in srgb,var(--bg) 35%,transparent);
-  transition:top .35s cubic-bezier(.2,.8,.2,1)}
+/* =========================================================
+   NAV DOCK
+   ========================================================= */
+.dock{position:fixed;z-index:20;top:12px;left:50%;transform:translateX(-50%);width:min(1140px,calc(100% - 24px));
+  display:flex;align-items:center;gap:10px;padding:6px 8px 6px 6px;border-radius:999px;
+  background:linear-gradient(color-mix(in srgb,var(--card-solid) 88%,transparent),color-mix(in srgb,var(--card-solid) 88%,transparent)) padding-box,
+             linear-gradient(120deg,color-mix(in srgb,var(--gold) 65%,transparent),var(--line2) 35%,var(--line2) 65%,color-mix(in srgb,var(--ember) 55%,transparent)) border-box;
+  border:1px solid transparent;box-shadow:0 16px 40px -18px rgba(0,0,0,.55);
+  backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);
+  transition:top .3s cubic-bezier(.2,.8,.2,1)}
 .dock.small{top:8px}
-@supports (backdrop-filter:blur(1px)){.dock{
-  background:linear-gradient(color-mix(in srgb,var(--card-solid) 80%,transparent),color-mix(in srgb,var(--card-solid) 80%,transparent)) padding-box,
-             linear-gradient(120deg,color-mix(in srgb,var(--gold) 70%,transparent),var(--line2) 35%,var(--line2) 65%,color-mix(in srgb,var(--ember) 60%,transparent)) border-box;
-  backdrop-filter:blur(16px) saturate(1.4);-webkit-backdrop-filter:blur(16px) saturate(1.4)}}
-.mark{display:flex;align-items:center;gap:10px;color:var(--ink);padding-right:8px;flex:none}
+.mark{display:flex;align-items:center;gap:10px;color:var(--ink);padding-right:6px;flex:none;min-width:0}
 .mark:hover{text-decoration:none}
 .ring{position:relative;width:42px;height:42px;flex:none}
 .ring svg{position:absolute;inset:0;width:100%;height:100%;transform:rotate(-90deg)}
 .ring circle{fill:none;stroke-width:2.5}
 .ring .bgc{stroke:var(--line2)}
 .ring .pc{stroke:url(#rg);stroke-linecap:round;stroke-dasharray:113.1;stroke-dashoffset:113.1;transition:stroke-dashoffset .15s linear}
-.ring span{position:absolute;inset:6px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;font:italic 600 15px/1 Fraunces,serif;letter-spacing:-.04em;padding-bottom:2px}
-.mark .nm{display:flex;flex-direction:column;line-height:1.15}
-.mark .nm b{font:650 15.5px Fraunces,serif;letter-spacing:-.01em}
+.ring span{position:absolute;inset:5px;border-radius:50%;overflow:hidden;background:var(--card-solid);display:block}
+.ring span img{display:block;width:100%;height:100%;object-fit:cover}
+.mark .nm{display:flex;flex-direction:column;line-height:1.15;min-width:0}
+.mark .nm b{font:650 15.5px Fraunces,serif;letter-spacing:-.01em;white-space:nowrap}
 .mark .nm small{font:500 10px 'IBM Plex Mono',monospace;color:var(--muted);letter-spacing:.14em;text-transform:uppercase}
-.dock-links{position:relative;display:flex;gap:1px;margin-left:auto;padding:4px;border-radius:999px;background:color-mix(in srgb,var(--bg) 45%,transparent);border:1px solid var(--line2)}
+.dock-links{position:relative;display:flex;gap:0;margin-left:auto;padding:4px;border-radius:999px;background:var(--inset);border:1px solid var(--line2)}
 .dock-links a{position:relative;z-index:1;display:flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;color:var(--ink2);font-size:13px;font-weight:650;white-space:nowrap;transition:color .25s}
-.dock-links a i{font:italic 500 14px Fraunces,serif;color:var(--gold);opacity:.5;transition:opacity .25s,transform .25s}
+.dock-links a i{display:none;font:italic 500 14px Fraunces,serif;color:var(--gold);opacity:.6}
 .dock-links a:hover,.dock-links a.on{color:var(--ink);text-decoration:none}
-.dock-links a:hover i,.dock-links a.on i{opacity:1;transform:translateY(-1px)}
 .lamp{position:absolute;z-index:0;top:4px;bottom:4px;left:0;width:0;border-radius:999px;opacity:0;
-  background:linear-gradient(180deg,color-mix(in srgb,var(--gold) 26%,transparent),color-mix(in srgb,var(--gold) 9%,transparent));
-  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 45%,transparent),0 6px 22px -6px color-mix(in srgb,var(--gold) 70%,transparent);
-  transition:left .45s cubic-bezier(.3,1.35,.4,1),width .45s cubic-bezier(.3,1.35,.4,1),opacity .3s}
-.lamp::after{content:"";position:absolute;left:50%;bottom:-7px;width:5px;height:5px;margin-left:-2.5px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px 2px var(--gold)}
-.tbtn,.menu{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:color-mix(in srgb,var(--bg) 45%,transparent);color:var(--gold);cursor:pointer;display:grid;place-items:center;transition:.25s}
-.tbtn:hover{border-color:var(--gold);transform:rotate(-25deg)}
-.menu:hover{border-color:var(--gold)}
+  background:color-mix(in srgb,var(--gold) 20%,transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in srgb,var(--gold) 50%,transparent);
+  transition:left .4s cubic-bezier(.3,1.3,.4,1),width .4s cubic-bezier(.3,1.3,.4,1),opacity .3s}
+.tbtn,.menu{flex:none;width:40px;height:40px;border-radius:50%;border:1px solid var(--line2);background:var(--inset);color:var(--gold);cursor:pointer;display:grid;place-items:center;transition:.25s}
+.tbtn:hover,.menu:hover{border-color:var(--gold)}
+.tbtn:hover svg{transform:rotate(-25deg)}
+.tbtn svg{transition:transform .3s}
 .menu{display:none}
 .menu span,.menu span::before,.menu span::after{display:block;width:16px;height:2px;border-radius:2px;background:currentColor;position:relative;transition:.3s}
 .menu span::before,.menu span::after{content:"";position:absolute;left:0}
@@ -83,237 +106,267 @@ main,header,footer{position:relative;z-index:2}
 .menu[aria-expanded="true"] span{background:transparent}
 .menu[aria-expanded="true"] span::before{top:0;transform:rotate(45deg)}
 .menu[aria-expanded="true"] span::after{top:0;transform:rotate(-45deg)}
-.sheet{position:fixed;z-index:19;top:78px;left:12px;right:12px;padding:12px;border-radius:24px;display:grid;grid-template-columns:1fr 1fr;gap:8px;
-  background:var(--card-solid);border:1px solid var(--line);box-shadow:var(--glow);opacity:0;transform:translateY(-10px) scale(.98);pointer-events:none;transition:.3s cubic-bezier(.2,.8,.2,1)}
-.sheet.open{opacity:1;transform:none;pointer-events:auto}
-.sheet a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:16px;border:1px solid var(--line2);color:var(--ink);font-weight:650;font-size:14.5px}
+.sheet{position:fixed;z-index:19;top:72px;left:12px;right:12px;padding:12px;border-radius:24px;display:grid;grid-template-columns:1fr 1fr;gap:8px;max-height:calc(100dvh - 90px);overflow:auto;
+  background:var(--card-solid);border:1px solid var(--line);box-shadow:var(--glow);opacity:0;visibility:hidden;transform:translateY(-10px) scale(.98);transition:.25s cubic-bezier(.2,.8,.2,1)}
+.sheet.open{opacity:1;visibility:visible;transform:none}
+.sheet a{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:14px;border:1px solid var(--line2);color:var(--ink);font-weight:650;font-size:14.5px}
 .sheet a:hover{text-decoration:none;border-color:var(--gold)}
-.sheet a i{font:italic 500 24px/1 Fraunces,serif;color:var(--gold);width:22px;text-align:center}
-@media (max-width:1000px){.dock-links{display:none}.menu{display:grid}.mark{margin-right:auto}}
-@media (min-width:1001px){.sheet{display:none}}
+.sheet a i{font:italic 500 22px/1 Fraunces,serif;color:var(--gold);width:22px;text-align:center}
+.sheet a:last-child:nth-child(odd){grid-column:1/-1}
+@media (min-width:1280px){.dock-links a i{display:inline}}
+@media (max-width:1139px){.dock-links{display:none}.menu{display:grid}.mark{margin-right:auto}}
+@media (min-width:1140px){.sheet{display:none}}
+@media (max-width:380px){.mark .nm small{display:none}.sheet{grid-template-columns:1fr}}
 
-/* ---------- layout ---------- */
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 20px}
-section{padding:90px 0 30px;scroll-margin-top:84px}
-.sh{display:flex;align-items:baseline;gap:16px;margin-bottom:10px}
-.num{font-family:'IBM Plex Mono',monospace;color:var(--gold);font-size:13px;letter-spacing:.1em;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
-h2{font-family:Fraunces,serif;font-weight:650;font-variation-settings:'opsz' 96,'SOFT' 50;font-size:clamp(28px,4.4vw,46px);line-height:1.08;margin:0;letter-spacing:-.025em}
+/* =========================================================
+   LAYOUT PRIMITIVES
+   ========================================================= */
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
+section{padding:clamp(56px,8vw,96px) 0 0;scroll-margin-top:72px}
+.sh{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
+.num{font:500 12.5px 'IBM Plex Mono',monospace;color:var(--gold);letter-spacing:.1em;padding:4px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+h2{font-family:Fraunces,serif;font-weight:650;font-variation-settings:'opsz' 96,'SOFT' 50;font-size:clamp(28px,4.4vw,46px);line-height:1.1;margin:0;letter-spacing:-.025em}
 h2 em{font-style:italic;font-weight:500;color:var(--gold2)}
-h3{font-size:18px;margin:0 0 8px;font-weight:700;letter-spacing:-.01em}
-.lede{color:var(--ink2);max-width:720px;margin:6px 0 30px;text-shadow:0 0 14px var(--bg),0 0 4px var(--bg)}
-h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)}
-@media (max-width:640px){.hero-in>p,.hero-in>.eyebrow{background:color-mix(in srgb,var(--bg) 62%,transparent);border-radius:12px;backdrop-filter:blur(3px);-webkit-backdrop-filter:blur(3px)}}
-.card{background:var(--card);border:1px solid var(--line2);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow);
-  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,border-color .35s}
+h3{font-size:18px;margin:0 0 8px;font-weight:700;letter-spacing:-.01em;line-height:1.35}
+.lede{color:var(--ink2);max-width:66ch;margin:0 0 28px;font-size:clamp(15.5px,1.6vw,17px)}
+.card{background:var(--card);border:1px solid var(--line2);border-radius:var(--r);padding:clamp(20px,3vw,28px);box-shadow:var(--shadow);
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);transition:transform .3s cubic-bezier(.2,.8,.2,1),box-shadow .3s,border-color .3s;min-width:0}
 .card.lift:hover{transform:translateY(-4px);box-shadow:var(--glow);border-color:var(--line)}
 .grid{display:grid;gap:18px}
 .g2{grid-template-columns:repeat(2,minmax(0,1fr))}
 .g3{grid-template-columns:repeat(3,minmax(0,1fr))}
-@media (max-width:900px){.g3{grid-template-columns:1fr 1fr}}
-@media (max-width:640px){.g2,.g3{grid-template-columns:1fr} section{padding-top:70px}}
-.tag{display:inline-block;font-size:12px;font-weight:500;padding:3px 10px;border-radius:999px;border:1px solid var(--line);color:var(--gold2);margin:3px 4px 0 0;background:color-mix(in srgb,var(--gold) 7%,transparent)}
-.btn{display:inline-flex;align-items:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:600;font-size:14px;border:1px solid var(--line);color:var(--ink);background:var(--card);cursor:pointer;transition:.2s}
+@media (max-width:960px){.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:760px){.g2,.g3{grid-template-columns:minmax(0,1fr)}}
+.tag{display:inline-block;font-size:12px;font-weight:600;padding:2px 10px;border-radius:999px;border:1px solid var(--line);color:var(--gold2);margin:4px 5px 0 0;background:color-mix(in srgb,var(--gold) 8%,transparent);line-height:1.7}
+a.tag:hover{border-color:var(--gold);text-decoration:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:10px 18px;border-radius:999px;font-weight:700;font-size:14px;border:1px solid var(--line);color:var(--ink);background:var(--card);cursor:pointer;transition:.2s;line-height:1.3;font-family:inherit}
 .btn:hover{border-color:var(--gold);text-decoration:none;transform:translateY(-1px)}
-.btn.pri{background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208;border-color:transparent}
-.btn[aria-disabled="true"]{opacity:.45;pointer-events:none}
-.muted{color:var(--muted)}
-.mono{font-family:'IBM Plex Mono',monospace}
+.btn.pri{background:linear-gradient(135deg,var(--gold),var(--ember));color:var(--on-gold);border-color:transparent}
+.btn.pri:hover{filter:brightness(1.08)}
+.btn[aria-disabled="true"]{opacity:.5;pointer-events:none}
+.sub{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:20px 0 8px;font-weight:700}
+.sub:first-child{margin-top:0}
 
-/* ---------- hero ---------- */
-.hero{min-height:100vh;display:flex;align-items:center;padding:120px 0 40px}
-.hero-in{max-width:var(--maxw);margin:0 auto;padding:0 20px;width:100%}
-.eyebrow{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px}
-.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold)}
-.hero h1{font-family:Fraunces,serif;font-weight:640;font-variation-settings:'opsz' 144,'SOFT' 100;font-size:clamp(46px,9vw,118px);line-height:.94;margin:18px 0 14px;letter-spacing:-.045em;
-  text-shadow:0 2px 30px color-mix(in srgb,var(--bg) 80%,transparent)}
+/* =========================================================
+   HERO
+   ========================================================= */
+.hero{min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:112px 0 48px}
+.hero-in{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut);width:100%}
+.eyebrow{font:500 12px 'IBM Plex Mono',monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.eyebrow::before{content:"";width:34px;height:1px;background:var(--gold);flex:none}
+.hero h1{font-family:Fraunces,serif;font-weight:640;font-variation-settings:'opsz' 144,'SOFT' 100;font-size:clamp(44px,9vw,112px);line-height:.96;margin:18px 0 16px;letter-spacing:-.045em}
 .hero h1 .gl{font-style:italic;font-weight:500;padding-right:.08em;background:linear-gradient(100deg,var(--gold2) 10%,var(--ember) 50%,var(--gold) 90%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% 100%;animation:sheen 8s ease-in-out infinite}
 @keyframes sheen{50%{background-position:100% 0}}
-.who{font-size:clamp(18px,2.4vw,22px);font-weight:600;margin:0}
-.who span{color:var(--ink2);font-weight:400}
-.tagline{font-family:Manrope,system-ui,sans-serif;font-style:normal;font-weight:400;font-size:clamp(18px,2vw,22px);line-height:1.7;color:var(--ink2);max-width:640px;margin:18px 0 28px}
+.reg{display:inline-flex;align-items:center;gap:10px;font:500 13px 'IBM Plex Mono',monospace;color:var(--ink2);padding:6px 14px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
+.reg b{color:var(--gold2);font-weight:600}
+.tagline{font-size:clamp(17px,2vw,21px);line-height:1.65;color:var(--ink2);max-width:58ch;margin:20px 0 28px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
-.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:54px}
-.stat{padding:18px 18px 16px}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:48px}
+.stat{padding:20px}
 .stat .v{font-family:Fraunces,serif;font-size:clamp(28px,3.6vw,40px);font-weight:600;letter-spacing:-.03em;color:var(--gold2);line-height:1}
-.stat .k{font-size:13px;color:var(--ink2);margin-top:8px;line-height:1.4}
-@media (max-width:760px){.stats{grid-template-columns:1fr 1fr}}
-.hint{margin-top:26px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
-.hint i{font-style:normal;display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
+.stat .k{font-size:13.5px;color:var(--ink2);margin-top:10px;line-height:1.45}
+.pending{margin-top:14px;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.pending .card{padding:18px 20px;display:flex;gap:14px;align-items:flex-start}
+.pending .pv{font-family:Fraunces,serif;font-size:26px;font-weight:600;color:var(--gold2);line-height:1.1;flex:none;min-width:48px}
+.pending p{margin:0;font-size:13.5px;color:var(--ink2);line-height:1.55}
+.pending p b{display:block;color:var(--ink);font-size:14px;margin-bottom:2px}
+@media (max-width:860px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.pending{grid-template-columns:1fr}}
+@media (max-width:420px){.stats{gap:10px}.stat{padding:16px}}
+.hint{margin-top:22px;font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:8px}
+.hint i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px var(--gold);animation:pulse 2s infinite}
 @keyframes pulse{50%{opacity:.3}}
 
-/* ---------- about ---------- */
-.about{display:grid;grid-template-columns:1.25fr 1fr;gap:18px}
-@media (max-width:820px){.about{grid-template-columns:1fr}}
-.about p{margin:0 0 12px;color:var(--ink2)}
+/* =========================================================
+   ABOUT
+   ========================================================= */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:start}
+@media (max-width:860px){.about{grid-template-columns:minmax(0,1fr)}}
+.about p{margin:0 0 14px;color:var(--ink2)}
+.about p:last-child{margin-bottom:0}
 .about p strong{color:var(--ink)}
 .facts{list-style:none;margin:0;padding:0}
-.facts li{display:flex;gap:12px;padding:10px 0;border-bottom:1px dashed var(--line2);font-size:14.5px}
-.facts li:last-child{border:0}
-.facts b{color:var(--gold);min-width:110px;font-weight:600;font-size:13px;text-transform:uppercase;letter-spacing:.06em;padding-top:2px}
+.facts li{display:grid;grid-template-columns:104px 1fr;gap:12px;padding:12px 0;border-bottom:1px dashed var(--line2);font-size:14.5px;color:var(--ink2)}
+.facts li:first-child{padding-top:0}
+.facts li:last-child{border:0;padding-bottom:0}
+.facts b{color:var(--gold);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.08em;padding-top:3px}
+.facts span{overflow-wrap:anywhere}
+@media (max-width:420px){.facts li{grid-template-columns:1fr;gap:2px}}
 
-/* ---------- class log ---------- */
-.ledger{width:100%;border-collapse:collapse;font-size:14.5px}
-.ledger td{padding:11px 6px;border-bottom:1px dashed var(--line2)}
-.ledger td:last-child{text-align:right;color:var(--gold);letter-spacing:2px;white-space:nowrap}
-.ledger tr.tot td{border:0;font-weight:700;padding-top:14px}
-.empty{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--ink2);background:color-mix(in srgb,var(--gold) 4%,transparent)}
+/* =========================================================
+   CLASS LEDGER
+   ========================================================= */
+.lrow{display:grid;grid-template-columns:104px 1fr auto;gap:12px;align-items:baseline;padding:10px 0;border-bottom:1px dashed var(--line2);font-size:14.5px}
+.lrow .d{font:500 12px 'IBM Plex Mono',monospace;color:var(--muted)}
+.lrow .w{color:var(--ink);overflow-wrap:anywhere}
+.lrow .s{color:var(--gold);letter-spacing:2px;white-space:nowrap;text-align:right;font-size:14px}
+.lrow.tot{border:0;font-weight:800;padding-top:14px}
+.lrow.tot .s{font-size:16px;letter-spacing:0;color:var(--gold2)}
+@media (max-width:520px){.lrow{grid-template-columns:1fr auto;gap:0 12px}.lrow .d{grid-column:1/-1}}
+.empty{border:1px dashed var(--line);border-radius:14px;padding:22px;text-align:center;color:var(--ink2);background:color-mix(in srgb,var(--gold) 5%,transparent)}
 .empty .gly{font-size:34px;color:var(--gold);display:block;margin-bottom:6px;font-family:Fraunces,serif}
 .qa{display:flex;flex-direction:column;gap:6px}
-.qa .stars{color:var(--gold);letter-spacing:2px;font-size:14px}
+.qa .stars{color:var(--gold2);letter-spacing:1px;font:600 13px 'IBM Plex Mono',monospace}
+.recognition{display:flex;align-items:center;gap:14px;padding:16px 18px;margin-top:18px;border:1px solid var(--line);border-radius:14px;background:color-mix(in srgb,var(--gold) 9%,transparent)}
+.recognition>span{font-size:34px;color:var(--gold);line-height:1}
+.recognition strong{color:var(--gold2)}
+.recognition p{font-size:13.5px;color:var(--ink2);margin:2px 0 0;line-height:1.55}
+.evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-top:14px}
+.evidence figure{margin:0;min-width:0}
+.evidence a{display:block;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:var(--bg2);transition:border-color .2s}
+.evidence a:hover{border-color:var(--gold)}
+.evidence img{display:block;width:100%;height:210px;object-fit:contain}
+.evidence figcaption{color:var(--ink2);font-size:12.5px;line-height:1.5;margin-top:7px}
+.course-entry+.course-entry{border-top:1px dashed var(--line2);padding-top:16px;margin-top:16px}
+.course-entry p{overflow-wrap:anywhere}
+details{margin-top:12px}
+summary{cursor:pointer;color:var(--gold2);font-weight:700;line-height:1.5;font-size:14px;padding:2px 0}
+summary:hover{text-decoration:underline;text-underline-offset:3px}
+.course-entry ul{padding-left:20px;margin:8px 0 0}
+.course-entry li{margin:8px 0;color:var(--ink2);font-size:14px;overflow-wrap:anywhere}
+.document{border-top:1px dashed var(--line2);padding-top:16px;margin-top:16px}
+.document:first-of-type{border-top:0;padding-top:0}
+.document>summary{font-size:15.5px}
+.document iframe{display:block;width:100%;height:min(70vh,680px);border:1px solid var(--line);border-radius:12px;margin-top:16px;background:#fff}
+@media (max-width:700px){.document iframe{display:none}.evidence img{height:190px}}
 
-/* ---------- projects ---------- */
-.proj{display:grid;grid-template-columns:1fr 1.1fr;gap:26px;align-items:start;padding:30px}
+/* =========================================================
+   PROJECTS
+   ========================================================= */
+.proj{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);gap:clamp(22px,4vw,40px);align-items:start;padding:clamp(22px,3.5vw,36px)}
 .proj+.proj{margin-top:20px}
-@media (max-width:860px){.proj{grid-template-columns:1fr;padding:22px}}
-.proj .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
-.proj h3{font-family:Fraunces,serif;font-weight:650;font-size:36px;margin:6px 0 4px;letter-spacing:-.03em}
-.proj h3 small{font-weight:400;font-style:italic;font-size:22px;color:var(--ink2);margin-left:8px;letter-spacing:0}
-.proj .one{color:var(--ink2);margin:0 0 14px}
-.proj ul{margin:0;padding-left:18px;color:var(--ink2)}
-.proj ul li{margin:5px 0}
+@media (max-width:900px){.proj{grid-template-columns:minmax(0,1fr)}}
+.kicker{font:500 12px 'IBM Plex Mono',monospace;color:var(--ember);letter-spacing:.1em;text-transform:uppercase;line-height:1.5}
+.proj h3{font-family:Fraunces,serif;font-weight:650;font-size:clamp(30px,4vw,38px);margin:8px 0 6px;letter-spacing:-.03em;line-height:1.1}
+.proj h3 small{font-weight:400;font-style:italic;font-size:.6em;color:var(--ink2);margin-left:8px;letter-spacing:0}
+.one{color:var(--ink2);margin:0 0 14px}
+.one b{color:var(--ink)}
+.proj ul{margin:0;padding-left:20px;color:var(--ink2)}
+.proj ul li{margin:8px 0;overflow-wrap:anywhere}
 .proj ul li b{color:var(--ink)}
 .flow{display:flex;flex-direction:column;gap:8px}
-.step{display:grid;grid-template-columns:30px 1fr;gap:12px;align-items:start;padding:12px 14px;border-radius:12px;background:color-mix(in srgb,var(--bg) 55%,transparent);border:1px solid var(--line2)}
-.step .n{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-family:'IBM Plex Mono',monospace;font-size:12px;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold2)}
-.step b{display:block;font-size:14.5px}
-.step span{font-size:13.5px;color:var(--ink2)}
-.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
-.metric{border:1px solid var(--line2);border-radius:12px;padding:12px;text-align:center}
-.metric .v{font-family:Fraunces,serif;font-weight:700;font-size:22px;color:var(--gold2)}
-.metric .k{font-size:12px;color:var(--ink2);line-height:1.3}
-.links-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
-.quote{font-family:Fraunces,serif;font-style:italic;font-size:19px;color:var(--ink);border-left:2px solid var(--gold);padding:2px 0 2px 14px;margin:14px 0}
+.step{display:grid;grid-template-columns:32px minmax(0,1fr);gap:12px;align-items:start;padding:12px 14px;border-radius:var(--r-sm);background:var(--inset);border:1px solid var(--line2)}
+.step .n{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font:500 12px 'IBM Plex Mono',monospace;background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold2)}
+.step b{display:block;font-size:14.5px;line-height:1.45;overflow-wrap:anywhere}
+.step span{font-size:13.5px;color:var(--ink2);overflow-wrap:anywhere}
+.step u{text-decoration-color:var(--ember);text-decoration-thickness:2px;text-underline-offset:3px}
+.step.active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 9%,transparent)}
+.step.active .n{background:linear-gradient(135deg,var(--gold),var(--ember));color:var(--on-gold)}
+.step.active b::after{content:"in progress";margin-left:8px;font:600 10.5px 'IBM Plex Mono',monospace;color:var(--gold2);letter-spacing:.06em;text-transform:uppercase;vertical-align:2px}
+.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin:16px 0}
+.metric{border:1px solid var(--line2);border-radius:var(--r-sm);padding:14px 10px;text-align:center;background:var(--inset)}
+.metric .v{font-family:Fraunces,serif;font-weight:700;font-size:24px;color:var(--gold2);line-height:1.1}
+.metric .k{font-size:12px;color:var(--ink2);line-height:1.35;margin-top:4px}
+.links-row{display:flex;flex-wrap:wrap;gap:10px;margin-top:18px}
+.quote{font-family:Fraunces,serif;font-style:italic;font-size:clamp(17px,2vw,19px);color:var(--ink);border-left:3px solid var(--gold);padding:2px 0 2px 16px;margin:16px 0;line-height:1.5}
 .chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
-.chip{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:5px 10px;border-radius:8px;background:color-mix(in srgb,var(--bg) 60%,transparent);border:1px solid var(--line2)}
+.chip{font:12.5px 'IBM Plex Mono',monospace;padding:5px 10px;border-radius:8px;background:var(--inset);border:1px solid var(--line2);overflow-wrap:anywhere}
 .chip em{font-style:normal;color:var(--jade)}
-
-/* ---------- flagship + in progress ---------- */
-.flagship{position:relative;border-color:var(--line)}
+.flagship{border-color:var(--line);position:relative}
 .flagship::before{content:"";position:absolute;inset:-1px;border-radius:inherit;padding:1px;pointer-events:none;
   background:linear-gradient(130deg,var(--gold),transparent 35%,transparent 65%,var(--ember));
   -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
-.shot{margin:14px 0 0;border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:var(--card-solid)}
+.shot{margin:16px 0 0;border-radius:14px;overflow:hidden;border:1px solid var(--line2);background:var(--card-solid)}
 .shot img{display:block;width:100%;height:auto}
-.shot figcaption{font-size:12.5px;color:var(--ink2);padding:9px 12px}
-.step u{text-decoration-color:var(--ember);text-decoration-thickness:2px;text-underline-offset:3px}
-.wip{padding:30px}
-@media (max-width:640px){.wip{padding:22px}}
+.shot figcaption{font-size:12.5px;color:var(--ink2);padding:10px 12px}
+.bars{display:flex;flex-direction:column;gap:9px}
+.bar{display:grid;grid-template-columns:minmax(90px,130px) 1fr 44px;gap:10px;align-items:center;font-size:13px;color:var(--ink2)}
+.bar .t{height:10px;border-radius:99px;background:var(--line2);overflow:hidden}
+.bar .t i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--ember));transition:width .5s cubic-bezier(.2,.8,.2,1)}
+.bar>span:last-child{text-align:right}
+@media (max-width:420px){.bar{grid-template-columns:90px 1fr 38px;gap:8px}}
+
+/* ---------- in progress ---------- */
 .wip-head{display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap}
-.wip-title{font-family:Fraunces,serif;font-weight:650;font-size:34px;letter-spacing:-.03em;margin:6px 0 0}
-.wip-title small{display:block;font-weight:400;font-style:italic;font-size:19px;color:var(--ink2);letter-spacing:0;margin-top:4px}
-.wip .kicker{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--ember);letter-spacing:.12em;text-transform:uppercase}
-.wip .one{color:var(--ink2);margin:0 0 12px}
-.wip .one b{color:var(--ink)}
-.status{display:inline-flex;align-items:center;gap:8px;font:600 12.5px 'IBM Plex Mono',monospace;padding:7px 13px;border-radius:999px;border:1px solid var(--line);color:var(--gold2);background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.wip-title{font-family:Fraunces,serif;font-weight:650;font-size:clamp(28px,4vw,36px);letter-spacing:-.03em;margin:8px 0 0;line-height:1.1}
+.wip-title small{display:block;font-weight:400;font-style:italic;font-size:.55em;color:var(--ink2);letter-spacing:0;margin-top:6px}
+.status{display:inline-flex;align-items:center;gap:8px;font:600 12.5px 'IBM Plex Mono',monospace;padding:7px 13px;border-radius:999px;border:1px solid var(--line);color:var(--gold2);background:color-mix(in srgb,var(--gold) 9%,transparent)}
 .status i{width:8px;height:8px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px var(--gold);animation:pulse 1.4s infinite}
-.loadbar{height:4px;border-radius:99px;background:var(--line2);overflow:hidden;margin:20px 0 24px;position:relative}
+.loadbar{height:4px;border-radius:99px;background:var(--line2);overflow:hidden;margin:22px 0 26px;position:relative}
 .loadbar span{position:absolute;top:0;bottom:0;width:35%;border-radius:99px;background:linear-gradient(90deg,transparent,var(--gold),var(--ember),transparent);animation:load 2.2s cubic-bezier(.6,0,.4,1) infinite}
 @keyframes load{from{left:-35%}to{left:100%}}
-.loading-num{position:relative}
-.wip-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:28px}
-@media (max-width:860px){.wip-grid{grid-template-columns:1fr}}
-.step.active{border-color:var(--gold);background:color-mix(in srgb,var(--gold) 9%,transparent)}
-.step.active .n{background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208}
-.step.active b::after{content:"in progress";margin-left:8px;font:600 10.5px 'IBM Plex Mono',monospace;color:var(--gold2);letter-spacing:.06em;text-transform:uppercase;vertical-align:2px}
-.interlinear{border:1px solid var(--line2);border-radius:14px;padding:12px 14px;background:color-mix(in srgb,var(--bg) 55%,transparent);display:flex;flex-direction:column;gap:8px}
+.wip-grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:clamp(22px,4vw,36px)}
+@media (max-width:900px){.wip-grid{grid-template-columns:minmax(0,1fr)}}
+.interlinear{border:1px solid var(--line2);border-radius:14px;padding:14px;background:var(--inset);display:flex;flex-direction:column;gap:8px}
 .il-row{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
 .il-src{font-family:'Noto Serif','Noto Serif Hebrew','Times New Roman',serif;font-size:24px;color:var(--gold2);min-width:96px}
 .il-tr{font-size:13.5px;color:var(--ink2)}
-.il-flag{font-size:13px;color:var(--ink);border-top:1px dashed var(--line2);padding-top:8px}
+.il-flag{font-size:13.5px;color:var(--ink);border-top:1px dashed var(--line2);padding-top:8px}
 
-/* ---------- playground ---------- */
-.pg textarea{width:100%;min-height:110px;resize:vertical;font:15px/1.6 Manrope,'Noto Sans',sans-serif;color:var(--ink);background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line);border-radius:12px;padding:14px;outline:none}
-.pg textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+/* =========================================================
+   PLAYGROUND
+   ========================================================= */
+textarea{width:100%;min-height:110px;resize:vertical;font:15px/1.6 Manrope,'Noto Sans',sans-serif;color:var(--ink);background:var(--inset);border:1px solid var(--line);border-radius:12px;padding:14px;outline:none;transition:.2s}
+textarea:focus{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 22%,transparent)}
 .presets{display:flex;flex-wrap:wrap;gap:6px;margin:10px 0 16px}
-.presets button{font:12.5px Manrope,sans-serif;padding:5px 11px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer}
+.presets button{font:600 12.5px Manrope,sans-serif;padding:6px 12px;border-radius:999px;border:1px solid var(--line2);background:transparent;color:var(--ink2);cursor:pointer;transition:.2s}
 .presets button:hover{border-color:var(--gold);color:var(--ink)}
-.bars{display:flex;flex-direction:column;gap:8px}
-.bar{display:grid;grid-template-columns:110px 1fr 46px;gap:10px;align-items:center;font-size:13px}
-.bar .t{height:10px;border-radius:99px;background:var(--line2);overflow:hidden}
-.bar .t i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold),var(--ember));transition:width .5s cubic-bezier(.2,.8,.2,1)}
 .toks{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px;max-height:150px;overflow:auto}
-.tok{font-family:'IBM Plex Mono',monospace;font-size:12.5px;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--lapis) 14%,transparent);border:1px solid color-mix(in srgb,var(--lapis) 30%,transparent)}
-.kv{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:14px 0}
-.kv div{text-align:center;border:1px solid var(--line2);border-radius:10px;padding:10px 4px}
-.kv b{display:block;font-family:Fraunces,serif;font-size:20px;color:var(--gold2)}
+.tok{font:12.5px 'IBM Plex Mono',monospace;padding:3px 8px;border-radius:6px;background:color-mix(in srgb,var(--lapis) 15%,transparent);border:1px solid color-mix(in srgb,var(--lapis) 32%,transparent);color:var(--ink)}
+.kv{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:14px 0}
+.kv div{text-align:center;border:1px solid var(--line2);border-radius:10px;padding:10px 4px;background:var(--inset)}
+.kv b{display:block;font-family:Fraunces,serif;font-size:20px;color:var(--gold2);line-height:1.2}
 .kv span{font-size:11.5px;color:var(--ink2)}
-.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding:14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--gold) 6%,transparent)}
-.verdict .lab{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:14px;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--ember));color:#1a1208}
-.why{font-size:13px;color:var(--ink2);margin-top:8px}
-.why mark{background:color-mix(in srgb,var(--gold) 30%,transparent);color:var(--ink);border-radius:4px;padding:0 3px}
-.sub{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin:16px 0 6px;font-weight:600}
+.verdict{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px;padding:14px;border-radius:12px;border:1px solid var(--line);background:color-mix(in srgb,var(--gold) 7%,transparent)}
+.verdict .lab{font:600 14px 'IBM Plex Mono',monospace;padding:5px 12px;border-radius:8px;background:linear-gradient(135deg,var(--gold),var(--ember));color:var(--on-gold)}
+.why{font-size:13.5px;color:var(--ink2);margin-top:10px;overflow-wrap:anywhere}
+.why mark{background:color-mix(in srgb,var(--gold) 32%,transparent);color:var(--ink);border-radius:4px;padding:0 3px}
+.pg h3+.muted{color:var(--ink2)}
 
-/* ---------- pipeline ---------- */
-.pipe{display:flex;gap:8px;overflow-x:auto;padding:4px 2px 12px;scrollbar-width:thin}
-.pipe button{flex:1 0 auto;min-width:120px;padding:14px 12px;border-radius:14px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;font:600 13.5px Manrope,sans-serif;text-align:left;position:relative;transition:.25s}
-.pipe button small{display:block;font:11px 'IBM Plex Mono',monospace;color:var(--muted);margin-bottom:4px}
+/* =========================================================
+   PIPELINE
+   ========================================================= */
+.pipe{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:14px}
+.pipe button{padding:12px;border-radius:14px;border:1px solid var(--line2);background:var(--card);color:var(--ink2);cursor:pointer;font:700 13.5px Manrope,sans-serif;text-align:left;transition:.2s}
+.pipe button small{display:block;font:11px 'IBM Plex Mono',monospace;color:var(--muted);margin-bottom:2px}
 .pipe button:hover{border-color:var(--line);color:var(--ink)}
-.pipe button.on{border-color:var(--gold);color:var(--ink);background:color-mix(in srgb,var(--gold) 12%,var(--card-solid));box-shadow:var(--glow)}
-.pipe-body{display:grid;grid-template-columns:1.2fr 1fr;gap:22px}
-@media (max-width:760px){.pipe-body{grid-template-columns:1fr}}
-.pipe-body pre{margin:0;font:12.5px/1.6 'IBM Plex Mono',monospace;background:color-mix(in srgb,var(--bg) 70%,transparent);border:1px solid var(--line2);border-radius:12px;padding:14px;white-space:pre-wrap;color:var(--ink2)}
-.pipe-body .used{margin-top:12px;font-size:14px;color:var(--ink2)}
+.pipe button.on{border-color:var(--gold);color:var(--ink);background:color-mix(in srgb,var(--gold) 13%,var(--card-solid));box-shadow:var(--glow)}
+@media (max-width:900px){.pipe{grid-template-columns:repeat(auto-fit,minmax(120px,1fr))}}
+@media (max-width:560px){.pipe{display:flex;overflow-x:auto;scroll-snap-type:x proximity;padding-bottom:8px;margin-inline:calc(var(--gut) * -1);padding-inline:var(--gut)}.pipe button{flex:0 0 128px;scroll-snap-align:start}}
+.pipe-body{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1fr);gap:24px}
+@media (max-width:760px){.pipe-body{grid-template-columns:minmax(0,1fr)}}
+.pipe-body pre{margin:0;font:12.5px/1.65 'IBM Plex Mono',monospace;background:var(--inset);border:1px solid var(--line2);border-radius:12px;padding:16px;white-space:pre-wrap;overflow-wrap:anywhere;color:var(--ink2)}
+.pipe-body h3{font-family:Fraunces,serif;font-size:26px}
+.pipe-body .used{margin-top:14px;font-size:14.5px;color:var(--ink2)}
 .pipe-body .used b{color:var(--jade)}
 
-/* ---------- scripts legend ---------- */
+/* =========================================================
+   SCRIPTS + CONTACT + FOOTER
+   ========================================================= */
 .glyphs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
-.gcard{padding:16px;text-align:center;cursor:pointer}
-.gcard .g{font-size:46px;line-height:1.2;color:var(--gold2);height:62px;display:grid;place-items:center}
-.gcard b{display:block;font-size:13.5px;margin-top:6px}
+.gcard{padding:16px 12px;text-align:center;cursor:pointer}
+.gcard .g{font-size:44px;line-height:1.2;color:var(--gold2);height:62px;display:grid;place-items:center}
+.gcard b{display:block;font-size:13.5px;margin-top:6px;line-height:1.35}
 .gcard span{font-size:12px;color:var(--muted)}
-
-/* ---------- contact / footer ---------- */
-.contact{text-align:center;padding:46px 24px}
-.contact h2{margin-bottom:10px}
-.contact .cta{justify-content:center;margin-top:22px}
-footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13px}
-
-/* ---------- toast ---------- */
-.toast{position:fixed;z-index:30;left:50%;bottom:24px;transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.35s;
-  background:var(--card-solid);border:1px solid var(--line);box-shadow:var(--glow);border-radius:14px;padding:12px 18px;display:flex;gap:14px;align-items:center;max-width:calc(100vw - 32px)}
+@media (max-width:480px){.glyphs{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}}
+.contact{text-align:center;padding:clamp(32px,6vw,56px) clamp(20px,4vw,40px)}
+.contact h2{margin-bottom:12px}
+.contact .eyebrow{justify-content:center}
+.contact .eyebrow::before{display:none}
+.contact .cta{justify-content:center;margin-top:24px}
+footer{padding:56px var(--gut) 48px;text-align:center;color:var(--muted);font-size:13px}
+.toast{position:fixed;z-index:30;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;pointer-events:none;transition:.35s;
+  background:var(--card-solid);border:1px solid var(--line);box-shadow:var(--glow);border-radius:16px;padding:12px 18px;display:flex;gap:14px;align-items:center;width:max-content;max-width:calc(100vw - 32px)}
 .toast.show{opacity:1;transform:translate(-50%,0)}
-.toast .g{font-size:34px;color:var(--gold2)}
-.toast b{display:block}
+.toast .g{font-size:34px;color:var(--gold2);line-height:1}
+.toast b{display:block;font-size:14px}
 .toast span{font-size:13px;color:var(--ink2)}
 
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
-.reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.hero h1 .gl{animation:none}html{scroll-behavior:auto}}
-
-/* Coursework additions follow the existing cards, colours and type scale. */
-.ring span{overflow:hidden;padding:0;background:var(--card-solid)}
-.ring span img{display:block;width:100%;height:100%;object-fit:cover}
-.stats .stat .v{overflow-wrap:anywhere;font-size:clamp(25px,3vw,40px)}
-.evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px;margin-top:14px}
-.evidence figure{margin:0;min-width:0}
-.evidence a{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
-.evidence img{display:block;width:100%;height:220px;object-fit:contain}
-.evidence figcaption{color:var(--ink2);font-size:12px;line-height:1.5;margin-top:7px}
-.recognition{display:flex;align-items:center;gap:14px;padding:18px;margin-top:18px;border:1px solid var(--gold);border-radius:14px;background:color-mix(in srgb,var(--gold) 8%,transparent)}
-.recognition>span{font-size:38px;color:var(--gold)}
-.recognition strong{color:var(--gold2)}
-.recognition p{font-size:13px;color:var(--ink2);margin:4px 0 0}
-.course-entry+.course-entry{border-top:1px dashed var(--line2);padding-top:16px}
-.course-entry details,.document{margin-top:12px}
-summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
-.course-entry li{margin:8px 0;color:var(--ink2);font-size:14px;overflow-wrap:anywhere}
-.course-entry ul{padding-left:20px}
-.document{border-top:1px dashed var(--line2);padding-top:16px}
-.document iframe{display:block;width:100%;height:650px;border:1px solid var(--line);border-radius:12px;margin-top:16px;background:#fff}
-.ledger td{overflow-wrap:anywhere;vertical-align:top}
-.ledger td:last-child{white-space:normal;min-width:50px}
-@media(max-width:640px){.document iframe{height:480px}.evidence img{height:200px}.ledger{font-size:13px}.facts b{min-width:85px}}
-
+/* reveal: only hide when JS is running */
+.js .reveal{opacity:0;transform:translateY(20px);transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1)}
+.js .reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.js .reveal{opacity:1;transform:none;transition:none}.hero h1 .gl{animation:none}html{scroll-behavior:auto}.loadbar span,.status i,.hint i{animation:none}}
+@media (max-width:640px){body{font-size:15.5px}.btn{padding:10px 16px}.cta .btn{flex:1 1 auto}}
 </style>
 </head>
 <body>
+<a class="skip" href="#about">Skip to content</a>
 <canvas id="stage" aria-hidden="true"></canvas>
 <div class="veil"></div>
 <div class="grain"></div>
 
 <header class="dock" id="dock">
   <a class="mark" href="#top" aria-label="Hanniel Vinu A, back to top">
-    <span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d595"/><stop offset="1" stop-color="#d9774a"/></linearGradient></defs><circle class="bgc" cx="20" cy="20" r="18"/><circle class="pc" id="ringP" cx="20" cy="20" r="18"/></svg><span><img src="assets/navbar-logo.jpg" alt="Hanniel Vinu A" width="30" height="30"></span></span>
+    <span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d595"/><stop offset="1" stop-color="#d9774a"/></linearGradient></defs><circle class="bgc" cx="20" cy="20" r="18"/><circle class="pc" id="ringP" cx="20" cy="20" r="18"/></svg><span><img src="assets/navbar-logo.jpg" alt="" width="32" height="32"></span></span>
     <span class="nm"><b>Hanniel Vinu A</b><small>NLP · portfolio</small></span>
   </a>
   <nav class="dock-links" id="dockLinks" aria-label="Sections">
@@ -321,11 +374,12 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
     <a href="#about"><i>α</i>About</a>
     <a href="#class"><i>β</i>Class</a>
     <a href="#projects"><i>γ</i>Projects</a>
-    <a href="#progress"><i>δ</i>In progress</a>
+    <a href="#progress"><i>δ</i>Building</a>
     <a href="#playground"><i>ε</i>Playground</a>
     <a href="#pipeline"><i>ζ</i>Pipeline</a>
     <a href="#scripts"><i>η</i>Scripts</a>
-    <a href="#contact"><i>θ</i>Contact</a>
+    <a href="#achievements"><i>θ</i>Beyond</a>
+    <a href="#contact"><i>ι</i>Contact</a>
   </nav>
   <button class="tbtn" id="theme" aria-label="Toggle light or dark theme" title="Toggle theme"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"/></svg></button>
   <button class="menu" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="sheet"><span></span></button>
@@ -334,11 +388,12 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
   <a href="#about"><i>α</i>About</a>
   <a href="#class"><i>β</i>Class</a>
   <a href="#projects"><i>γ</i>Projects</a>
-  <a href="#progress"><i>δ</i>In progress</a>
+  <a href="#progress"><i>δ</i>Building</a>
   <a href="#playground"><i>ε</i>Playground</a>
   <a href="#pipeline"><i>ζ</i>Pipeline</a>
   <a href="#scripts"><i>η</i>Scripts</a>
-  <a href="#contact"><i>θ</i>Contact</a>
+  <a href="#achievements"><i>θ</i>Beyond</a>
+  <a href="#contact"><i>ι</i>Contact</a>
 </nav>
 
 <main id="top">
@@ -347,7 +402,8 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
     <div class="hero-in">
       <div class="eyebrow">Natural Language Processing · My NLP Portfolio</div>
       <h1>Hanniel <span class="gl">Vinu A</span></h1>
-      <p class="who">Reg.no: 23MID0032</p>
+      <div class="reg">Reg. no <b>23MID0032</b></div>
+      <p class="tagline">Multilingual NLP that checks <em>meaning</em>, not just words: Tamil, Hindi, Hinglish and code-mixed text, built with transparent baselines and a person in the loop.</p>
       <div class="cta">
         <a class="btn pri" href="#projects">Explore my NLP work →</a>
         <a class="btn" href="#playground">Try the playground</a>
@@ -357,11 +413,11 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         <div class="card stat"><div class="v">26 ★</div><div class="k">stars earned in NLP class</div></div>
         <div class="card stat"><div class="v">1 ✦</div><div class="k">Superstar of NLP class badge</div></div>
         <div class="card stat"><div class="v">40+</div><div class="k">questions answered in NLP class</div></div>
+        <div class="card stat"><div class="v">4</div><div class="k">NLP systems built &amp; in progress</div></div>
       </div>
-      <div class="stats">
-        <div class="card stat"><div class="v">4</div><div class="k">NLP systems built & in progress</div></div>
-        <div class="card stat"><div class="v">+3</div><div class="k">CAT 1 marks to be added (+1 confirmed added in paper- vtop pending, +2 subject to mam check it and add.</div></div>
-        <div class="card stat"><div class="v">+😭</div><div class="k">CAT 2 marks to be added (Mam, Please consider mam😭, you can give me a tough NLP Homework to complete for it mam)</div></div>
+      <div class="pending">
+        <div class="card"><span class="pv">+3</span><p><b>CAT 1 marks to be added</b>+1 confirmed added in the paper (VTOP pending); +2 subject to Ma'am checking and adding.</p></div>
+        <div class="card"><span class="pv">+😭</span><p><b>CAT 2 marks to be added</b>Ma'am, please consider 🙏 You can give me a tough NLP homework to complete for it, Ma'am.</p></div>
       </div>
     </div>
   </div>
@@ -375,7 +431,7 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         <p>I'm <strong>Hanniel Vinu A</strong>, a developer from India who loves knowing what makes a computer tick, and then building on top of it. I work across <strong>full-stack development</strong>, <strong>UI/UX</strong>, <strong>data science and AI/ML</strong>, and <strong>embedded systems</strong>, where I've built multiple award-winning projects.</p>
         <p>Natural language processing is where those threads meet. My flagship project, <strong>Semmai</strong>, checks that an AI's action still means what a Tamil speaker asked. Most of the people my projects serve don't write in tidy English: they write <em>"salary aane pe kar dunga bhai"</em>, they speak Tamil or Kannada into a phone, they mix scripts in one sentence. My NLP work is about understanding that language <strong>honestly</strong>: transparent baselines first, held-out evaluation, and a person in the loop whenever the stakes are high.</p>
         <p>Outside code I play CTFs for fun, take on leadership roles, and if I'm not coding I'm probably watching cricket.</p>
-        <p>Major Leadership Roles in<strong>VIT</strong>, I have served as a <strong>Google Student Ambassador [AIR #20]</strong>, <strong>Vice President Public Relations at Toastmasters International</strong>, <strong>Secretary of Innovators Quest Club</strong>, and <strong>Design and Creative Head of The Whitehats Club</strong>.</p>
+        <p>Major leadership roles in <strong>VIT</strong>: <strong>Google Student Ambassador [AIR #20]</strong>, <strong>Vice President Public Relations at Toastmasters International</strong>, <strong>Secretary of Innovators Quest Club</strong>, and <strong>Design and Creative Head of The Whitehats Club</strong>.</p>
       </div>
       <div class="card reveal">
         <ul class="facts">
@@ -397,14 +453,14 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
     <div class="grid g2">
       <div class="card reveal">
         <h3>★ Star ledger</h3>
-        <p class="muted" style="margin-top:-4px;font-size:14px">26 stars = 15 class + 2 for a correct problem + 5 in CAT 1 + 4 for group case-study work. Dates are transcribed where legible; unlabelled topics remain unlabelled.</p>
+        <p class="muted" style="margin:0 0 10px;font-size:14px">26 stars = 15 class + 2 for a correct problem + 5 in CAT 1 + 4 for group case-study work. Dates are transcribed where legible; unlabelled topics remain unlabelled.</p>
         <div id="ledger"></div>
         <div class="recognition"><span aria-hidden="true">✦</span><div><strong>Superstar of NLP class</strong><p>A signed badge of recognition in my class notebook. Its one star is already included in the 15 class stars.</p></div></div>
         <div id="star-evidence"></div>
       </div>
       <div class="card reveal">
         <h3>Class interactions</h3>
-        <p class="muted" style="margin-top:-4px;font-size:14px">40+ questions answered across the semester, with signed recognition for the topics recorded in my notebook.</p>
+        <p class="muted" style="margin:0 0 14px;font-size:14px">40+ questions answered across the semester, with signed recognition for the topics recorded in my notebook.</p>
         <div id="interactions" class="grid" style="gap:10px"></div>
       </div>
     </div>
@@ -415,18 +471,17 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
     </div>
     <div class="card reveal" style="margin-top:18px">
       <h3>Course project</h3>
-      <p class="muted" style="margin:-4px 0 14px;font-size:14px" id="cp-desc">Presentation, repository, demo and write-up for the course project.</p>
+      <p class="muted" style="margin:0 0 4px;font-size:14px" id="cp-desc">Presentation, repository, demo and write-up for the course project.</p>
       <div class="links-row" id="cp-links"></div>
     </div>
-
     <div class="card reveal" style="margin-top:18px">
       <h3>Class presentation</h3>
-      <p class="muted">Presenting Semmai’s semantic verification workflow in NLP class, followed by the team discussion.</p>
+      <p class="muted" style="margin:0">Presenting Semmai’s semantic verification workflow in NLP class, followed by the team discussion.</p>
       <div id="presentation-evidence"></div>
     </div>
     <div class="card reveal" style="margin-top:18px">
       <h3>Coursework documents</h3>
-      <p class="muted">Read the submitted pages here, or open each original PDF in a new tab.</p>
+      <p class="muted" style="margin:0 0 6px">Read the submitted pages here, or open each original PDF in a new tab.</p>
       <details class="document" open><summary>Hands-on home tasks · all five questions, code and outputs</summary>
         <p><a class="btn" href="assets/coursework/handson-homeworks.pdf" target="_blank" rel="noopener">Open hands-on PDF ↗</a></p>
         <div id="handson-pages"></div>
@@ -473,7 +528,7 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         </div>
       </div>
       <div>
-        <div class="sub" style="margin-top:0">What a syntax check misses</div>
+        <div class="sub">What a syntax check misses</div>
         <div class="flow">
           <div class="step"><span class="n">⛔</span><div><b>2022க்கு <u>பிறகு</u> சேர்ந்த ஊழியர்களை காட்டு</b><span>AI wrote <span class="mono">join_date &gt;= '2022-01-01'</span>: "after 2022" became "from 2022" (234 rows instead of 170)</span></div></div>
           <div class="step"><span class="n">⛔</span><div><b>பயிற்சியாளர்களைத் <u>தவிர</u> மற்ற ஊழியர்களைக் காட்டு</b><span>AI wrote <span class="mono">SELECT name FROM employees</span>: "except interns" was dropped</span></div></div>
@@ -485,7 +540,7 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
           <div class="bar"><span>Without Semmai</span><div class="t"><i style="width:18.3%;background:linear-gradient(90deg,#c0503a,#e07a5f)"></i></div><span class="mono">18.3%</span></div>
           <div class="bar"><span>With Semmai</span><div class="t"><i style="width:0.6%"></i></div><span class="mono">0%</span></div>
         </div>
-        <p class="muted" style="font-size:12.5px;margin:6px 0 0">Wrong answers shown to the user in the Tamil chatbot (at a 40% error rate: 37.0% → 0%).</p>
+        <p class="muted" style="font-size:12.5px;margin:8px 0 0">Wrong answers shown to the user in the Tamil chatbot (at a 40% error rate: 37.0% → 0%).</p>
       </div>
     </article>
 
@@ -512,7 +567,7 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         </div>
       </div>
       <div>
-        <div class="sub" style="margin-top:0">Reply understanding pipeline</div>
+        <div class="sub">Reply understanding pipeline</div>
         <div class="flow">
           <div class="step"><span class="n">01</span><div><b>Normalise</b><span>Lower-case, transliteration variants (nahi / nhi), Devanagari and Latin side by side</span></div></div>
           <div class="step"><span class="n">02</span><div><b>Match the lexicon</b><span>Ordered intent patterns: wrong person › dispute › already paid › cancel › hardship › promise</span></div></div>
@@ -544,7 +599,7 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         </div>
       </div>
       <div>
-        <div class="sub" style="margin-top:0">From a frightened voice note to evidence</div>
+        <div class="sub">From a frightened voice note to evidence</div>
         <div class="flow">
           <div class="step"><span class="n">01</span><div><b>Ingest</b><span>Voice recording, payment screenshot or typed narrative</span></div></div>
           <div class="step"><span class="n">02</span><div><b>Transcribe</b><span>Sarvam STT returns a multilingual transcript (en / hi / ta / kn)</span></div></div>
@@ -576,7 +631,7 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         </div>
       </div>
       <div>
-        <div class="sub" style="margin-top:0">What the classifier hears</div>
+        <div class="sub">What the classifier hears</div>
         <div class="flow">
           <div class="step"><span class="n">“</span><div><b>"Bus ka kiraya nahi hai, gaon bahut door hai"</b><span>→ Travel / distance</span></div></div>
           <div class="step"><span class="n">“</span><div><b>"आयुष्मान कार्ड renew नहीं हुआ"</b><span>→ Scheme paperwork</span></div></div>
@@ -590,9 +645,9 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
 
   <!-- ================= IN PROGRESS ================= -->
   <section id="progress" class="wrap">
-    <div class="sh"><span class="num loading-num">04</span><h2>Now <em>loading</em>…</h2></div>
+    <div class="sh"><span class="num">04</span><h2>Now <em>loading</em>…</h2></div>
     <p class="lede">What I'm building right now. It isn't finished, so there are no results here yet: just the problem, the plan and the first examples.</p>
-    <article class="card wip reveal">
+    <article class="card reveal" style="padding:clamp(22px,3.5vw,36px)">
       <div class="wip-head">
         <div>
           <div class="kicker">In progress · Cross-lingual meaning comparison</div>
@@ -612,10 +667,10 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
             <div class="step"><span class="n">03</span><div><b>Meaning comparison</b><span>Cross-lingual sentence embeddings for verse-level drift; a source-word sense inventory for word-level shifts</span></div></div>
             <div class="step"><span class="n">04</span><div><b>Divergence ledger</b><span>Each flagged verse labelled: omission, addition, lexical collapse, sense narrowing, tense/aspect loss or interpretive rendering</span></div></div>
           </div>
-          <p class="muted" style="font-size:13.5px;margin-top:12px">Same principle as Semmai: <b style="color:var(--ink)">compare meaning, not words</b>. Semmai checks a request against an action; this checks a translation against its source.</p>
+          <p class="muted" style="font-size:13.5px;margin:14px 0 0">Same principle as Semmai: <b style="color:var(--ink)">compare meaning, not words</b>. Semmai checks a request against an action; this checks a translation against its source.</p>
         </div>
         <div>
-          <div class="sub" style="margin-top:0">Example · lexical collapse (John 21:15–17)</div>
+          <div class="sub">Example · lexical collapse (John 21:15–17)</div>
           <div class="interlinear">
             <div class="il-row"><span class="il-src">ἀγαπᾷς με;</span><span class="il-tr">agapaō · "do you love me?"</span></div>
             <div class="il-row"><span class="il-src">φιλῶ σε.</span><span class="il-tr">phileō · "I love you."</span></div>
@@ -646,10 +701,10 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
         <h3>Script detector &amp; tokenizer</h3>
         <textarea id="txt" spellcheck="false" aria-label="Text to analyse">நான் NLP படிக்கிறேன், और मुझे भाषाएँ पसंद हैं. Language is beautiful!</textarea>
         <div class="presets" id="pre1">
-          <button data-t="நான் NLP படிக்கிறேன், और मुझे भाषाएँ पसंद हैं. Language is beautiful!">Mixed scripts</button>
-          <button data-t="salary aane pe 5 tarik ko pakka kar dunga bhai">Hinglish</button>
-          <button data-t="ನಾನು ಕನ್ನಡ ಮಾತನಾಡುತ್ತೇನೆ. Ἐν ἀρχῇ ἦν ὁ λόγος. 言葉は力だ。">Kannada · Greek · Japanese</button>
-          <button data-t="the cat sat on the mat and the cat slept on the mat">Repetitive English</button>
+          <button type="button" data-t="நான் NLP படிக்கிறேன், और मुझे भाषाएँ पसंद हैं. Language is beautiful!">Mixed scripts</button>
+          <button type="button" data-t="salary aane pe 5 tarik ko pakka kar dunga bhai">Hinglish</button>
+          <button type="button" data-t="ನಾನು ಕನ್ನಡ ಮಾತನಾಡುತ್ತೇನೆ. Ἐν ἀρχῇ ἦν ὁ λόγος. 言葉は力だ。">Kannada · Greek · Japanese</button>
+          <button type="button" data-t="the cat sat on the mat and the cat slept on the mat">Repetitive English</button>
         </div>
         <div class="kv"><div><b id="kChars">0</b><span>characters</span></div><div><b id="kToks">0</b><span>tokens</span></div><div><b id="kTypes">0</b><span>types</span></div><div><b id="kTtr">0</b><span>type/token</span></div></div>
         <div class="sub">Scripts found</div>
@@ -661,16 +716,16 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
       </div>
       <div class="card reveal">
         <h3>Hinglish reply intent</h3>
-        <p class="muted" style="font-size:14px;margin:-4px 0 10px">A tiny, transparent version of the Dobaara lexicon: intent + promised date, with the words that triggered it.</p>
+        <p class="muted" style="font-size:14px;margin:0 0 10px">A tiny, transparent version of the Dobaara lexicon: intent + promised date, with the words that triggered it.</p>
         <textarea id="reply" spellcheck="false" aria-label="Customer reply">salary aane pe 5 tarik ko pakka kar dunga bhai</textarea>
         <div class="presets" id="pre2">
-          <button data-t="kal tak bhej dunga">kal tak bhej dunga</button>
-          <button data-t="maine ye subscription liya hi nahi, fraud hai">fraud hai</button>
-          <button data-t="payment kar diya already, check karo">already paid</button>
-          <button data-t="job chali gayi hai, abhi paise nahi hain">hardship</button>
-          <button data-t="band karo ye plan, nahi chahiye">cancel</button>
-          <button data-t="wrong number hai ye">wrong number</button>
-          <button data-t="mahine ke end mein kar dunga">end of month</button>
+          <button type="button" data-t="kal tak bhej dunga">kal tak bhej dunga</button>
+          <button type="button" data-t="maine ye subscription liya hi nahi, fraud hai">fraud hai</button>
+          <button type="button" data-t="payment kar diya already, check karo">already paid</button>
+          <button type="button" data-t="job chali gayi hai, abhi paise nahi hain">hardship</button>
+          <button type="button" data-t="band karo ye plan, nahi chahiye">cancel</button>
+          <button type="button" data-t="wrong number hai ye">wrong number</button>
+          <button type="button" data-t="mahine ke end mein kar dunga">end of month</button>
         </div>
         <div class="verdict"><span class="lab" id="iLab">promise_to_pay</span><span id="iDate" class="mono"></span></div>
         <div class="why" id="iWhy"></div>
@@ -691,28 +746,29 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
   <!-- ================= SCRIPTS ================= -->
   <section id="scripts" class="wrap">
     <div class="sh"><span class="num">07</span><h2>The hanging <em>scripts</em></h2></div>
-    <p class="lede">Every tile on a rope in the background is a real letter. Language technology is the latest chapter of a five-thousand-year story about writing things down.</p>
+    <p class="lede">Every tile on a rope in the background is a real letter. Language technology is the latest chapter of a five-thousand-year story about writing things down. Tap a tile to learn more.</p>
     <div class="glyphs" id="glyphGrid"></div>
   </section>
 
-  <!-- ================= CONTACT ================= -->
+  <!-- ================= ACHIEVEMENTS ================= -->
   <section id="achievements" class="wrap">
-    <div class="sh"><h2>Beyond the <em>classroom</em></h2></div>
+    <div class="sh"><span class="num">08</span><h2>Beyond the <em>classroom</em></h2></div>
     <p class="lede">Extra achievements during this semester: building, competing and learning with teams.</p>
     <div class="grid g3">
-      <div class="card reveal"><h3>20+ hackathons</h3><p class="muted">Participated in offline, online and hybrid hackathons during the semester.</p></div>
-      <div class="card reveal"><h3>2× hackathon wins</h3><p class="muted">Two hackathon victories, with memories from the trophy and team celebrations.</p><div id="wins-evidence"></div></div>
-      <div class="card reveal"><h3>iQOO Hackathon ’26</h3><p class="muted">Grand finale finalist.</p><div id="iqoo-evidence"></div></div>
-      <div class="card reveal"><h3>Paytm AI Hackathon</h3><p class="muted">Finalist.</p></div>
-      <div class="card reveal"><h3>Electronica India Tech Challenge ’26</h3><p class="muted">Finalist.</p><div id="electronica-evidence"></div></div>
+      <div class="card reveal"><h3>20+ hackathons</h3><p class="muted" style="margin:0">Participated in offline, online and hybrid hackathons during the semester.</p></div>
+      <div class="card reveal"><h3>2× hackathon wins</h3><p class="muted" style="margin:0">Two hackathon victories, with memories from the trophy and team celebrations.</p><div id="wins-evidence"></div></div>
+      <div class="card reveal"><h3>iQOO Hackathon ’26</h3><p class="muted" style="margin:0">Grand finale finalist.</p><div id="iqoo-evidence"></div></div>
+      <div class="card reveal"><h3>Paytm AI Hackathon</h3><p class="muted" style="margin:0">Finalist.</p></div>
+      <div class="card reveal"><h3>Electronica India Tech Challenge ’26</h3><p class="muted" style="margin:0">Finalist.</p><div id="electronica-evidence"></div></div>
     </div>
   </section>
 
+  <!-- ================= CONTACT ================= -->
   <section id="contact" class="wrap">
     <div class="card contact reveal">
-      <div class="eyebrow" style="justify-content:center">Let's talk</div>
-      <h2>Have text that needs understanding?</h2>
-      <p class="muted" style="max-width:560px;margin:0 auto">I'd love to collaborate on multilingual NLP, assistive AI, or anything that mixes software with hardware.</p>
+      <div class="eyebrow">Let's talk</div>
+      <h2 style="margin-top:14px">Have text that needs understanding?</h2>
+      <p class="muted" style="max-width:56ch;margin:0 auto;color:var(--ink2)">I'd love to collaborate on multilingual NLP, assistive AI, or anything that mixes software with hardware.</p>
       <div class="cta">
         <a class="btn pri" href="mailto:hannielvinu@gmail.com">Email me</a>
         <a class="btn" href="https://www.linkedin.com/in/hannielvinu/" target="_blank" rel="noopener">LinkedIn ↗</a>
@@ -731,96 +787,34 @@ summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
    ===================================================================== */
 const CLASS_LOG = {
   "stars": [
-    {
-      "date": "13 Jul 2026",
-      "what": "Removing a prefix can change semantics",
-      "stars": 1
-    },
-    {
-      "date": "29 Jul 2026",
-      "what": "Installing NLTK with pip",
-      "stars": 1
-    },
-    {
-      "date": "31 Jul 2026",
-      "what": "Basic NLP pipeline",
-      "stars": 1
-    },
-    {
-      "date": "Notebook entry",
-      "what": "Punctuation disambiguation",
-      "stars": 2
-    },
-    {
-      "date": "Notebook entry",
-      "what": "Minimum edit operations: tracing",
-      "stars": 1
-    },
-    {
-      "date": "19 Aug 2026",
-      "what": "6-gram mathematical notation",
-      "stars": 1
-    },
-    {
-      "date": "Notebook entry",
-      "what": "Probability-table exercise (topic not labelled)",
-      "stars": 2
-    },
-    {
-      "date": "24 Aug 2026",
-      "what": "Signed class entry (topic not recorded)",
-      "stars": 2
-    },
-    {
-      "date": "Notebook entry",
-      "what": "Superstar of NLP class: signed recognition",
-      "stars": 1
-    },
-    {
-      "date": "4 Sep 2026",
-      "what": "Two signed stars (topic not recorded)",
-      "stars": 2
-    },
-    {
-      "date": "16 Sep 2026",
-      "what": "Gold star (topic not recorded)",
-      "stars": 1
-    },
-    {
-      "date": "Problem solving",
-      "what": "Awesome! Correctly solved HMM / Viterbi problem",
-      "stars": 2
-    },
-    {
-      "date": "CAT 1",
-      "what": "Stars earned in CAT 1",
-      "stars": 5
-    },
-    {
-      "date": "Group case study",
-      "what": "CBDB case study: four stars per team member",
-      "stars": 4
-    }
+    {"date": "13 Jul 2026", "what": "Removing a prefix can change semantics", "stars": 1},
+    {"date": "29 Jul 2026", "what": "Installing NLTK with pip", "stars": 1},
+    {"date": "31 Jul 2026", "what": "Basic NLP pipeline", "stars": 1},
+    {"date": "Notebook entry", "what": "Punctuation disambiguation", "stars": 2},
+    {"date": "Notebook entry", "what": "Minimum edit operations: tracing", "stars": 1},
+    {"date": "19 Aug 2026", "what": "6-gram mathematical notation", "stars": 1},
+    {"date": "Notebook entry", "what": "Probability-table exercise (topic not labelled)", "stars": 2},
+    {"date": "24 Aug 2026", "what": "Signed class entry (topic not recorded)", "stars": 2},
+    {"date": "Notebook entry", "what": "Superstar of NLP class: signed recognition", "stars": 1},
+    {"date": "4 Sep 2026", "what": "Two signed stars (topic not recorded)", "stars": 2},
+    {"date": "16 Sep 2026", "what": "Gold star (topic not recorded)", "stars": 1},
+    {"date": "Problem solving", "what": "Awesome! Correctly solved HMM / Viterbi problem", "stars": 2},
+    {"date": "CAT 1", "what": "Stars earned in CAT 1", "stars": 5},
+    {"date": "Group case study", "what": "CBDB case study: four stars per team member", "stars": 4}
   ],
   "interactions": [
     {
       "q": "40+ questions answered in NLP class",
       "a": "Class participation across the semester. The signed notebook records include prefix semantics, the NLP pipeline, punctuation disambiguation, edit operations and n-gram notation.",
       "stars": 0,
-      "tags": [
-        "Class participation"
-      ]
+      "tags": ["Class participation"]
     }
   ],
   "caseStudies": [
     {
       "title": "Case study 1 · China Biographical Database (group)",
       "text": "Exploring how NLP can turn historical Chinese biographies into searchable, connected knowledge. Awarded four stars per team member.",
-      "tags": [
-        "CBDB",
-        "Historical NLP",
-        "Group work"
-      ],
+      "tags": ["CBDB", "Historical NLP", "Group work"],
       "details": [
         "Historical background: our notes trace the database to Robert M. Hartwell’s work in 1982 and record 657,909 people at the time of the class study.",
         "Institutions in the study: Fairbank Center for Chinese Studies at Harvard, Academia Sinica in Taiwan, and Peking University; the notes also mention the Harvard-Yenching Institute.",
@@ -833,24 +827,14 @@ const CLASS_LOG = {
         "Team: Sumitha Murthi, Hanniel Vinu A, Sri Varshan, Abhijit, Varsha, Spurthi, Aathika, Samita and Vahnitha."
       ],
       "images": [
-        {
-          "src": "assets/coursework/cbdb-notes.png",
-          "caption": "Handwritten CBDB background, collection methods and data fields."
-        },
-        {
-          "src": "assets/coursework/case-study-recognition.png",
-          "caption": "Faculty recognition: four stars to each member of the case-study team."
-        }
+        {"src": "assets/coursework/cbdb-notes.png", "caption": "Handwritten CBDB background, collection methods and data fields."},
+        {"src": "assets/coursework/case-study-recognition.png", "caption": "Faculty recognition: four stars to each member of the case-study team."}
       ]
     },
     {
       "title": "Case study 2 · Edinburgh NLP Group",
       "text": "My VTOP submission for CSI4001, Natural Language Processing and Computational Linguistics, explores a European university NLP lab: its strengths, research problems, scientists, tools and potential outcomes.",
-      "tags": [
-        "Multilingual NLP",
-        "RAG",
-        "Research review"
-      ],
+      "tags": ["Multilingual NLP", "RAG", "Research review"],
       "link": "assets/coursework/case-study-2.pdf",
       "details": [
         "Strengths reviewed: large language models, machine translation, multilingual and multimodal NLP, and responsible language technology.",
@@ -861,10 +845,7 @@ const CLASS_LOG = {
         "Submitted by Hanniel Vinu A · 23MID0032 · slot F1+TF1 · faculty Dr. Sharmila Banu K. The full eight-page submission includes its references."
       ],
       "images": [
-        {
-          "src": "assets/coursework/case-study-2-1.png",
-          "caption": "Cover of my Edinburgh NLP case-study submission."
-        }
+        {"src": "assets/coursework/case-study-2-1.png", "caption": "Cover of my Edinburgh NLP case-study submission."}
       ]
     }
   ],
@@ -872,49 +853,22 @@ const CLASS_LOG = {
     {
       "title": "Minimum edit distance",
       "text": "Traced dynamic-programming tables for SUMI → SAMA and REPLACE → DELETE, identifying insertion, deletion and substitution operations.",
-      "tags": [
-        "Edit distance",
-        "Dynamic programming"
-      ],
-      "images": [
-        {
-          "src": "assets/coursework/edit-distance-homework.png",
-          "caption": "Handwritten edit-distance tables and operation traces."
-        }
-      ]
+      "tags": ["Edit distance", "Dynamic programming"],
+      "images": [{"src": "assets/coursework/edit-distance-homework.png", "caption": "Handwritten edit-distance tables and operation traces."}]
     },
     {
       "title": "Tamil morphology · mother tongue assignment",
       "text": "Analysed lexical and morphological words, noun roots, plural and case suffixes; drew finite-state automata for Tamil adjectives and morphotactic sequences, including புத்தகங்களில் and மாணவர்களுக்கு.",
-      "tags": [
-        "Tamil",
-        "Morphology",
-        "FSA"
-      ],
-      "images": [
-        {
-          "src": "assets/coursework/tamil-morphology-homework.png",
-          "caption": "Tamil morphology assignment with suffix segmentation and finite-state diagrams."
-        }
-      ]
+      "tags": ["Tamil", "Morphology", "FSA"],
+      "images": [{"src": "assets/coursework/tamil-morphology-homework.png", "caption": "Tamil morphology assignment with suffix segmentation and finite-state diagrams."}]
     },
     {
       "title": "HMM and Viterbi decoding",
       "text": "Worked through starting, transition and emission probabilities, then decoded the most likely adjective/noun sequence with a Viterbi table. Received “Awesome!” and two stars for the correct solution.",
-      "tags": [
-        "HMM",
-        "Viterbi",
-        "2 stars"
-      ],
+      "tags": ["HMM", "Viterbi", "2 stars"],
       "images": [
-        {
-          "src": "assets/coursework/viterbi-homework.png",
-          "caption": "Full HMM / Viterbi calculation with faculty recognition."
-        },
-        {
-          "src": "assets/coursework/viterbi-award-detail.png",
-          "caption": "Close-up of the two-star “Awesome!” recognition for the same solution."
-        }
+        {"src": "assets/coursework/viterbi-homework.png", "caption": "Full HMM / Viterbi calculation with faculty recognition."},
+        {"src": "assets/coursework/viterbi-award-detail.png", "caption": "Close-up of the two-star “Awesome!” recognition for the same solution."}
       ]
     }
   ],
@@ -922,11 +876,7 @@ const CLASS_LOG = {
     {
       "title": "NLTK inaugural corpus · five home tasks",
       "text": "Python solutions and outputs are included in the attached three-page notebook PDF.",
-      "tags": [
-        "NLTK",
-        "Inaugural corpus",
-        "Python"
-      ],
+      "tags": ["NLTK", "Inaugural corpus", "Python"],
       "link": "assets/coursework/handson-homeworks.pdf",
       "details": [
         "Group inaugural speeches by president; lowercase alphabetic tokens, remove common grammatical stopwords and punctuation, and report each president’s most-used word and count.",
@@ -981,9 +931,12 @@ function sysDark(){ return !window.matchMedia || window.matchMedia('(prefers-col
 let theme = 'dark';
 try { theme = localStorage.getItem('hva-theme') || (sysDark() ? 'dark' : 'light'); } catch(e) { theme = sysDark() ? 'dark' : 'light'; }
 root.dataset.theme = theme;
+const metaTheme = document.querySelector('meta[name="theme-color"]');
+const syncMeta = () => metaTheme && metaTheme.setAttribute('content', theme === 'dark' ? '#0b0911' : '#f5eddc');
+syncMeta();
 document.getElementById('theme').addEventListener('click', () => {
   theme = theme === 'dark' ? 'light' : 'dark';
-  root.dataset.theme = theme;
+  root.dataset.theme = theme; syncMeta();
   try { localStorage.setItem('hva-theme', theme); } catch(e) {}
   window.dispatchEvent(new Event('themechange'));
 });
@@ -1001,14 +954,14 @@ const emptyBox = (g, msg) => `<div class="empty"><span class="gly">${g}</span>${
   const L = CLASS_LOG;
   const total = L.stars.reduce((a,s) => a + (s.stars||0), 0);
   $('#ledger').innerHTML = L.stars.length
-    ? `<table class="ledger">${L.stars.map(s => `<tr><td>${esc(s.date||'')}</td><td>${esc(s.what||'')}</td><td>${'★'.repeat(s.stars||0)}</td></tr>`).join('')}
-       <tr class="tot"><td>Total</td><td></td><td>${total} ★</td></tr></table>`
+    ? L.stars.map(s => `<div class="lrow"><span class="d">${esc(s.date||'')}</span><span class="w">${esc(s.what||'')}</span><span class="s" aria-label="${s.stars||0} stars">${'★'.repeat(s.stars||0)}</span></div>`).join('')
+      + `<div class="lrow tot"><span class="d"></span><span class="w">Total</span><span class="s">${total} ★</span></div>`
     : emptyBox('★', 'The ledger opens with the first signed entry from my notebook.');
   $('#interactions').innerHTML = L.interactions.length
-    ? L.interactions.map(i => `<div class="qa"><div class="stars">${i.stars ? '★'.repeat(i.stars) : '40+ answers'}</div><b>${esc(i.q)}</b><span class="muted" style="font-size:14px">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0">')
+    ? L.interactions.map(i => `<div class="qa"><div class="stars">${i.stars ? '★'.repeat(i.stars) : '40+ answers'}</div><b>${esc(i.q)}</b><span class="muted" style="font-size:14px;color:var(--ink2)">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0;width:100%">')
     : emptyBox('?', 'Questions answered in class will be logged here.');
   const list = (arr, g, msg) => arr.length
-    ? arr.map(x => `<div class="course-entry" style="margin-bottom:14px"><b>${esc(x.title)}</b><p class="muted" style="margin:4px 0;font-size:14px">${esc(x.text||'')}</p>${tagsHtml(x.tags)}${x.link?` <a class="tag" href="${esc(x.link)}" target="_blank" rel="noopener">Read submission ↗</a>`:''}${x.details?.length?`<details><summary>Study notes &amp; details</summary><ul>${x.details.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${evidenceHtml(x.images)}</div>`).join('')
+    ? arr.map(x => `<div class="course-entry"><b>${esc(x.title)}</b><p class="muted" style="margin:4px 0 6px;font-size:14px;color:var(--ink2)">${esc(x.text||'')}</p>${tagsHtml(x.tags)}${x.link?` <a class="tag" href="${esc(x.link)}" target="_blank" rel="noopener">Read submission ↗</a>`:''}${x.details?.length?`<details><summary>Study notes &amp; details</summary><ul>${x.details.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${evidenceHtml(x.images)}</div>`).join('')
     : emptyBox(g, msg);
   $('#cases').innerHTML = list(L.caseStudies, '§', 'Case studies will appear here.');
   $('#homework').innerHTML = list(L.homework, 'ᚠ', 'Submitted homework will appear here.');
@@ -1050,7 +1003,6 @@ function analyse(){
     const p = v/letters*100;
     return `<div class="bar"><span>${k}</span><div class="t"><i style="width:${p.toFixed(1)}%"></i></div><span class="mono">${p.toFixed(0)}%</span></div>`;
   }).join('') : '<span class="muted">Type something…</span>';
-  // Unicode-aware tokens: runs of letters/marks/digits; CJK split per character; punctuation kept
   const toks = [];
   const re = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}]|[\p{L}\p{M}\p{N}]+(?:['’][\p{L}]+)?|[^\s\p{L}\p{M}\p{N}]/gu;
   let m; while ((m = re.exec(t))) toks.push(m[0]);
@@ -1135,11 +1087,11 @@ const PIPE = [
 ];
 (function(){
   const bar = $('#pipe'), body = $('#pipeBody');
-  bar.innerHTML = PIPE.map((p,i) => `<button role="tab" data-i="${i}"><small>${String(i+1).padStart(2,'0')}</small>${p.k}</button>`).join('');
+  bar.innerHTML = PIPE.map((p,i) => `<button type="button" role="tab" data-i="${i}"><small>${String(i+1).padStart(2,'0')}</small>${p.k}</button>`).join('');
   function show(i){
     [...bar.children].forEach((b,j) => { b.classList.toggle('on', j===i); b.setAttribute('aria-selected', j===i); });
     const p = PIPE[i];
-    body.innerHTML = `<div><h3 style="font-family:Fraunces,serif;font-size:24px">${p.k}</h3><p class="muted" style="margin:0">${p.s}</p><div class="used">${p.used}</div></div><pre>${esc(p.ex)}</pre>`;
+    body.innerHTML = `<div><h3>${p.k}</h3><p class="muted" style="margin:0;color:var(--ink2)">${p.s}</p><div class="used">${p.used}</div></div><pre>${esc(p.ex)}</pre>`;
   }
   bar.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i); });
   show(0);
@@ -1149,7 +1101,6 @@ const PIPE = [
 const FONT_LINKS = [];
 (function(){
   const fams = [...new Set(GLYPHS.map(g => g.f))];
-  // load each script font, subset to only the glyphs we need (tiny downloads)
   fams.forEach(f => {
     const chars = GLYPHS.filter(g => g.f === f).map(g => g.c).join('');
     const l = document.createElement('link'); l.rel = 'stylesheet';
@@ -1157,8 +1108,9 @@ const FONT_LINKS = [];
     FONT_LINKS.push(new Promise(r => { l.onload = l.onerror = r; }));
     document.head.appendChild(l);
   });
-  $('#glyphGrid').innerHTML = GLYPHS.map((g,i) => `<div class="card gcard lift" data-i="${i}" title="${esc(g.m)}"><div class="g" style="font-family:'${g.f}',serif">${g.c}</div><b>${esc(g.n)}</b><span>${esc(g.e)}</span></div>`).join('');
+  $('#glyphGrid').innerHTML = GLYPHS.map((g,i) => `<div class="card gcard lift" data-i="${i}" tabindex="0" role="button" title="${esc(g.m)}"><div class="g" style="font-family:'${g.f}',serif">${g.c}</div><b>${esc(g.n)}</b><span>${esc(g.e)}</span></div>`).join('');
   $('#glyphGrid').addEventListener('click', e => { const c = e.target.closest('.gcard'); if (c) showToast(GLYPHS[+c.dataset.i]); });
+  $('#glyphGrid').addEventListener('keydown', e => { if ((e.key === 'Enter' || e.key === ' ') && e.target.classList.contains('gcard')) { e.preventDefault(); showToast(GLYPHS[+e.target.dataset.i]); } });
 })();
 let toastT;
 function showToast(g){
@@ -1169,11 +1121,12 @@ function showToast(g){
 
 /* ---------- reveal on scroll + active nav ---------- */
 (function(){
-  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12});
+  // threshold 0 so very tall cards still reveal on small screens
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:0, rootMargin:'0px 0px -6% 0px'});
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   const bar = $('#dockLinks'), lamp = $('#lamp'), links = [...bar.querySelectorAll('a')];
   let active = null;
-  const moveLamp = a => { if (!a) { lamp.style.opacity = 0; return; } lamp.style.opacity = 1; lamp.style.left = a.offsetLeft + 'px'; lamp.style.width = a.offsetWidth + 'px'; };
+  const moveLamp = a => { if (!a || !a.offsetWidth) { lamp.style.opacity = 0; return; } lamp.style.opacity = 1; lamp.style.left = a.offsetLeft + 'px'; lamp.style.width = a.offsetWidth + 'px'; };
   links.forEach(a => a.addEventListener('mouseenter', () => moveLamp(a)));
   bar.addEventListener('mouseleave', () => moveLamp(active));
   const so = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) {
@@ -1182,7 +1135,7 @@ function showToast(g){
   } }), {rootMargin:'-45% 0px -50% 0px'});
   document.querySelectorAll('main section[id]').forEach(s => so.observe(s));
   new IntersectionObserver(es => { if (es[0].isIntersecting) { active = null; links.forEach(a => a.classList.remove('on')); moveLamp(null); } }, {threshold:.6}).observe($('.hero'));
-  // scroll-progress ring around the monogram + compact dock
+  addEventListener('resize', () => moveLamp(active));
   const ring = $('#ringP'), dock = $('#dock');
   const onScroll = () => {
     const max = Math.max(1, document.documentElement.scrollHeight - innerHeight);
@@ -1190,19 +1143,19 @@ function showToast(g){
     dock.classList.toggle('small', scrollY > 40);
   };
   addEventListener('scroll', onScroll, {passive:true}); onScroll();
-  // mobile sheet
   const mb = $('#menuBtn'), sheet = $('#sheet');
   const setMenu = o => { mb.setAttribute('aria-expanded', o); sheet.classList.toggle('open', o); };
   mb.addEventListener('click', () => setMenu(mb.getAttribute('aria-expanded') !== 'true'));
   sheet.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
   addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
+  document.addEventListener('click', e => { if (!e.target.closest('#sheet,#menuBtn')) setMenu(false); });
 })();
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
 /* =====================================================================
-   3D STAGE: ancient letters hanging on ropes
+   3D STAGE: ancient letters hanging on ropes (kept subtle: sits behind content)
    ===================================================================== */
 (function(){
   if (!window.THREE) return;
@@ -1210,7 +1163,7 @@ function showToast(g){
   let renderer;
   try { renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true}); } catch(e) { return; }
   const reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.75));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.5));
   renderer.outputEncoding = THREE.sRGBEncoding;
   renderer.shadowMap.enabled = false;
 
@@ -1219,7 +1172,6 @@ function showToast(g){
   camera.position.set(0, 0, 10);
   const FOV_T = Math.tan(THREE.MathUtils.degToRad(25));
 
-  /* lights */
   const hemi = new THREE.HemisphereLight(0xfff1d6, 0x1a1028, 0.55); scene.add(hemi);
   const key = new THREE.DirectionalLight(0xffd9a0, 1.0); key.position.set(-4, 8, 6); scene.add(key);
   const rim = new THREE.DirectionalLight(0x7c9be0, 0.55); rim.position.set(6, -2, -6); scene.add(rim);
@@ -1227,7 +1179,7 @@ function showToast(g){
 
   function applyTheme(){
     const light = document.documentElement.dataset.theme === 'light';
-    scene.fog = new THREE.Fog(light ? 0xf2ead9 : 0x0c0a12, light ? 12 : 9, light ? 40 : 26);
+    scene.fog = new THREE.Fog(light ? 0xf5eddc : 0x0b0911, light ? 12 : 9, light ? 40 : 26);
     hemi.intensity = light ? 0.95 : 0.55;
     hemi.groundColor.set(light ? 0xb9a27a : 0x1a1028);
     key.intensity = light ? 1.1 : 1.0;
@@ -1236,7 +1188,6 @@ function showToast(g){
   applyTheme();
   window.addEventListener('themechange', applyTheme);
 
-  /* shared textures */
   function noiseTex(){
     const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d');
     const img = x.createImageData(256,256);
@@ -1254,12 +1205,12 @@ function showToast(g){
   const NOISE = noiseTex(), ROPE = ropeTex();
 
   const PALETTES = [
-    {body:0xcdb68a, metal:0.05, rough:0.9, ink:'#3b2a14', hi:'rgba(255,240,210,.55)'},   // limestone
-    {body:0xb0623a, metal:0.05, rough:0.85, ink:'#3a1608', hi:'rgba(255,200,160,.45)'},  // terracotta
-    {body:0x9c7438, metal:0.65, rough:0.4, ink:'#2a1a06', hi:'rgba(255,230,170,.6)'},    // bronze
-    {body:0x4f8a74, metal:0.15, rough:0.55, ink:'#0d2a20', hi:'rgba(210,255,235,.45)'},  // jade
-    {body:0x34508a, metal:0.2, rough:0.5, ink:'#e9c46a', hi:'rgba(0,0,0,.4)', gold:true},// lapis w/ gold inlay
-    {body:0x2a2230, metal:0.3, rough:0.6, ink:'#e3b867', hi:'rgba(0,0,0,.5)', gold:true} // obsidian w/ gold inlay
+    {body:0xcdb68a, metal:0.05, rough:0.9, ink:'#3b2a14', hi:'rgba(255,240,210,.55)'},
+    {body:0xb0623a, metal:0.05, rough:0.85, ink:'#3a1608', hi:'rgba(255,200,160,.45)'},
+    {body:0x9c7438, metal:0.65, rough:0.4, ink:'#2a1a06', hi:'rgba(255,230,170,.6)'},
+    {body:0x4f8a74, metal:0.15, rough:0.55, ink:'#0d2a20', hi:'rgba(210,255,235,.45)'},
+    {body:0x34508a, metal:0.2, rough:0.5, ink:'#e9c46a', hi:'rgba(0,0,0,.4)', gold:true},
+    {body:0x2a2230, metal:0.3, rough:0.6, ink:'#e3b867', hi:'rgba(0,0,0,.5)', gold:true}
   ];
 
   const W = 1.1, H = 1.4, D = 0.16;
@@ -1278,7 +1229,6 @@ function showToast(g){
   function faceTex(g, pal, back){
     const c = document.createElement('canvas'); c.width = 384; c.height = 490; const x = c.getContext('2d');
     x.clearRect(0,0,c.width,c.height);
-    // engraved frame
     x.strokeStyle = pal.gold ? 'rgba(227,184,103,.55)' : 'rgba(0,0,0,.28)'; x.lineWidth = 4;
     const R = 26; x.beginPath(); x.roundRect ? x.roundRect(22,22,340,446,R) : x.rect(22,22,340,446); x.stroke();
     x.textAlign = 'center'; x.textBaseline = 'alphabetic';
@@ -1287,7 +1237,7 @@ function showToast(g){
       const m = x.measureText(g.c);
       const asc = m.actualBoundingBoxAscent || 180, desc = m.actualBoundingBoxDescent || 20;
       const y = 225 + (asc - desc)/2;
-      x.fillStyle = pal.hi; x.fillText(g.c, 194, y+4);           // carved lower lip highlight
+      x.fillStyle = pal.hi; x.fillText(g.c, 194, y+4);
       x.fillStyle = pal.ink; x.fillText(g.c, 192, y);
       x.font = '600 26px Fraunces, serif'; x.fillStyle = pal.gold ? 'rgba(227,184,103,.85)' : 'rgba(30,18,6,.6)';
       x.fillText(g.n.toUpperCase().slice(0,22), 192, 432);
@@ -1313,7 +1263,7 @@ function showToast(g){
     pendants.forEach(p => { scene.remove(p.pivot); p.frontMat.map.dispose(); p.backMat.map.dispose(); });
     pendants.length = 0; pickables.length = 0;
     const w = window.innerWidth, h = window.innerHeight, aspect = w/h;
-    const count = w < 640 ? 13 : w < 1100 ? 20 : 26;
+    const count = w < 640 ? 10 : w < 1100 ? 18 : 24;
     const order = GL.map((g,i)=>i).sort(() => Math.random()-.5);
     for (let i=0;i<count;i++){
       const g = GL[order[i % GL.length]];
@@ -1321,7 +1271,6 @@ function showToast(g){
       const z = -1 - Math.random()*13 + (i%5===0 && w >= 640 ? 3.2 : 0);
       const top = FOV_T * (10 - z);
       const halfW = top * aspect;
-      // stratified x so they spread across the width
       const fx = (i + 0.2 + Math.random()*0.6) / count;
       const x = (-1 + 2*fx) * halfW * 0.96;
       const anchorY = top + 0.6;
@@ -1355,7 +1304,6 @@ function showToast(g){
     renderer.setSize(w, h, false); camera.aspect = w/h; camera.updateProjectionMatrix();
   }
 
-  /* pointer + scroll input */
   const ptr = {x:-9999, y:-9999, vx:0, vy:0, nx:0, ny:0};
   window.addEventListener('pointermove', e => {
     if (ptr.x > -9000){ ptr.vx = e.clientX - ptr.x; ptr.vy = e.clientY - ptr.y; }
@@ -1367,7 +1315,7 @@ function showToast(g){
 
   const ray = new THREE.Raycaster(), v2 = new THREE.Vector2();
   window.addEventListener('click', e => {
-    if (e.target.closest('a,button,textarea,input,.card,nav,header,.sheet')) return;
+    if (e.target.closest('a,button,textarea,input,.card,nav,header,.sheet,details,summary,.hero-in .stats,.hero-in .pending')) return;
     v2.set((e.clientX/window.innerWidth)*2-1, -(e.clientY/window.innerHeight)*2+1);
     ray.setFromCamera(v2, camera);
     const hit = ray.intersectObjects(pickables, false)[0];
@@ -1382,9 +1330,8 @@ function showToast(g){
   function step(now){
     const dt = Math.min(0.033, (now - last)/1000); last = now; t += dt;
     const w = window.innerWidth, h = window.innerHeight;
-    const sv = scrollV; scrollV *= 0.0; // consume
+    const sv = scrollV; scrollV = 0;
     for (const p of pendants){
-      // world position of tile → screen, for pointer interaction
       p.body.getWorldPosition(p.wp); tmp.copy(p.wp).project(camera);
       const sx = (tmp.x+1)/2*w, sy = (1-tmp.y)/2*h;
       const dx = sx - ptr.x, dy = sy - ptr.y, d = Math.hypot(dx, dy);
@@ -1407,7 +1354,6 @@ function showToast(g){
       p.tile.rotation.y = p.ps;
     }
     ptr.vx *= 0.6; ptr.vy *= 0.6; if (Math.abs(ptr.vx) < .1) ptr.vx = 0; if (Math.abs(ptr.vy) < .1) ptr.vy = 0;
-    // lantern follows pointer; camera drifts with scroll for parallax
     const maxS = Math.max(1, document.documentElement.scrollHeight - h);
     const sf = window.scrollY / maxS;
     camera.position.y += ((-sf*2.2) - camera.position.y) * 0.08;
@@ -1416,20 +1362,27 @@ function showToast(g){
     lantern.position.set(ptr.nx * 6, camera.position.y + ptr.ny * 3.6, 3.5);
   }
 
+  let running = true;
+  document.addEventListener('visibilitychange', () => { running = !document.hidden; if (running && !reduce) { last = performance.now(); requestAnimationFrame(frame); } });
   function frame(now){
+    if (!running) return;
     step(now);
     renderer.render(scene, camera);
     if (!reduce) requestAnimationFrame(frame);
   }
 
   async function start(){
-    // wait for script fonts so the canvas textures draw real glyphs, not boxes
     await Promise.race([Promise.all(FONT_LINKS), new Promise(r => setTimeout(r, 3000))]);
     const fams = [...new Set(GL.map(g => g.f)), 'Fraunces', 'Manrope'];
     const loads = fams.map(f => document.fonts.load(`120px "${f}"`, GL.filter(g => g.f===f).map(g=>g.c).join('') || 'A').catch(()=>{}));
     await Promise.race([Promise.all(loads), new Promise(r => setTimeout(r, 3500))]);
     resize(); build();
-    let rt; window.addEventListener('resize', () => { resize(); clearTimeout(rt); rt = setTimeout(() => { build(); if (reduce) frame(performance.now()); }, 300); });
+    let rt, lastW = window.innerWidth;
+    window.addEventListener('resize', () => {
+      resize(); clearTimeout(rt);
+      // ignore mobile address-bar height changes: rebuild only when the width changes
+      rt = setTimeout(() => { if (window.innerWidth !== lastW) { lastW = window.innerWidth; build(); if (reduce) frame(performance.now()); } }, 300);
+    });
     last = performance.now();
     if (reduce){ for (let i=0;i<60;i++) step(last + i*16); renderer.render(scene, camera); }
     else requestAnimationFrame(frame);
