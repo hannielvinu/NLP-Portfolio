@@ -122,7 +122,8 @@ main,footer{position:relative;z-index:2}
    LAYOUT PRIMITIVES
    ========================================================= */
 .wrap{max-width:var(--maxw);margin:0 auto;padding:0 var(--gut)}
-section{padding:clamp(56px,8vw,96px) 0 0;scroll-margin-top:72px}
+section{scroll-margin-top:72px}
+section.wrap{padding-top:clamp(64px,9vw,110px);padding-bottom:12px}
 .sh{display:flex;align-items:center;gap:14px;margin-bottom:12px;flex-wrap:wrap}
 .num{font:500 12.5px 'IBM Plex Mono',monospace;color:var(--gold);letter-spacing:.1em;padding:4px 11px;border:1px solid var(--line);border-radius:999px;background:var(--card)}
 h2{font-family:Fraunces,serif;font-weight:650;font-variation-settings:'opsz' 96,'SOFT' 50;font-size:clamp(28px,4.4vw,46px);line-height:1.1;margin:0;letter-spacing:-.025em}
@@ -210,24 +211,49 @@ a.tag:hover{border-color:var(--gold);text-decoration:none}
 .recognition>span{font-size:34px;color:var(--gold);line-height:1}
 .recognition strong{color:var(--gold2)}
 .recognition p{font-size:13.5px;color:var(--ink2);margin:2px 0 0;line-height:1.55}
-.evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-top:14px}
+.evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-top:14px;align-items:start}
 .evidence figure{margin:0;min-width:0}
 .evidence a{display:block;border:1px solid var(--line2);border-radius:12px;overflow:hidden;background:var(--bg2);transition:border-color .2s}
 .evidence a:hover{border-color:var(--gold)}
-.evidence img{display:block;width:100%;height:210px;object-fit:contain}
+.evidence img{display:block;width:100%;height:auto}
 .evidence figcaption{color:var(--ink2);font-size:12.5px;line-height:1.5;margin-top:7px}
-.course-entry+.course-entry{border-top:1px dashed var(--line2);padding-top:16px;margin-top:16px}
-.course-entry p{overflow-wrap:anywhere}
-details{margin-top:12px}
-summary{cursor:pointer;color:var(--gold2);font-weight:700;line-height:1.5;font-size:14px;padding:2px 0}
-summary:hover{text-decoration:underline;text-underline-offset:3px}
-.course-entry ul{padding-left:20px;margin:8px 0 0}
-.course-entry li{margin:8px 0;color:var(--ink2);font-size:14px;overflow-wrap:anywhere}
-.document{border-top:1px dashed var(--line2);padding-top:16px;margin-top:16px}
-.document:first-of-type{border-top:0;padding-top:0}
-.document>summary{font-size:15.5px}
-.document iframe{display:block;width:100%;height:min(70vh,680px);border:1px solid var(--line);border-radius:12px;margin-top:16px;background:#fff}
-@media (max-width:700px){.document iframe{display:none}.evidence img{height:190px}}
+/* ---- class section: separate cards, text left / media right ---- */
+.grp{display:flex;align-items:center;gap:14px;font:650 clamp(21px,2.8vw,28px)/1.2 Fraunces,serif;letter-spacing:-.02em;margin:clamp(44px,6vw,72px) 0 20px}
+.grp::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--line),transparent)}
+.lede+.grp{margin-top:8px}
+.stack{display:flex;flex-direction:column;gap:20px}
+.entry{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,3.5vw,38px);align-items:start;padding:clamp(22px,3.5vw,34px)}
+.entry.solo{grid-template-columns:minmax(0,1fr)}
+@media (max-width:900px){.entry{grid-template-columns:minmax(0,1fr)}}
+.entry h3{font-family:Fraunces,serif;font-size:clamp(22px,2.6vw,28px);letter-spacing:-.02em;line-height:1.2;margin:0 0 10px}
+.entry p{margin:0 0 10px;color:var(--ink2);overflow-wrap:anywhere}
+.points{margin:14px 0 0;padding-left:20px}
+.points li{margin:9px 0;color:var(--ink2);font-size:14.5px;overflow-wrap:anywhere}
+.entry-media{display:flex;flex-direction:column;gap:14px;min-width:0}
+.entry-media .evidence{grid-template-columns:minmax(0,1fr);margin-top:0}
+.doc-frame{display:block;width:100%;height:min(72vh,620px);border:1px solid var(--line);border-radius:12px;background:#fff}
+@media (max-width:700px){.entry-media .doc-frame{display:none}}
+/* hands-on: five big separate question cards + notebook on the right */
+.hands-intro{margin:0 0 18px;color:var(--ink2);max-width:70ch}
+.hands{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.hands-q{display:flex;flex-direction:column;gap:18px}
+.qcard{display:grid;grid-template-columns:56px minmax(0,1fr);gap:18px;padding:clamp(20px,3vw,28px)}
+.qn{width:56px;height:56px;border-radius:16px;display:grid;place-items:center;font:700 22px Fraunces,serif;background:linear-gradient(135deg,var(--gold),var(--ember));color:var(--on-gold)}
+.qcard h4{font:650 clamp(19px,2.2vw,23px)/1.25 Fraunces,serif;margin:2px 0 8px;letter-spacing:-.01em}
+.qcard p{margin:0;color:var(--ink2);font-size:16px;line-height:1.7;overflow-wrap:anywhere}
+.hands-doc{position:sticky;top:84px}
+.hands-doc h3{margin-bottom:6px}
+.hands-doc .doc-frame{height:calc(100vh - 250px);min-height:420px;margin-top:14px}
+.hands-doc .pages{display:none;grid-template-columns:minmax(0,1fr)}
+@media (max-width:900px){.hands{grid-template-columns:minmax(0,1fr)}.hands-doc{position:static}.hands-doc .doc-frame{display:none}.hands-doc .pages{display:grid}}
+@media (max-width:480px){.qcard{grid-template-columns:minmax(0,1fr)}.qn{width:44px;height:44px;font-size:18px}}
+/* beyond the classroom: tight masonry, no stretched cards */
+.masonry{column-count:3;column-gap:18px}
+.masonry>.card{display:inline-block;width:100%;break-inside:avoid;margin-bottom:18px}
+.masonry .evidence{grid-template-columns:repeat(auto-fit,minmax(min(100%,150px),1fr))}
+.masonry .evidence img{max-height:240px;object-fit:cover}
+@media (max-width:960px){.masonry{column-count:2}}
+@media (max-width:640px){.masonry{column-count:1}}
 
 /* =========================================================
    PROJECTS
@@ -450,52 +476,48 @@ footer{padding:56px var(--gut) 48px;text-align:center;color:var(--muted);font-si
   <section id="class" class="wrap">
     <div class="sh"><span class="num">02</span><h2>Class <em>ledger</em></h2></div>
     <p class="lede">Every question I answered, every task I submitted and every star I earned in the NLP class, collected in one place.</p>
-    <div class="grid g2">
-      <div class="card reveal">
-        <h3>★ Star ledger</h3>
-        <p class="muted" style="margin:0 0 10px;font-size:14px">26 stars = 15 class + 2 for a correct problem + 5 in CAT 1 + 4 for group case-study work. Dates are transcribed where legible; unlabelled topics remain unlabelled.</p>
-        <div id="ledger"></div>
-        <div class="recognition"><span aria-hidden="true">✦</span><div><strong>Superstar of NLP class</strong><p>A signed badge of recognition in my class notebook. Its one star is already included in the 15 class stars.</p></div></div>
-        <div id="star-evidence"></div>
-      </div>
-      <div class="card reveal">
-        <h3>Class interactions</h3>
-        <p class="muted" style="margin:0 0 14px;font-size:14px">40+ questions answered across the semester, with signed recognition for the topics recorded in my notebook.</p>
-        <div id="interactions" class="grid" style="gap:10px"></div>
-      </div>
+
+    <h3 class="grp">Stars &amp; participation</h3>
+    <div class="stack">
+      <article class="card entry reveal">
+        <div>
+          <h3>★ Star ledger</h3>
+          <p style="font-size:14px">26 stars = 15 class + 2 for a correct problem + 5 in CAT 1 + 4 for group case-study work. Dates are transcribed where legible; unlabelled topics remain unlabelled.</p>
+          <div id="ledger"></div>
+          <div class="recognition"><span aria-hidden="true">✦</span><div><strong>Superstar of NLP class</strong><p>A signed badge of recognition in my class notebook. Its one star is already included in the 15 class stars.</p></div></div>
+        </div>
+        <div class="entry-media" id="star-evidence"></div>
+      </article>
+      <article class="card entry solo reveal">
+        <div>
+          <h3>Class interactions</h3>
+          <p style="font-size:14px">40+ questions answered across the semester, with signed recognition for the topics recorded in my notebook.</p>
+          <div id="interactions" class="grid" style="gap:10px"></div>
+        </div>
+      </article>
     </div>
-    <div class="grid g3" style="margin-top:18px">
-      <div class="card reveal"><h3>Case studies</h3><div id="cases"></div></div>
-      <div class="card reveal"><h3>Tasks &amp; homework</h3><div id="homework"></div></div>
-      <div class="card reveal"><h3>Hands-on sessions</h3><div id="handson"></div></div>
-    </div>
-    <div class="card reveal" style="margin-top:18px">
-      <h3>Course project</h3>
-      <p class="muted" style="margin:0 0 4px;font-size:14px" id="cp-desc">Presentation, repository, demo and write-up for the course project.</p>
-      <div class="links-row" id="cp-links"></div>
-    </div>
-    <div class="card reveal" style="margin-top:18px">
-      <h3>Class presentation</h3>
-      <p class="muted" style="margin:0">Presenting Semmai’s semantic verification workflow in NLP class, followed by the team discussion.</p>
-      <div id="presentation-evidence"></div>
-    </div>
-    <div class="card reveal" style="margin-top:18px">
-      <h3>Coursework documents</h3>
-      <p class="muted" style="margin:0 0 6px">Read the submitted pages here, or open each original PDF in a new tab.</p>
-      <details class="document" open><summary>Hands-on home tasks · all five questions, code and outputs</summary>
-        <p><a class="btn" href="assets/coursework/handson-homeworks.pdf" target="_blank" rel="noopener">Open hands-on PDF ↗</a></p>
-        <div id="handson-pages"></div>
-        <iframe title="Hands-on homeworks: complete three-page submission" src="assets/coursework/handson-homeworks.pdf" loading="lazy"></iframe>
-      </details>
-      <details class="document"><summary>Case study 2 · Edinburgh NLP Group · eight pages</summary>
-        <p><a class="btn" href="assets/coursework/case-study-2.pdf" target="_blank" rel="noopener">Open case study PDF ↗</a></p>
-        <iframe title="Case study 2: Edinburgh NLP Group" src="assets/coursework/case-study-2.pdf" loading="lazy"></iframe>
-      </details>
-      <details class="document"><summary>Semmai · project review · five slides</summary>
-        <p><a class="btn" href="assets/coursework/project-review.pdf" target="_blank" rel="noopener">Open project review PDF ↗</a></p>
-        <div id="project-cover"></div>
-        <iframe title="Semmai project review presentation" src="assets/coursework/project-review.pdf" loading="lazy"></iframe>
-      </details>
+
+    <h3 class="grp">Case studies</h3>
+    <div class="stack" id="cases"></div>
+
+    <h3 class="grp">Tasks &amp; homework</h3>
+    <div class="stack" id="homework"></div>
+
+    <h3 class="grp">Hands-on sessions</h3>
+    <div id="handson"></div>
+
+    <h3 class="grp">Course project</h3>
+    <div class="stack" id="project"></div>
+
+    <h3 class="grp">Class presentation</h3>
+    <div class="stack">
+      <article class="card entry reveal">
+        <div>
+          <h3>Presenting Semmai in class</h3>
+          <p>Presenting Semmai’s semantic verification workflow in NLP class, followed by the team discussion.</p>
+        </div>
+        <div class="entry-media" id="presentation-evidence"></div>
+      </article>
     </div>
   </section>
 
@@ -754,7 +776,7 @@ footer{padding:56px var(--gut) 48px;text-align:center;color:var(--muted);font-si
   <section id="achievements" class="wrap">
     <div class="sh"><span class="num">08</span><h2>Beyond the <em>classroom</em></h2></div>
     <p class="lede">Extra achievements during this semester: building, competing and learning with teams.</p>
-    <div class="grid g3">
+    <div class="masonry">
       <div class="card reveal"><h3>20+ hackathons</h3><p class="muted" style="margin:0">Participated in offline, online and hybrid hackathons during the semester.</p></div>
       <div class="card reveal"><h3>2× hackathon wins</h3><p class="muted" style="margin:0">Two hackathon victories, with memories from the trophy and team celebrations.</p><div id="wins-evidence"></div></div>
       <div class="card reveal"><h3>iQOO Hackathon ’26</h3><p class="muted" style="margin:0">Grand finale finalist.</p><div id="iqoo-evidence"></div></div>
@@ -952,26 +974,51 @@ const emptyBox = (g, msg) => `<div class="empty"><span class="gly">${g}</span>${
 /* ---------- class log rendering ---------- */
 (function renderClass(){
   const L = CLASS_LOG;
+  const pdfBtn = src => `<a class="btn" href="${esc(src)}" target="_blank" rel="noopener">Open PDF ↗</a>`;
+  const pdfFrame = (src, title) => `<iframe class="doc-frame" title="${esc(title)}" src="${esc(src)}" loading="lazy"></iframe>`;
   const total = L.stars.reduce((a,s) => a + (s.stars||0), 0);
   $('#ledger').innerHTML = L.stars.length
     ? L.stars.map(s => `<div class="lrow"><span class="d">${esc(s.date||'')}</span><span class="w">${esc(s.what||'')}</span><span class="s" aria-label="${s.stars||0} stars">${'★'.repeat(s.stars||0)}</span></div>`).join('')
       + `<div class="lrow tot"><span class="d"></span><span class="w">Total</span><span class="s">${total} ★</span></div>`
     : emptyBox('★', 'The ledger opens with the first signed entry from my notebook.');
   $('#interactions').innerHTML = L.interactions.length
-    ? L.interactions.map(i => `<div class="qa"><div class="stars">${i.stars ? '★'.repeat(i.stars) : '40+ answers'}</div><b>${esc(i.q)}</b><span class="muted" style="font-size:14px;color:var(--ink2)">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0;width:100%">')
+    ? L.interactions.map(i => `<div class="qa"><div class="stars">${i.stars ? '★'.repeat(i.stars) : '40+ answers'}</div><b>${esc(i.q)}</b><span style="font-size:14.5px;color:var(--ink2)">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0;width:100%">')
     : emptyBox('?', 'Questions answered in class will be logged here.');
-  const list = (arr, g, msg) => arr.length
-    ? arr.map(x => `<div class="course-entry"><b>${esc(x.title)}</b><p class="muted" style="margin:4px 0 6px;font-size:14px;color:var(--ink2)">${esc(x.text||'')}</p>${tagsHtml(x.tags)}${x.link?` <a class="tag" href="${esc(x.link)}" target="_blank" rel="noopener">Read submission ↗</a>`:''}${x.details?.length?`<details><summary>Study notes &amp; details</summary><ul>${x.details.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${evidenceHtml(x.images)}</div>`).join('')
-    : emptyBox(g, msg);
-  $('#cases').innerHTML = list(L.caseStudies, '§', 'Case studies will appear here.');
-  $('#homework').innerHTML = list(L.homework, 'ᚠ', 'Submitted homework will appear here.');
-  $('#handson').innerHTML = list(L.handsOn, '文', 'Hands-on notebooks will appear here.');
-  const galleries = {"star-evidence": [{"src": "assets/coursework/star-ledger.png", "caption": "Signed class-star ledger, including the Superstar of NLP class recognition."}, {"src": "assets/coursework/september-stars.png", "caption": "September class-star entries: two stars and one gold star."}], "presentation-evidence": [{"src": "assets/coursework/class-presentation.png", "caption": "Presenting the Semmai workflow in NLP class."}, {"src": "assets/coursework/class-presentation-team.png", "caption": "Team presentation and classroom discussion."}], "handson-pages": [{"src": "assets/coursework/handson-homeworks-1.png", "caption": "Hands-on submission, page 1 of 3. Open the full image to read the code and output."}, {"src": "assets/coursework/handson-homeworks-2.png", "caption": "Hands-on submission, page 2 of 3. Open the full image to read the code and output."}, {"src": "assets/coursework/handson-homeworks-3.png", "caption": "Hands-on submission, page 3 of 3. Open the full image to read the code and output."}], "project-cover": [{"src": "assets/coursework/project-review-1.png", "caption": "Semmai project review: semantic intent preservation between natural language and generated SQL."}], "wins-evidence": [{"src": "assets/coursework/hackathon-trophy.png", "caption": "Hackathon trophy and medal."}, {"src": "assets/coursework/drestien-team.png", "caption": "Team achievement at DRESTIEN ’26."}], "iqoo-evidence": [{"src": "assets/coursework/iqoo-grand-finale.png", "caption": "At the iQOO Hackathon 2026 grand finale."}], "electronica-evidence": [{"src": "assets/coursework/electronica-finalist.png", "caption": "At the Electronica India Tech Challenge 2026."}]};
-  Object.entries(galleries).forEach(([id, items]) => { document.getElementById(id).innerHTML = evidenceHtml(items); });
+
+  // one separate card per entry: text on the left, images / PDF on the right
+  function entry(x){
+    const pts = x.details?.length ? `<ul class="points">${x.details.map(t => `<li>${esc(t)}</li>`).join('')}</ul>` : '';
+    const media = evidenceHtml(x.images) + (x.link ? `<div>${pdfBtn(x.link)}</div>${pdfFrame(x.link, x.title)}` : '');
+    return `<article class="card entry${media ? '' : ' solo'} reveal"><div><h3>${esc(x.title)}</h3><p>${esc(x.text||'')}</p><div>${tagsHtml(x.tags)}</div>${pts}</div>${media ? `<div class="entry-media">${media}</div>` : ''}</article>`;
+  }
+  const stack = (arr, g, msg) => arr.length ? arr.map(entry).join('') : emptyBox(g, msg);
+  $('#cases').innerHTML = stack(L.caseStudies, '§', 'Case studies will appear here.');
+  $('#homework').innerHTML = stack(L.homework, 'ᚠ', 'Submitted homework will appear here.');
+
+  // hands-on: all five questions as big, separate, always-visible cards
+  const HQ_TITLES = ['Most-used word per president', 'Word-frequency chart', 'Filter the news sample (no Obama)', 'Long words in Kennedy’s 1961 speech', 'POS-tag a sentence'];
+  const HANDS_PAGES = [
+    {src:"assets/coursework/handson-homeworks-1.png", caption:"Hands-on submission, page 1 of 3. Open the full image to read the code and output."},
+    {src:"assets/coursework/handson-homeworks-2.png", caption:"Hands-on submission, page 2 of 3. Open the full image to read the code and output."},
+    {src:"assets/coursework/handson-homeworks-3.png", caption:"Hands-on submission, page 3 of 3. Open the full image to read the code and output."}
+  ];
+  const H = L.handsOn[0];
+  $('#handson').innerHTML = H ? `
+    <p class="hands-intro">${esc(H.text)} ${tagsHtml(H.tags)}</p>
+    <div class="hands">
+      <div class="hands-q">${H.details.map((t,i) => `<article class="card qcard reveal"><div class="qn">Q${i+1}</div><div><h4>${esc(HQ_TITLES[i] || 'Task ' + (i+1))}</h4><p>${esc(t)}</p></div></article>`).join('')}</div>
+      <aside class="hands-doc"><div class="card reveal"><h3>Submitted notebook · 3 pages</h3><p class="muted" style="margin:0 0 12px;font-size:14px;color:var(--ink2)">Python code and outputs for all five questions.</p><div>${pdfBtn(H.link)}</div>${pdfFrame(H.link, 'Hands-on homeworks: complete three-page submission')}${evidenceHtml(HANDS_PAGES).replace('class="evidence"','class="evidence pages"')}</div></aside>
+    </div>` : emptyBox('文', 'Hands-on notebooks will appear here.');
+
+  // course project: description left, review slides right
   const p = L.project;
-  if (p.title) $('#cp-desc').textContent = p.title + (p.desc ? ': ' + p.desc : '');
-  $('#cp-links').innerHTML = [['ppt','Presentation'],['github','GitHub'],['demo','Demo'],['writeup','Write-up']]
+  const plinks = [['ppt','Presentation'],['github','GitHub'],['demo','Demo'],['writeup','Write-up']]
     .map(([k,lab]) => p[k] ? `<a class="btn" href="${esc(p[k])}" target="_blank" rel="noopener">${lab} ↗</a>` : `<span class="btn" aria-disabled="true">${lab} · soon</span>`).join('');
+  const projCover = [{src:"assets/coursework/project-review-1.png", caption:"Semmai project review: semantic intent preservation between natural language and generated SQL."}];
+  $('#project').innerHTML = `<article class="card entry reveal"><div><h3>${esc(p.title)}</h3><p>${esc(p.desc)}</p><div class="links-row">${plinks}</div></div><div class="entry-media">${evidenceHtml(projCover)}${p.ppt ? `<div>${pdfBtn(p.ppt)}</div>${pdfFrame(p.ppt, 'Semmai project review presentation')}` : ''}</div></article>`;
+
+  const galleries = {"star-evidence": [{"src": "assets/coursework/star-ledger.png", "caption": "Signed class-star ledger, including the Superstar of NLP class recognition."}, {"src": "assets/coursework/september-stars.png", "caption": "September class-star entries: two stars and one gold star."}], "presentation-evidence": [{"src": "assets/coursework/class-presentation.png", "caption": "Presenting the Semmai workflow in NLP class."}, {"src": "assets/coursework/class-presentation-team.png", "caption": "Team presentation and classroom discussion."}], "wins-evidence": [{"src": "assets/coursework/hackathon-trophy.png", "caption": "Hackathon trophy and medal."}, {"src": "assets/coursework/drestien-team.png", "caption": "Team achievement at DRESTIEN ’26."}], "iqoo-evidence": [{"src": "assets/coursework/iqoo-grand-finale.png", "caption": "At the iQOO Hackathon 2026 grand finale."}], "electronica-evidence": [{"src": "assets/coursework/electronica-finalist.png", "caption": "At the Electronica India Tech Challenge 2026."}]};
+  Object.entries(galleries).forEach(([id, items]) => { const el = document.getElementById(id); if (el) el.innerHTML = evidenceHtml(items); });
 })();
 
 /* ---------- Dobaara intent distribution ---------- */
