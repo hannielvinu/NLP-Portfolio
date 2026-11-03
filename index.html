@@ -130,7 +130,7 @@ h2,.who,.tagline,.eyebrow,.hint{text-shadow:0 0 18px var(--bg),0 0 6px var(--bg)
 @keyframes sheen{50%{background-position:100% 0}}
 .who{font-size:clamp(18px,2.4vw,22px);font-weight:600;margin:0}
 .who span{color:var(--ink2);font-weight:400}
-.tagline{font-family:Fraunces,serif;font-style:italic;font-weight:400;font-size:clamp(19px,2.3vw,24px);line-height:1.5;color:var(--ink2);max-width:640px;margin:18px 0 28px}
+.tagline{font-family:Manrope,system-ui,sans-serif;font-style:normal;font-weight:400;font-size:clamp(18px,2vw,22px);line-height:1.7;color:var(--ink2);max-width:640px;margin:18px 0 28px}
 .cta{display:flex;flex-wrap:wrap;gap:12px}
 .stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:54px}
 .stat{padding:18px 18px 16px}
@@ -279,6 +279,31 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s cubic-bezier(.2,.8,.2,1),transform .8s cubic-bezier(.2,.8,.2,1)}
 .reveal.in{opacity:1;transform:none}
 @media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}.hero h1 .gl{animation:none}html{scroll-behavior:auto}}
+
+/* Coursework additions follow the existing cards, colours and type scale. */
+.ring span{overflow:hidden;padding:0;background:var(--card-solid)}
+.ring span img{display:block;width:100%;height:100%;object-fit:cover}
+.stats .stat .v{overflow-wrap:anywhere;font-size:clamp(25px,3vw,40px)}
+.evidence{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:12px;margin-top:14px}
+.evidence figure{margin:0;min-width:0}
+.evidence a{display:block;border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--bg2)}
+.evidence img{display:block;width:100%;height:220px;object-fit:contain}
+.evidence figcaption{color:var(--ink2);font-size:12px;line-height:1.5;margin-top:7px}
+.recognition{display:flex;align-items:center;gap:14px;padding:18px;margin-top:18px;border:1px solid var(--gold);border-radius:14px;background:color-mix(in srgb,var(--gold) 8%,transparent)}
+.recognition>span{font-size:38px;color:var(--gold)}
+.recognition strong{color:var(--gold2)}
+.recognition p{font-size:13px;color:var(--ink2);margin:4px 0 0}
+.course-entry+.course-entry{border-top:1px dashed var(--line2);padding-top:16px}
+.course-entry details,.document{margin-top:12px}
+summary{cursor:pointer;color:var(--gold2);font-weight:600;line-height:1.5}
+.course-entry li{margin:8px 0;color:var(--ink2);font-size:14px;overflow-wrap:anywhere}
+.course-entry ul{padding-left:20px}
+.document{border-top:1px dashed var(--line2);padding-top:16px}
+.document iframe{display:block;width:100%;height:650px;border:1px solid var(--line);border-radius:12px;margin-top:16px;background:#fff}
+.ledger td{overflow-wrap:anywhere;vertical-align:top}
+.ledger td:last-child{white-space:normal;min-width:50px}
+@media(max-width:640px){.document iframe{height:480px}.evidence img{height:200px}.ledger{font-size:13px}.facts b{min-width:85px}}
+
 </style>
 </head>
 <body>
@@ -288,7 +313,7 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
 
 <header class="dock" id="dock">
   <a class="mark" href="#top" aria-label="Hanniel Vinu A, back to top">
-    <span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d595"/><stop offset="1" stop-color="#d9774a"/></linearGradient></defs><circle class="bgc" cx="20" cy="20" r="18"/><circle class="pc" id="ringP" cx="20" cy="20" r="18"/></svg><span>hv</span></span>
+    <span class="ring"><svg viewBox="0 0 40 40" aria-hidden="true"><defs><linearGradient id="rg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f5d595"/><stop offset="1" stop-color="#d9774a"/></linearGradient></defs><circle class="bgc" cx="20" cy="20" r="18"/><circle class="pc" id="ringP" cx="20" cy="20" r="18"/></svg><span><img src="assets/navbar-logo.jpg" alt="Hanniel Vinu A" width="30" height="30"></span></span>
     <span class="nm"><b>Hanniel Vinu A</b><small>NLP · portfolio</small></span>
   </a>
   <nav class="dock-links" id="dockLinks" aria-label="Sections">
@@ -321,8 +346,9 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
   <div class="hero">
     <div class="hero-in">
       <div class="eyebrow">Natural Language Processing · Portfolio</div>
-      <h1>Teaching machines<br>to <span class="gl">read us</span>.</h1>
-      <p class="who">Hanniel Vinu A <span>· builder of multilingual language systems</span></p>
+      <h1>Hanniel <span class="gl">Vinu A</span></h1>
+      <p class="who">Multilingual NLP developer <span>· language, meaning and trustworthy AI</span></p>
+      <p class="mono muted" style="font-size:13px">VIT · Registration no. <strong>23MID0032</strong></p>
       <p class="tagline">From a Tamil question that must keep its meaning all the way to a database, to Hinglish payment replies and patients explaining why they missed treatment: the language people actually use, turned into decisions people can trust.</p>
       <div class="cta">
         <a class="btn pri" href="#projects">Explore my NLP work →</a>
@@ -330,10 +356,12 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
         <a class="btn" href="https://github.com/hannielvinu" target="_blank" rel="noopener">GitHub ↗</a>
       </div>
       <div class="stats">
+        <div class="card stat"><div class="v">26 ★</div><div class="k">stars earned in NLP class</div></div>
+        <div class="card stat"><div class="v">1 ✦</div><div class="k">Superstar of NLP class badge</div></div>
+        <div class="card stat"><div class="v">40+</div><div class="k">questions answered in NLP class</div></div>
         <div class="card stat"><div class="v">4</div><div class="k">NLP systems built, plus one in progress</div></div>
-        <div class="card stat"><div class="v">98.0%</div><div class="k">of blind Tamil requests understood exactly by Semmai</div></div>
-        <div class="card stat"><div class="v">223/223</div><div class="k">meaning-changing translation mistakes caught before execution</div></div>
-        <div class="card stat"><div class="v">0.932</div><div class="k">macro-F1 of my Hinglish reply parser, held-out</div></div>
+        <div class="card stat"><div class="v">+3 requested</div><div class="k">CAT 1: +1 confirmed on paper, pending VTOP update; +2 subject to faculty review.</div></div>
+        <div class="card stat"><div class="v">+😭 requested</div><div class="k">CAT 2: “Ma’am, please consider 😭. I’m happy to complete a tough NLP homework as punishment.” Pending faculty consideration.</div></div>
       </div>
       <div class="hint"><i></i>The letters hanging around you are real scripts from across history. Move your cursor to sway them; click one to read its story.</div>
     </div>
@@ -348,6 +376,7 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
         <p>I'm <strong>Hanniel Vinu A</strong>, a developer from India who loves knowing what makes a computer tick, and then building on top of it. I work across <strong>full-stack development</strong>, <strong>UI/UX</strong>, <strong>data science and AI/ML</strong>, and <strong>embedded systems</strong>, where I've built multiple award-winning projects.</p>
         <p>Natural language processing is where those threads meet. My flagship project, <strong>Semmai</strong>, checks that an AI's action still means what a Tamil speaker asked. Most of the people my projects serve don't write in tidy English: they write <em>"salary aane pe kar dunga bhai"</em>, they speak Tamil or Kannada into a phone, they mix scripts in one sentence. My NLP work is about understanding that language <strong>honestly</strong>: transparent baselines first, held-out evaluation, and a person in the loop whenever the stakes are high.</p>
         <p>Outside code I play CTFs for fun, take on leadership roles, and if I'm not coding I'm probably watching cricket.</p>
+        <p>Since joining <strong>VIT</strong>, I have served as a <strong>Google Student Ambassador (national AIR #20)</strong>, <strong>Vice President Public Relations at Toastmasters International</strong>, <strong>Secretary of Innovators Quest Club</strong>, and <strong>Design and Creative Head of The Whitehats Club</strong>.</p>
       </div>
       <div class="card reveal">
         <ul class="facts">
@@ -369,12 +398,14 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
     <div class="grid g2">
       <div class="card reveal">
         <h3>★ Star ledger</h3>
-        <p class="muted" style="margin-top:-4px;font-size:14px">Signed and dated stars from my class notebook.</p>
+        <p class="muted" style="margin-top:-4px;font-size:14px">26 stars = 15 class + 2 for a correct problem + 5 in CAT 1 + 4 for group case-study work. Dates are transcribed where legible; unlabelled topics remain unlabelled.</p>
         <div id="ledger"></div>
+        <div class="recognition"><span aria-hidden="true">✦</span><div><strong>Superstar of NLP class</strong><p>A signed badge of recognition in my class notebook. Its one star is already included in the 15 class stars.</p></div></div>
+        <div id="star-evidence"></div>
       </div>
       <div class="card reveal">
         <h3>Class interactions</h3>
-        <p class="muted" style="margin-top:-4px;font-size:14px">The question asked, and what I answered. One answer, one star.</p>
+        <p class="muted" style="margin-top:-4px;font-size:14px">40+ questions answered across the semester, with signed recognition for the topics recorded in my notebook.</p>
         <div id="interactions" class="grid" style="gap:10px"></div>
       </div>
     </div>
@@ -387,6 +418,30 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
       <h3>Course project</h3>
       <p class="muted" style="margin:-4px 0 14px;font-size:14px" id="cp-desc">Presentation, repository, demo and write-up for the course project.</p>
       <div class="links-row" id="cp-links"></div>
+    </div>
+
+    <div class="card reveal" style="margin-top:18px">
+      <h3>Class presentation</h3>
+      <p class="muted">Presenting Semmai’s semantic verification workflow in NLP class, followed by the team discussion.</p>
+      <div id="presentation-evidence"></div>
+    </div>
+    <div class="card reveal" style="margin-top:18px">
+      <h3>Coursework documents</h3>
+      <p class="muted">Read the submitted pages here, or open each original PDF in a new tab.</p>
+      <details class="document" open><summary>Hands-on home tasks · all five questions, code and outputs</summary>
+        <p><a class="btn" href="assets/coursework/handson-homeworks.pdf" target="_blank" rel="noopener">Open hands-on PDF ↗</a></p>
+        <div id="handson-pages"></div>
+        <iframe title="Hands-on homeworks: complete three-page submission" src="assets/coursework/handson-homeworks.pdf" loading="lazy"></iframe>
+      </details>
+      <details class="document"><summary>Case study 2 · Edinburgh NLP Group · eight pages</summary>
+        <p><a class="btn" href="assets/coursework/case-study-2.pdf" target="_blank" rel="noopener">Open case study PDF ↗</a></p>
+        <iframe title="Case study 2: Edinburgh NLP Group" src="assets/coursework/case-study-2.pdf" loading="lazy"></iframe>
+      </details>
+      <details class="document"><summary>Semmai · project review · five slides</summary>
+        <p><a class="btn" href="assets/coursework/project-review.pdf" target="_blank" rel="noopener">Open project review PDF ↗</a></p>
+        <div id="project-cover"></div>
+        <iframe title="Semmai project review presentation" src="assets/coursework/project-review.pdf" loading="lazy"></iframe>
+      </details>
     </div>
   </section>
 
@@ -642,6 +697,18 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
   </section>
 
   <!-- ================= CONTACT ================= -->
+  <section id="achievements" class="wrap">
+    <div class="sh"><h2>Beyond the <em>classroom</em></h2></div>
+    <p class="lede">Extra achievements during this semester: building, competing and learning with teams.</p>
+    <div class="grid g3">
+      <div class="card reveal"><h3>20+ hackathons</h3><p class="muted">Participated in offline, online and hybrid hackathons during the semester.</p></div>
+      <div class="card reveal"><h3>2× hackathon wins</h3><p class="muted">Two hackathon victories, with memories from the trophy and team celebrations.</p><div id="wins-evidence"></div></div>
+      <div class="card reveal"><h3>iQOO Hackathon ’26</h3><p class="muted">Grand finale finalist.</p><div id="iqoo-evidence"></div></div>
+      <div class="card reveal"><h3>Paytm AI Hackathon</h3><p class="muted">Finalist.</p></div>
+      <div class="card reveal"><h3>Electronica India Tech Challenge ’26</h3><p class="muted">Finalist.</p><div id="electronica-evidence"></div></div>
+    </div>
+  </section>
+
   <section id="contact" class="wrap">
     <div class="card contact reveal">
       <div class="eyebrow" style="justify-content:center">Let's talk</div>
@@ -664,17 +731,221 @@ footer{padding:40px 20px 50px;text-align:center;color:var(--muted);font-size:13p
    EDIT YOUR CLASS WORK HERE. Add entries and the page updates itself.
    ===================================================================== */
 const CLASS_LOG = {
-  // { date: "3 Aug 2026", what: "Answered ...", stars: 2 }
-  stars: [],
-  // { q: "Question asked in class", a: "What I answered", stars: 1, tags: ["Regex"], date: "4 Sep" }
-  interactions: [],
-  // { title: "Case study title", text: "Short summary", tags: ["NER"], link: "" }
-  caseStudies: [],
-  // { title: "Homework title", text: "What I submitted", tags: ["FSA"] }
-  homework: [],
-  // { title: "Hands-on task", text: "What I built in class", tags: ["NLTK"], link: "" }
-  handsOn: [],
-  project: { title: "", desc: "", ppt: "", github: "", demo: "", writeup: "" }
+  "stars": [
+    {
+      "date": "13 Jul 2026",
+      "what": "Removing a prefix can change semantics",
+      "stars": 1
+    },
+    {
+      "date": "29 Jul 2026",
+      "what": "Installing NLTK with pip",
+      "stars": 1
+    },
+    {
+      "date": "31 Jul 2026",
+      "what": "Basic NLP pipeline",
+      "stars": 1
+    },
+    {
+      "date": "Notebook entry",
+      "what": "Punctuation disambiguation",
+      "stars": 2
+    },
+    {
+      "date": "Notebook entry",
+      "what": "Minimum edit operations: tracing",
+      "stars": 1
+    },
+    {
+      "date": "19 Aug 2026",
+      "what": "6-gram mathematical notation",
+      "stars": 1
+    },
+    {
+      "date": "Notebook entry",
+      "what": "Probability-table exercise (topic not labelled)",
+      "stars": 2
+    },
+    {
+      "date": "24 Aug 2026",
+      "what": "Signed class entry (topic not recorded)",
+      "stars": 2
+    },
+    {
+      "date": "Notebook entry",
+      "what": "Superstar of NLP class: signed recognition",
+      "stars": 1
+    },
+    {
+      "date": "4 Sep 2026",
+      "what": "Two signed stars (topic not recorded)",
+      "stars": 2
+    },
+    {
+      "date": "16 Sep 2026",
+      "what": "Gold star (topic not recorded)",
+      "stars": 1
+    },
+    {
+      "date": "Problem solving",
+      "what": "Awesome! Correctly solved HMM / Viterbi problem",
+      "stars": 2
+    },
+    {
+      "date": "CAT 1",
+      "what": "Stars earned in CAT 1",
+      "stars": 5
+    },
+    {
+      "date": "Group case study",
+      "what": "CBDB case study: four stars per team member",
+      "stars": 4
+    }
+  ],
+  "interactions": [
+    {
+      "q": "40+ questions answered in NLP class",
+      "a": "Class participation across the semester. The signed notebook records include prefix semantics, the NLP pipeline, punctuation disambiguation, edit operations and n-gram notation.",
+      "stars": 0,
+      "tags": [
+        "Class participation"
+      ]
+    }
+  ],
+  "caseStudies": [
+    {
+      "title": "Case study 1 · China Biographical Database (group)",
+      "text": "Exploring how NLP can turn historical Chinese biographies into searchable, connected knowledge. Awarded four stars per team member.",
+      "tags": [
+        "CBDB",
+        "Historical NLP",
+        "Group work"
+      ],
+      "details": [
+        "Historical background: our notes trace the database to Robert M. Hartwell’s work in 1982 and record 657,909 people at the time of the class study.",
+        "Institutions in the study: Fairbank Center for Chinese Studies at Harvard, Academia Sinica in Taiwan, and Peking University; the notes also mention the Harvard-Yenching Institute.",
+        "Data collection: M1 published biographical indexes; M2 existing historical databases; M3 digitized historical texts and text mining.",
+        "Stored information: person records, names, dates, kinship, social associations, offices and careers, places, social positions, and family and social background.",
+        "Text preprocessing handles historical Chinese and script variations. NER identifies people, places, dynasties, diseases and food. Relation extraction and entity linking connect the right people, families, rulers and officials.",
+        "Text classification, semantic information retrieval and topic modelling organise religion, medicine, education and culture. Knowledge graphs represent family ties, social connections and career histories.",
+        "Temporal and geographical NLP explore change across dynasties and historical locations. RAG and suitable LLMs or transformers can support questions over the texts; evaluation checks the extracted information.",
+        "Application ideas discussed: careers, animals and fishing, dynasties, language, culture and religion, genetic transformation, geography, disease, medicine and blood, barter systems, martial arts, hypnotism, food, technology, survival, transport, fashion, sports, education and entertainment.",
+        "Team: Sumitha Murthi, Hanniel Vinu A, Sri Varshan, Abhijit, Varsha, Spurthi, Aathika, Samita and Vahnitha."
+      ],
+      "images": [
+        {
+          "src": "assets/coursework/cbdb-notes.png",
+          "caption": "Handwritten CBDB background, collection methods and data fields."
+        },
+        {
+          "src": "assets/coursework/case-study-recognition.png",
+          "caption": "Faculty recognition: four stars to each member of the case-study team."
+        }
+      ]
+    },
+    {
+      "title": "Case study 2 · Edinburgh NLP Group",
+      "text": "My VTOP submission for CSI4001, Natural Language Processing and Computational Linguistics, explores a European university NLP lab: its strengths, research problems, scientists, tools and potential outcomes.",
+      "tags": [
+        "Multilingual NLP",
+        "RAG",
+        "Research review"
+      ],
+      "link": "assets/coursework/case-study-2.pdf",
+      "details": [
+        "Strengths reviewed: large language models, machine translation, multilingual and multimodal NLP, and responsible language technology.",
+        "Problems explored: language ambiguity, low-resource translation, trustworthy LLMs, multilingual question answering, fairness and misinformation.",
+        "Researchers discussed in the submission: Alexandra Birch, Barry Haddow, Mirella Lapata, Shay Cohen and Alex Lascarides.",
+        "The report discusses multilingual retrieval-augmented generation, CrossRAG and Dialectic-RAG, alongside Nematus and KenLM.",
+        "Potential outcomes considered: reliable multilingual assistants, translation, healthcare, education, social-media analysis and human-robot interaction, with a focus on Indian regional languages.",
+        "Submitted by Hanniel Vinu A · 23MID0032 · slot F1+TF1 · faculty Dr. Sharmila Banu K. The full eight-page submission includes its references."
+      ],
+      "images": [
+        {
+          "src": "assets/coursework/case-study-2-1.png",
+          "caption": "Cover of my Edinburgh NLP case-study submission."
+        }
+      ]
+    }
+  ],
+  "homework": [
+    {
+      "title": "Minimum edit distance",
+      "text": "Traced dynamic-programming tables for SUMI → SAMA and REPLACE → DELETE, identifying insertion, deletion and substitution operations.",
+      "tags": [
+        "Edit distance",
+        "Dynamic programming"
+      ],
+      "images": [
+        {
+          "src": "assets/coursework/edit-distance-homework.png",
+          "caption": "Handwritten edit-distance tables and operation traces."
+        }
+      ]
+    },
+    {
+      "title": "Tamil morphology · mother tongue assignment",
+      "text": "Analysed lexical and morphological words, noun roots, plural and case suffixes; drew finite-state automata for Tamil adjectives and morphotactic sequences, including புத்தகங்களில் and மாணவர்களுக்கு.",
+      "tags": [
+        "Tamil",
+        "Morphology",
+        "FSA"
+      ],
+      "images": [
+        {
+          "src": "assets/coursework/tamil-morphology-homework.png",
+          "caption": "Tamil morphology assignment with suffix segmentation and finite-state diagrams."
+        }
+      ]
+    },
+    {
+      "title": "HMM and Viterbi decoding",
+      "text": "Worked through starting, transition and emission probabilities, then decoded the most likely adjective/noun sequence with a Viterbi table. Received “Awesome!” and two stars for the correct solution.",
+      "tags": [
+        "HMM",
+        "Viterbi",
+        "2 stars"
+      ],
+      "images": [
+        {
+          "src": "assets/coursework/viterbi-homework.png",
+          "caption": "Full HMM / Viterbi calculation with faculty recognition."
+        },
+        {
+          "src": "assets/coursework/viterbi-award-detail.png",
+          "caption": "Close-up of the two-star “Awesome!” recognition for the same solution."
+        }
+      ]
+    }
+  ],
+  "handsOn": [
+    {
+      "title": "NLTK inaugural corpus · five home tasks",
+      "text": "Python solutions and outputs are included in the attached three-page notebook PDF.",
+      "tags": [
+        "NLTK",
+        "Inaugural corpus",
+        "Python"
+      ],
+      "link": "assets/coursework/handson-homeworks.pdf",
+      "details": [
+        "Group inaugural speeches by president; lowercase alphabetic tokens, remove common grammatical stopwords and punctuation, and report each president’s most-used word and count.",
+        "Visualise word frequencies for a president’s inaugural speeches: the submitted output charts Lincoln’s top 40 words.",
+        "Filter a supplied COPPA news sample with a case-insensitive regular expression to exclude articles mentioning Obama. The displayed implementation filters the sample rather than retrieving a ten-year news archive.",
+        "Extract unique words of at least nine characters from Kennedy’s 1961 inaugural speech: the submitted output reports 67 words and shows 15 examples.",
+        "Tokenise and POS-tag a sample sentence containing Pennsylvania; the output labels it NNP, a singular proper noun."
+      ]
+    }
+  ],
+  "project": {
+    "title": "Semmai · semantic intent preservation",
+    "desc": "The five-slide project review presents Tamil/English input, Universal Semantic Intent Graphs, SQL action graphs and eight proof obligations checked before execution. It covers entity, constraint, aggregation, ranking, logic, projection, grouping and action checks, with critical blocks or warnings.",
+    "ppt": "assets/coursework/project-review.pdf",
+    "github": "https://github.com/hannielvinu/Semmai",
+    "demo": "",
+    "writeup": ""
+  }
 };
 
 /* ---------- the scripts that hang in the background ---------- */
@@ -723,6 +994,7 @@ document.getElementById('yr').textContent = new Date().getFullYear();
 const $ = (s, el=document) => el.querySelector(s);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const tagsHtml = t => (t||[]).map(x => `<span class="tag">${esc(x)}</span>`).join('');
+const evidenceHtml = items => items?.length ? `<div class="evidence">${items.map(i => `<figure><a href="${esc(i.src)}" target="_blank" rel="noopener" aria-label="Open image: ${esc(i.caption)}"><img src="${esc(i.src)}" alt="${esc(i.caption)}" loading="lazy" decoding="async"></a><figcaption>${esc(i.caption)}</figcaption></figure>`).join('')}</div>` : '';
 const emptyBox = (g, msg) => `<div class="empty"><span class="gly">${g}</span>${msg}</div>`;
 
 /* ---------- class log rendering ---------- */
@@ -734,14 +1006,16 @@ const emptyBox = (g, msg) => `<div class="empty"><span class="gly">${g}</span>${
        <tr class="tot"><td>Total</td><td></td><td>${total} ★</td></tr></table>`
     : emptyBox('★', 'The ledger opens with the first signed entry from my notebook.');
   $('#interactions').innerHTML = L.interactions.length
-    ? L.interactions.map(i => `<div class="qa"><div class="stars">${'★'.repeat(i.stars||1)}</div><b>${esc(i.q)}</b><span class="muted" style="font-size:14px">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0">')
+    ? L.interactions.map(i => `<div class="qa"><div class="stars">${i.stars ? '★'.repeat(i.stars) : '40+ answers'}</div><b>${esc(i.q)}</b><span class="muted" style="font-size:14px">${esc(i.a)}</span><div>${tagsHtml(i.tags)}${i.date?`<span class="tag">${esc(i.date)}</span>`:''}</div></div>`).join('<hr style="border:0;border-top:1px dashed var(--line2);margin:4px 0">')
     : emptyBox('?', 'Questions answered in class will be logged here.');
   const list = (arr, g, msg) => arr.length
-    ? arr.map(x => `<div style="margin-bottom:14px"><b>${esc(x.title)}</b><p class="muted" style="margin:4px 0;font-size:14px">${esc(x.text||'')}</p>${tagsHtml(x.tags)}${x.link?` <a class="tag" href="${esc(x.link)}" target="_blank" rel="noopener">Open ↗</a>`:''}</div>`).join('')
+    ? arr.map(x => `<div class="course-entry" style="margin-bottom:14px"><b>${esc(x.title)}</b><p class="muted" style="margin:4px 0;font-size:14px">${esc(x.text||'')}</p>${tagsHtml(x.tags)}${x.link?` <a class="tag" href="${esc(x.link)}" target="_blank" rel="noopener">Read submission ↗</a>`:''}${x.details?.length?`<details><summary>Study notes &amp; details</summary><ul>${x.details.map(t=>`<li>${esc(t)}</li>`).join('')}</ul></details>`:''}${evidenceHtml(x.images)}</div>`).join('')
     : emptyBox(g, msg);
   $('#cases').innerHTML = list(L.caseStudies, '§', 'Case studies will appear here.');
   $('#homework').innerHTML = list(L.homework, 'ᚠ', 'Submitted homework will appear here.');
   $('#handson').innerHTML = list(L.handsOn, '文', 'Hands-on notebooks will appear here.');
+  const galleries = {"star-evidence": [{"src": "assets/coursework/star-ledger.png", "caption": "Signed class-star ledger, including the Superstar of NLP class recognition."}, {"src": "assets/coursework/september-stars.png", "caption": "September class-star entries: two stars and one gold star."}], "presentation-evidence": [{"src": "assets/coursework/class-presentation.png", "caption": "Presenting the Semmai workflow in NLP class."}, {"src": "assets/coursework/class-presentation-team.png", "caption": "Team presentation and classroom discussion."}], "handson-pages": [{"src": "assets/coursework/handson-homeworks-1.png", "caption": "Hands-on submission, page 1 of 3. Open the full image to read the code and output."}, {"src": "assets/coursework/handson-homeworks-2.png", "caption": "Hands-on submission, page 2 of 3. Open the full image to read the code and output."}, {"src": "assets/coursework/handson-homeworks-3.png", "caption": "Hands-on submission, page 3 of 3. Open the full image to read the code and output."}], "project-cover": [{"src": "assets/coursework/project-review-1.png", "caption": "Semmai project review: semantic intent preservation between natural language and generated SQL."}], "wins-evidence": [{"src": "assets/coursework/hackathon-trophy.png", "caption": "Hackathon trophy and medal."}, {"src": "assets/coursework/drestien-team.png", "caption": "Team achievement at DRESTIEN ’26."}], "iqoo-evidence": [{"src": "assets/coursework/iqoo-grand-finale.png", "caption": "At the iQOO Hackathon 2026 grand finale."}], "electronica-evidence": [{"src": "assets/coursework/electronica-finalist.png", "caption": "At the Electronica India Tech Challenge 2026."}]};
+  Object.entries(galleries).forEach(([id, items]) => { document.getElementById(id).innerHTML = evidenceHtml(items); });
   const p = L.project;
   if (p.title) $('#cp-desc').textContent = p.title + (p.desc ? ': ' + p.desc : '');
   $('#cp-links').innerHTML = [['ppt','Presentation'],['github','GitHub'],['demo','Demo'],['writeup','Write-up']]
